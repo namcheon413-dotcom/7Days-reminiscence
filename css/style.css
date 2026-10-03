@@ -482,3 +482,472 @@ body {
   }
 
 }
+
+
+/* ========================================
+   GAME SCREEN
+======================================== */
+
+.game-screen {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  opacity: 0;
+  visibility: hidden;
+
+  background: #080909;
+  color: #f2f2ee;
+
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+
+/* 활성화된 게임 화면 */
+
+.game-screen.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ========================================
+   LOBBY
+======================================== */
+
+#lobby-screen {
+  z-index: 20;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      #1b1e1d 0%,
+      #0d0f0f 48%,
+      #050606 100%
+    );
+}
+
+
+/* ========================================
+   LOBBY HEADER
+======================================== */
+
+.lobby-header {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 86px;
+
+  padding: 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  z-index: 3;
+}
+
+
+/* 관리국 이름 */
+
+.lobby-brand {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.lobby-brand-main {
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  letter-spacing: 0.18em;
+}
+
+
+.lobby-brand-sub {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 7px;
+
+  letter-spacing: 0.38em;
+
+  color:
+    rgba(255, 255, 255, 0.35);
+}
+
+
+/* ========================================
+   SETTINGS
+======================================== */
+
+.header-button {
+  padding: 8px 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 8px;
+
+  letter-spacing: 0.35em;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease;
+}
+
+
+.header-button:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+
+/* ========================================
+   LOBBY MAIN
+======================================== */
+
+.lobby-main {
+  position: absolute;
+
+  top: 86px;
+  bottom: 112px;
+
+  left: 0;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ========================================
+   LOBBY VISUAL
+======================================== */
+
+.lobby-visual {
+  position: relative;
+
+  width: min(82vw, 1200px);
+  height: min(64vh, 680px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+
+/* 지금은 실제 로비 이미지 대신 임시 표시 */
+
+.lobby-visual-placeholder {
+  text-align: center;
+
+  user-select: none;
+}
+
+
+.visual-small {
+  display: block;
+
+  margin-bottom: 24px;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 8px;
+
+  letter-spacing: 0.5em;
+
+  color:
+    rgba(255, 255, 255, 0.3);
+}
+
+
+.lobby-visual-placeholder h2 {
+  margin: 0;
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size:
+    clamp(38px, 5vw, 74px);
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.18em;
+}
+
+
+.visual-line {
+  width: 36px;
+  height: 1px;
+
+  margin: 28px auto;
+
+  background:
+    rgba(255, 255, 255, 0.4);
+}
+
+
+.lobby-visual-placeholder p {
+  margin: 0;
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size: 18px;
+
+  letter-spacing: 0.45em;
+
+  color:
+    rgba(255, 255, 255, 0.65);
+}
+
+
+/* ========================================
+   LOBBY NAVIGATION
+======================================== */
+
+.lobby-nav {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 112px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  background:
+    rgba(5, 6, 6, 0.82);
+
+  backdrop-filter:
+    blur(10px);
+
+  z-index: 3;
+}
+
+
+/* 메뉴 버튼 */
+
+.lobby-nav-button {
+  position: relative;
+
+  border: none;
+
+  border-right:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  background: transparent;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  cursor: pointer;
+
+  transition:
+    color 200ms ease,
+    background 200ms ease;
+}
+
+
+.lobby-nav-button:last-child {
+  border-right: none;
+}
+
+
+/* 마우스 올렸을 때 */
+
+.lobby-nav-button:hover {
+  color: #fff;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+}
+
+
+/* 버튼 위 작은 선 */
+
+.lobby-nav-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 0;
+  height: 1px;
+
+  transform:
+    translateX(-50%);
+
+  background: rgba(255, 255, 255, 0.85);
+
+  transition:
+    width 200ms ease;
+}
+
+
+.lobby-nav-button:hover::before {
+  width: 42px;
+}
+
+
+/* 영어 메뉴 */
+
+.nav-en {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+}
+
+
+/* 한국어 메뉴 */
+
+.nav-ko {
+  font-size: 9px;
+
+  letter-spacing: 0.2em;
+
+  color:
+    rgba(255, 255, 255, 0.32);
+}
+
+
+/* ========================================
+   LOBBY MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+  .lobby-header {
+    height: 68px;
+
+    padding: 0 18px;
+  }
+
+
+  .lobby-brand-main {
+    font-size: 16px;
+  }
+
+
+  .lobby-brand-sub {
+    font-size: 5px;
+
+    letter-spacing: 0.25em;
+  }
+
+
+  .header-button {
+    font-size: 7px;
+  }
+
+
+  .lobby-main {
+    top: 68px;
+    bottom: 82px;
+  }
+
+
+  .lobby-visual {
+    width: 92vw;
+    height: 70vh;
+  }
+
+
+  .visual-small {
+    font-size: 6px;
+
+    letter-spacing: 0.3em;
+  }
+
+
+  .lobby-visual-placeholder h2 {
+    font-size:
+      clamp(30px, 11vw, 48px);
+  }
+
+
+  .lobby-visual-placeholder p {
+    font-size: 14px;
+  }
+
+
+  .lobby-nav {
+    height: 82px;
+  }
+
+
+  .nav-en {
+    font-size: 8px;
+
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+  }
+
+
+  .nav-ko {
+    font-size: 8px;
+  }
+
+}
