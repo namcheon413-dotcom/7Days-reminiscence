@@ -2675,27 +2675,29 @@ body {
 .inventory-button {
   position: absolute;
 
-  right: 260px;
-  top: 50%;
+  /* lobby-main 우측 상단 */
+  top: 42px;
+  right: 54px;
 
-  transform: translateY(-50%);
-
-  height: 42px;
+  width: 190px;
+  height: 92px;
 
   display: flex;
   align-items: center;
-  gap: 9px;
+  justify-content: center;
 
-  padding: 0 14px;
+  gap: 14px;
+
+  padding: 0 22px;
 
   border:
-    1px solid rgba(255, 255, 255, 0.18);
+    1px solid rgba(255, 255, 255, 0.24);
 
   background:
     rgba(255, 255, 255, 0.025);
 
   color:
-    rgba(255, 255, 255, 0.65);
+    rgba(255, 255, 255, 0.72);
 
   font-family:
     Arial,
@@ -2703,10 +2705,13 @@ body {
 
   cursor: pointer;
 
+  z-index: 3;
+
   transition:
     border-color 0.2s ease,
+    background 0.2s ease,
     color 0.2s ease,
-    background 0.2s ease;
+    transform 0.2s ease;
 }
 
 
@@ -2714,37 +2719,50 @@ body {
   color: #ffffff;
 
   border-color:
-    rgba(255, 255, 255, 0.5);
+    rgba(255, 255, 255, 0.55);
 
   background:
-    rgba(255, 255, 255, 0.06);
+    rgba(255, 255, 255, 0.055);
+
+  transform:
+    translateY(-2px);
 }
 
 
 .inventory-button-icon {
-  font-size: 17px;
+  font-size: 28px;
+  font-weight: 300;
   line-height: 1;
 }
 
 
 .inventory-button-text {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
 
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
 }
 
 
-/* 모바일 */
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 760px) {
 
   .inventory-button {
-    right: 16px;
+    top: 20px;
+    right: 18px;
 
-    height: 36px;
+    width: 54px;
+    height: 54px;
 
-    padding:
-      0 10px;
+    padding: 0;
+  }
+
+
+  .inventory-button-icon {
+    font-size: 22px;
   }
 
 
