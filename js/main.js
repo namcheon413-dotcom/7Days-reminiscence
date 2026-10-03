@@ -1,4 +1,10 @@
 /* ========================================
+   七曜回顧錄
+   MAIN CONTROLLER
+======================================== */
+
+
+/* ========================================
    ELEMENTS
 ======================================== */
 
@@ -16,6 +22,9 @@ const titleScreen =
 
 const lobbyScreen =
   document.getElementById("lobby-screen");
+
+
+/* GACHA */
 
 const gachaBanner =
   document.getElementById("gacha-banner");
@@ -42,12 +51,16 @@ const recruitButtons =
   document.querySelectorAll(".recruit-button");
 
 
+/* ========================================
+   STATE
+======================================== */
+
 let initialized = false;
 let transitioning = false;
 
 
 /* ========================================
-   SOUND
+   AUDIO
 ======================================== */
 
 function safeClickSound() {
@@ -91,14 +104,106 @@ function safeTitleBgm() {
 
 
 /* ========================================
+   GENERIC SCREEN TRANSITION
+
+   현재 화면
+   ↓ fade out
+   잠깐 빈 화면
+   ↓
+   다음 화면 fade in
+======================================== */
+
+function changeGameScreen(
+  fromScreen,
+  toScreen,
+  delay = 300
+) {
+
+  if (
+    transitioning ||
+    !fromScreen ||
+    !toScreen
+  ) {
+    return;
+  }
+
+  transitioning = true;
+
+
+  /* 현재 화면 OUT */
+
+  fromScreen.classList.remove(
+    "active"
+  );
+
+
+  setTimeout(
+    function () {
+
+      /*
+        기존 화면은 전환이 끝난 뒤
+        완전히 치워둔다.
+      */
+
+      fromScreen.style.display =
+        "none";
+
+
+      /*
+        다음 화면을 먼저 DOM에 복구.
+        아직 active가 없으므로
+        opacity: 0 상태.
+      */
+
+      toScreen.style.display =
+        "block";
+
+
+      /*
+        브라우저가 opacity:0을
+        한 번 렌더한 뒤 active 추가.
+
+        그래야 fade-in transition이
+        확실하게 발생한다.
+      */
+
+      requestAnimationFrame(
+        function () {
+
+          requestAnimationFrame(
+            function () {
+
+              toScreen.classList.add(
+                "active"
+              );
+
+              transitioning = false;
+
+            }
+          );
+
+        }
+      );
+
+    },
+    delay
+  );
+
+}
+
+
+/* ========================================
    INITIALIZE
-   첫 화면 → 메인 타이틀
+   CLICK TO INITIALIZE → MAIN TITLE
 ======================================== */
 
 function initializeGame() {
 
+  if (initialized) {
+    return;
+  }
+
   if (
-    initialized ||
     !initializeScreen ||
     !mainTitle
   ) {
@@ -107,18 +212,21 @@ function initializeGame() {
 
   initialized = true;
 
+
   safeTitleBgm();
   safeClickSound();
 
 
-  /* INITIALIZE 페이드 아웃 */
+  /*
+    index.html에 이전 임시 onclick이
+    남아 있어서 display:none이 된 경우도
+    그대로 정상 진행 가능.
+  */
 
   initializeScreen.classList.remove(
     "active"
   );
 
-
-  /* MAIN TITLE 페이드 인 */
 
   setTimeout(
     function () {
@@ -134,7 +242,7 @@ function initializeGame() {
 }
 
 
-/* 반드시 실제 클릭 이벤트 등록 */
+/* INITIALIZE CLICK */
 
 if (initializeScreen) {
 
@@ -148,6 +256,10 @@ if (initializeScreen) {
 
 /* ========================================
    START → LOBBY
+
+   TITLE OUT
+   ↓
+   LOBBY IN
 ======================================== */
 
 if (
@@ -168,20 +280,29 @@ if (
 
       safeClickSound();
 
+
+      /*
+        중복 클릭 방지
+      */
+
       startButton.disabled = true;
 
 
       /*
-        1. 메인 타이틀 UI 먼저 OUT
+        타이틀 UI부터 페이드 아웃
       */
 
-      mainTitle.classList.remove(
-        "active"
-      );
+      if (mainTitle) {
+
+        mainTitle.classList.remove(
+          "active"
+        );
+
+      }
 
 
       /*
-        2. 타이틀 전체 화면 OUT
+        title-screen 전체 페이드 아웃
       */
 
       titleScreen.classList.add(
@@ -190,21 +311,29 @@ if (
 
 
       /*
-        3. 타이틀 OUT 완료 후
-           로비 화면 준비
+        0.7초 후 로비 표시
       */
 
       setTimeout(
         function () {
+
+          titleScreen.style.display =
+            "none";
+
 
           lobbyScreen.style.display =
             "block";
 
 
           /*
-            브라우저가 opacity:0 상태를
-            먼저 렌더하도록 한 프레임 대기
+            로비는 먼저 opacity:0 상태로
+            렌더한 뒤 active를 붙인다.
           */
+
+          lobbyScreen.classList.remove(
+            "active"
+          );
+
 
           requestAnimationFrame(
             function () {
@@ -235,7 +364,8 @@ if (
 
 
 /* ========================================
-   GACHA CONTENT SWITCH
+   GACHA
+   EVENT / STANDARD SWITCH
 ======================================== */
 
 function showRecruitment(type) {
@@ -246,7 +376,9 @@ function showRecruitment(type) {
     !eventRecruitment ||
     !standardRecruitment
   ) {
+
     return;
+
   }
 
 
@@ -267,6 +399,8 @@ function showRecruitment(type) {
   );
 
 
+  /* STANDARD */
+
   if (type === "standard") {
 
     standardGachaTab.classList.add(
@@ -277,23 +411,28 @@ function showRecruitment(type) {
       "active"
     );
 
-  } else {
-
-    eventGachaTab.classList.add(
-      "active"
-    );
-
-    eventRecruitment.classList.add(
-      "active"
-    );
+    return;
 
   }
+
+
+  /* EVENT */
+
+  eventGachaTab.classList.add(
+    "active"
+  );
+
+  eventRecruitment.classList.add(
+    "active"
+  );
 
 }
 
 
 /* ========================================
    LOBBY → GACHA
+
+   신규 요원 모집 클릭
 ======================================== */
 
 if (
@@ -310,56 +449,28 @@ if (
         return;
       }
 
-      transitioning = true;
 
       safeClickSound();
 
-      showRecruitment("event");
-
 
       /*
-        현재 화면 OUT
+        모집 페이지 진입 시
+        이벤트 모집을 기본 선택
       */
 
-      lobbyScreen.classList.remove(
-        "active"
+      showRecruitment(
+        "event"
       );
 
 
       /*
-        OUT 완료 후 다음 화면 IN
+        로비 → 모집
       */
 
-      setTimeout(
-        function () {
-
-          lobbyScreen.style.display =
-            "none";
-
-          gachaScreen.style.display =
-            "block";
-
-
-          requestAnimationFrame(
-            function () {
-
-              requestAnimationFrame(
-                function () {
-
-                  gachaScreen.classList.add(
-                    "active"
-                  );
-
-                  transitioning = false;
-
-                }
-              );
-
-            }
-          );
-
-        },
-        700
+      changeGameScreen(
+        lobbyScreen,
+        gachaScreen,
+        300
       );
 
     }
@@ -370,6 +481,8 @@ if (
 
 /* ========================================
    GACHA → LOBBY
+
+   BACK
 ======================================== */
 
 if (
@@ -386,54 +499,18 @@ if (
         return;
       }
 
-      transitioning = true;
 
       safeClickSound();
 
 
       /*
-        GACHA OUT
+        모집 → 로비
       */
 
-      gachaScreen.classList.remove(
-        "active"
-      );
-
-
-      /*
-        LOBBY IN
-      */
-
-      setTimeout(
-        function () {
-
-          gachaScreen.style.display =
-            "none";
-
-          lobbyScreen.style.display =
-            "block";
-
-
-          requestAnimationFrame(
-            function () {
-
-              requestAnimationFrame(
-                function () {
-
-                  lobbyScreen.classList.add(
-                    "active"
-                  );
-
-                  transitioning = false;
-
-                }
-              );
-
-            }
-          );
-
-        },
-        700
+      changeGameScreen(
+        gachaScreen,
+        lobbyScreen,
+        300
       );
 
     }
@@ -499,13 +576,21 @@ recruitButtons.forEach(
 
         safeClickSound();
 
+
         const recruitType =
           button.dataset.recruitType;
+
 
         const recruitCount =
           Number(
             button.dataset.recruitCount
           );
+
+
+        /*
+          아직 실제 모집 로직은 미구현.
+          현재는 테스트 출력.
+        */
 
         console.log(
           "RECRUIT:",
@@ -521,7 +606,43 @@ recruitButtons.forEach(
 
 
 /* ========================================
-   DEFAULT GACHA
+   INITIAL SCREEN STATE
 ======================================== */
 
-showRecruitment("event");
+/*
+  로비 / 모집 화면은 처음에
+  display 자체를 제거해 둔다.
+
+  이후 화면 전환 시 JS에서
+  display:block → active 순으로 복구.
+*/
+
+if (lobbyScreen) {
+
+  lobbyScreen.classList.remove(
+    "active"
+  );
+
+  lobbyScreen.style.display =
+    "none";
+
+}
+
+
+if (gachaScreen) {
+
+  gachaScreen.classList.remove(
+    "active"
+  );
+
+  gachaScreen.style.display =
+    "none";
+
+}
+
+
+/* 가챠 기본 선택 */
+
+showRecruitment(
+  "event"
+);
