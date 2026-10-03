@@ -306,7 +306,7 @@ body {
   justify-content: center;
 
   /* ★ 로고와 START 사이 실제 간격 */
-  gap: 300px;
+  gap: 250px;
 
   text-align: center;
 }
@@ -349,7 +349,7 @@ body {
   color: rgba(255, 255, 255, 0.58);
 
   font-family: Arial, sans-serif;
-  font-size: 9px;
+  font-size: 14px;
 
   letter-spacing: 0.65em;
   text-indent: 0.65em;
