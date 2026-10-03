@@ -81,20 +81,6 @@ function initializeGame() {
 
 
 /* ========================================
-   INITIALIZE EVENT
-======================================== */
-
-if (initializeScreen) {
-
-  initializeScreen.addEventListener(
-    "click",
-    initializeGame
-  );
-
-}
-
-
-/* ========================================
    START → LOBBY
 ======================================== */
 
