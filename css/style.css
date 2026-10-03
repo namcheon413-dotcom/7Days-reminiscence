@@ -55,6 +55,15 @@ body {
 ======================================== */
 
 #title-screen {
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  background: #000;
+
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -62,6 +71,12 @@ body {
   transition:
     opacity 0.7s ease,
     visibility 0.7s ease;
+}
+
+#title-screen.screen-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 #title-screen.leaving {
