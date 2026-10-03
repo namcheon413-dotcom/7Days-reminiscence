@@ -1,6 +1,5 @@
 /* ========================================
-   七曜回顧錄
-   MAIN CONTROLLER
+   七曜回顧錄 · MAIN CONTROLLER
 ======================================== */
 
 
@@ -29,29 +28,19 @@ const lobbyScreen =
 ======================================== */
 
 const playerLevelDisplay =
-  document.getElementById(
-    "player-level"
-  );
+  document.getElementById("player-level");
 
 const playerNicknameDisplay =
-  document.getElementById(
-    "player-nickname"
-  );
+  document.getElementById("player-nickname");
 
 const walletMunDisplay =
-  document.getElementById(
-    "wallet-mun"
-  );
+  document.getElementById("wallet-mun");
 
 const walletOpulseDisplay =
-  document.getElementById(
-    "wallet-opulse"
-  );
+  document.getElementById("wallet-opulse");
 
 const walletEnduranceDisplay =
-  document.getElementById(
-    "wallet-endurance"
-  );
+  document.getElementById("wallet-endurance");
 
 
 /* ========================================
@@ -59,71 +48,154 @@ const walletEnduranceDisplay =
 ======================================== */
 
 const itemDetailModal =
-  document.getElementById(
-    "item-detail-modal"
-  );
+  document.getElementById("item-detail-modal");
 
 const itemDetailBackdrop =
-  document.getElementById(
-    "item-detail-backdrop"
-  );
+  document.getElementById("item-detail-backdrop");
 
 const itemDetailClose =
-  document.getElementById(
-    "item-detail-close"
-  );
+  document.getElementById("item-detail-close");
 
 const itemDetailImage =
-  document.getElementById(
-    "item-detail-image"
-  );
+  document.getElementById("item-detail-image");
 
 const itemDetailPlaceholder =
-  document.getElementById(
-    "item-detail-placeholder"
-  );
+  document.getElementById("item-detail-placeholder");
 
 const itemDetailGrade =
-  document.getElementById(
-    "item-detail-grade"
-  );
+  document.getElementById("item-detail-grade");
 
 const itemDetailName =
-  document.getElementById(
-    "item-detail-name"
-  );
+  document.getElementById("item-detail-name");
 
 const itemDetailNameEn =
-  document.getElementById(
-    "item-detail-name-en"
-  );
+  document.getElementById("item-detail-name-en");
 
 const itemDetailDescription =
+  document.getElementById("item-detail-description");
+
+
+/* ========================================
+   INVENTORY ELEMENTS
+======================================== */
+
+const inventoryScreen =
+  document.getElementById("inventory-screen");
+
+const inventoryButton =
+  document.getElementById("inventory-button");
+
+const inventoryBackButton =
+  document.getElementById("inventory-back-button");
+
+const inventoryGrid =
+  document.getElementById("inventory-grid");
+
+const inventoryTabs =
+  document.querySelectorAll(".inventory-tab");
+
+
+/* ========================================
+   PLAYER REGISTRATION
+======================================== */
+
+const playerRegistrationScreen =
   document.getElementById(
-    "item-detail-description"
+    "player-registration-screen"
+  );
+
+const playerNicknameInput =
+  document.getElementById(
+    "player-nickname-input"
+  );
+
+const playerNicknameCount =
+  document.getElementById(
+    "player-nickname-count"
+  );
+
+const playerRegistrationError =
+  document.getElementById(
+    "player-registration-error"
+  );
+
+const playerRegistrationConfirm =
+  document.getElementById(
+    "player-registration-confirm"
   );
 
 
 /* ========================================
-   INVENTORY
+   GACHA
 ======================================== */
 
-let currentInventoryCategory = "all";
+const gachaBanner =
+  document.getElementById("gacha-banner");
+
+const gachaScreen =
+  document.getElementById("gacha-screen");
+
+const gachaBackButton =
+  document.getElementById(
+    "gacha-back-button"
+  );
+
+const eventGachaTab =
+  document.getElementById(
+    "event-gacha-tab"
+  );
+
+const standardGachaTab =
+  document.getElementById(
+    "standard-gacha-tab"
+  );
+
+const eventRecruitment =
+  document.getElementById(
+    "event-recruitment"
+  );
+
+const standardRecruitment =
+  document.getElementById(
+    "standard-recruitment"
+  );
+
+const recruitButtons =
+  document.querySelectorAll(
+    ".recruit-button"
+  );
+
+
+/* ========================================
+   STATE
+======================================== */
+
+let initialized = false;
+
+let transitioning = false;
+
+let playerReady = false;
+
+let currentInventoryCategory =
+  "all";
 
 
 /* ========================================
    INVENTORY CATEGORY MAP
 
-   DB category 값에 의존하지 않는다.
-   item.id 기준으로 직접 분류한다.
+   DB의 category 값에 의존하지 않고
+   확정된 item.id 기준으로 분류한다.
 ======================================== */
 
 const INVENTORY_CATEGORY_MAP = {
 
   /* 육성 */
+
   origin: "growth",
 
+
   /* 해방 */
+
   azure_scale_low: "liberation",
   azure_scale_mid: "liberation",
   azure_scale_high: "liberation",
@@ -147,28 +219,805 @@ const INVENTORY_CATEGORY_MAP = {
   chilyo_gokok: "liberation",
   myeongmaek: "liberation",
 
+
   /* 소모품 */
+
   fatigue_tonic: "consumable",
 
+
   /* 모집권 */
-  standard_recruit_10_ticket: "recruitment",
-  limited_recruit_10_ticket: "recruitment"
+
+  standard_recruit_10_ticket:
+    "recruitment",
+
+  limited_recruit_10_ticket:
+    "recruitment"
 
 };
 
 
 /* ========================================
-   GET INVENTORY CATEGORY
+   AUDIO
 ======================================== */
 
-function getInventoryCategory(item) {
+function safeClickSound() {
 
-  if (!item || !item.id) {
-    return "none";
+  try {
+
+    if (
+      typeof playClickSound ===
+      "function"
+    ) {
+
+      playClickSound();
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "[AUDIO] Click sound failed:",
+      error
+    );
+
   }
 
+}
+
+
+function safeTitleBgm() {
+
+  try {
+
+    if (
+      typeof playTitleBgm ===
+      "function"
+    ) {
+
+      playTitleBgm();
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "[AUDIO] Title BGM failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ========================================
+   SCREEN TRANSITION
+======================================== */
+
+function changeGameScreen(
+  fromScreen,
+  toScreen,
+  delay = 300
+) {
+
+  if (
+    transitioning ||
+    !fromScreen ||
+    !toScreen
+  ) {
+
+    return;
+
+  }
+
+
+  transitioning = true;
+
+
+  fromScreen.classList.remove(
+    "active"
+  );
+
+
+  setTimeout(
+    function () {
+
+      fromScreen.style.display =
+        "none";
+
+
+      toScreen.style.display =
+        "block";
+
+
+      toScreen.classList.remove(
+        "active"
+      );
+
+
+      requestAnimationFrame(
+        function () {
+
+          requestAnimationFrame(
+            function () {
+
+              toScreen.classList.add(
+                "active"
+              );
+
+
+              transitioning = false;
+
+            }
+          );
+
+        }
+      );
+
+    },
+    delay
+  );
+
+}
+
+
+/* ========================================
+   TITLE → GAME SCREEN
+======================================== */
+
+function leaveTitleScreen(
+  destinationScreen
+) {
+
+  if (
+    transitioning ||
+    !titleScreen ||
+    !destinationScreen
+  ) {
+
+    return;
+
+  }
+
+
+  transitioning = true;
+
+
+  if (mainTitle) {
+
+    mainTitle.classList.remove(
+      "active"
+    );
+
+  }
+
+
+  titleScreen.classList.add(
+    "screen-out"
+  );
+
+
+  setTimeout(
+    function () {
+
+      titleScreen.style.display =
+        "none";
+
+
+      destinationScreen.style.display =
+        "block";
+
+
+      destinationScreen.classList.remove(
+        "active"
+      );
+
+
+      requestAnimationFrame(
+        function () {
+
+          requestAnimationFrame(
+            function () {
+
+              destinationScreen.classList.add(
+                "active"
+              );
+
+
+              transitioning = false;
+
+            }
+          );
+
+        }
+      );
+
+    },
+    700
+  );
+
+}
+
+
+/* ========================================
+   INITIALIZE
+======================================== */
+
+function initializeGame() {
+
+  if (
+    initialized ||
+    !initializeScreen ||
+    !mainTitle
+  ) {
+
+    return;
+
+  }
+
+
+  initialized = true;
+
+
+  safeTitleBgm();
+
+  safeClickSound();
+
+
+  initializeScreen.classList.remove(
+    "active"
+  );
+
+
+  setTimeout(
+    function () {
+
+      mainTitle.classList.add(
+        "active"
+      );
+
+    },
+    350
+  );
+
+}
+
+
+/* ========================================
+   INITIALIZE CLICK
+======================================== */
+
+if (initializeScreen) {
+
+  initializeScreen.addEventListener(
+    "click",
+    initializeGame
+  );
+
+}
+
+
+/* ========================================
+   PLAYER AUTH + LOAD
+======================================== */
+
+async function preparePlayer() {
+
+  if (
+    !window.GameAuth ||
+    !window.GamePlayer
+  ) {
+
+    throw new Error(
+      "Game auth/player module not loaded."
+    );
+
+  }
+
+
+  const authResult =
+    await window.GameAuth
+      .getOrCreateUser();
+
+
+  if (
+    !authResult ||
+    !authResult.user
+  ) {
+
+    throw new Error(
+      "Player authentication failed."
+    );
+
+  }
+
+
+  const player =
+    await window.GamePlayer
+      .getCurrentPlayer();
+
+
+  if (!player) {
+
+    throw new Error(
+      "Player data could not be loaded."
+    );
+
+  }
+
+
+  try {
+
+    await window.GamePlayer
+      .updateLastLogin();
+
+  } catch (error) {
+
+    console.warn(
+      "[PLAYER] Last login update failed:",
+      error
+    );
+
+  }
+
+
+  return player;
+
+}
+
+
+/* ========================================
+   NUMBER FORMAT
+======================================== */
+
+function formatNumber(
+  value
+) {
+
+  const number =
+    Number(value);
+
+
+  if (
+    !Number.isFinite(number)
+  ) {
+
+    return "0";
+
+  }
+
+
+  return number.toLocaleString(
+    "ko-KR"
+  );
+
+}
+
+
+/* ========================================
+   LOBBY PLAYER DATA
+======================================== */
+
+async function updateLobbyPlayerData(
+  player
+) {
+
+  if (!player) {
+
+    return;
+
+  }
+
+
+  if (playerLevelDisplay) {
+
+    playerLevelDisplay.textContent =
+      player.level ?? 1;
+
+  }
+
+
+  if (playerNicknameDisplay) {
+
+    playerNicknameDisplay.textContent =
+      player.nickname || "—";
+
+  }
+
+
+  if (
+    !window.GameWallet ||
+    typeof window.GameWallet
+      .refreshWallet !== "function"
+  ) {
+
+    throw new Error(
+      "GameWallet module not loaded."
+    );
+
+  }
+
+
+  const wallet =
+    await window.GameWallet
+      .refreshWallet();
+
+
+  if (!wallet) {
+
+    throw new Error(
+      "Player wallet could not be loaded."
+    );
+
+  }
+
+
+  if (walletMunDisplay) {
+
+    walletMunDisplay.textContent =
+      formatNumber(
+        wallet.mun
+      );
+
+  }
+
+
+  if (walletOpulseDisplay) {
+
+    walletOpulseDisplay.textContent =
+      formatNumber(
+        wallet.opulse
+      );
+
+  }
+
+
+  if (walletEnduranceDisplay) {
+
+    walletEnduranceDisplay.textContent =
+      `${formatNumber(
+        wallet.endurance
+      )} / ${formatNumber(
+        wallet.endurance_max
+      )}`;
+
+  }
+
+
+  console.log(
+    "[GAME] Lobby data updated:",
+    {
+      player,
+      wallet
+    }
+  );
+
+}
+
+
+/* ========================================
+   ITEM DETAIL
+======================================== */
+
+async function openItemDetail(
+  itemId
+) {
+
+  if (
+    !itemId ||
+    !itemDetailModal
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !window.GameItems ||
+    typeof window.GameItems
+      .getItem !== "function"
+  ) {
+
+    console.error(
+      "[ITEM] GameItems.getItem is unavailable."
+    );
+
+    return;
+
+  }
+
+
+  safeClickSound();
+
+
+  try {
+
+    const item =
+      await window.GameItems
+        .getItem(
+          itemId
+        );
+
+
+    if (!item) {
+
+      return;
+
+    }
+
+
+    if (itemDetailName) {
+
+      itemDetailName.textContent =
+        item.name_ko ||
+        item.name ||
+        "—";
+
+    }
+
+
+    if (itemDetailNameEn) {
+
+      itemDetailNameEn.textContent =
+        item.name_en ||
+        "";
+
+    }
+
+
+    if (itemDetailGrade) {
+
+      itemDetailGrade.textContent =
+        item.grade
+          ? String(
+              item.grade
+            ).toUpperCase()
+          : "";
+
+    }
+
+
+    if (itemDetailDescription) {
+
+      itemDetailDescription.textContent =
+        item.description ||
+        "";
+
+    }
+
+
+    if (
+      itemDetailImage &&
+      itemDetailPlaceholder
+    ) {
+
+      itemDetailImage.classList.remove(
+        "visible"
+      );
+
+
+      itemDetailImage.removeAttribute(
+        "src"
+      );
+
+
+      itemDetailImage.alt =
+        item.name_ko ||
+        item.name ||
+        "";
+
+
+      itemDetailPlaceholder.style.display =
+        "block";
+
+
+      if (item.image_path) {
+
+        itemDetailImage.onload =
+          function () {
+
+            itemDetailPlaceholder.style.display =
+              "none";
+
+
+            itemDetailImage.classList.add(
+              "visible"
+            );
+
+          };
+
+
+        itemDetailImage.onerror =
+          function () {
+
+            itemDetailImage.classList.remove(
+              "visible"
+            );
+
+
+            itemDetailPlaceholder.style.display =
+              "block";
+
+          };
+
+
+        itemDetailImage.src =
+          item.image_path;
+
+      }
+
+    }
+
+
+    itemDetailModal.classList.add(
+      "active"
+    );
+
+
+    itemDetailModal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "[ITEM] Item detail failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ========================================
+   CLOSE ITEM DETAIL
+======================================== */
+
+function closeItemDetail() {
+
+  if (!itemDetailModal) {
+
+    return;
+
+  }
+
+
+  itemDetailModal.classList.remove(
+    "active"
+  );
+
+
+  itemDetailModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+/* ========================================
+   WALLET ITEM CLICK
+======================================== */
+
+const walletMunItem =
+  walletMunDisplay?.closest(
+    ".wallet-item"
+  );
+
+
+const walletOpulseItem =
+  walletOpulseDisplay?.closest(
+    ".wallet-item"
+  );
+
+
+if (walletMunItem) {
+
+  walletMunItem.addEventListener(
+    "click",
+    function () {
+
+      openItemDetail(
+        "mun"
+      );
+
+    }
+  );
+
+}
+
+
+if (walletOpulseItem) {
+
+  walletOpulseItem.addEventListener(
+    "click",
+    function () {
+
+      openItemDetail(
+        "opulse"
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   ITEM DETAIL CLOSE EVENTS
+======================================== */
+
+if (itemDetailClose) {
+
+  itemDetailClose.addEventListener(
+    "click",
+    function () {
+
+      safeClickSound();
+
+      closeItemDetail();
+
+    }
+  );
+
+}
+
+
+if (itemDetailBackdrop) {
+
+  itemDetailBackdrop.addEventListener(
+    "click",
+    closeItemDetail
+  );
+
+}
+
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (
+      event.key === "Escape" &&
+      itemDetailModal?.classList.contains(
+        "active"
+      )
+    ) {
+
+      closeItemDetail();
+
+    }
+
+  }
+);
+
+
+/* ========================================
+   INVENTORY CATEGORY
+======================================== */
+
+function getInventoryCategory(
+  item
+) {
+
+  if (
+    !item ||
+    !item.id
+  ) {
+
+    return "none";
+
+  }
+
+
   return (
-    INVENTORY_CATEGORY_MAP[item.id] ||
+    INVENTORY_CATEGORY_MAP[
+      item.id
+    ] ||
     "none"
   );
 
@@ -179,42 +1028,55 @@ function getInventoryCategory(item) {
    CREATE INVENTORY CARD
 ======================================== */
 
-function createInventoryCard(item) {
+function createInventoryCard(
+  item
+) {
 
   const card =
-    document.createElement("button");
+    document.createElement(
+      "button"
+    );
 
-  card.type = "button";
+
+  card.type =
+    "button";
+
 
   card.className =
     "inventory-item-card";
 
 
   /*
-    DB category가 아니라
-    위의 ID 분류표를 사용한다.
+    실제 탭 필터에 사용되는 값.
   */
 
   card.dataset.category =
-    getInventoryCategory(item);
+    getInventoryCategory(
+      item
+    );
 
 
-  /* ========================================
-     IMAGE AREA
-  ======================================== */
+  /* IMAGE */
 
   const imageArea =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   imageArea.className =
     "inventory-item-image-area";
 
 
   const image =
-    document.createElement("img");
+    document.createElement(
+      "img"
+    );
+
 
   image.className =
     "inventory-item-image";
+
 
   image.alt =
     item.name_ko ||
@@ -222,7 +1084,9 @@ function createInventoryCard(item) {
     item.id ||
     "";
 
-  image.loading = "lazy";
+
+  image.loading =
+    "lazy";
 
 
   if (item.image_path) {
@@ -234,6 +1098,7 @@ function createInventoryCard(item) {
 
     image.style.display =
       "none";
+
 
     imageArea.classList.add(
       "no-image"
@@ -249,6 +1114,7 @@ function createInventoryCard(item) {
       image.style.display =
         "none";
 
+
       imageArea.classList.add(
         "no-image"
       );
@@ -262,18 +1128,22 @@ function createInventoryCard(item) {
   );
 
 
-  /* ========================================
-     QUANTITY
-  ======================================== */
+  /* QUANTITY */
 
   const quantity =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
+
 
   quantity.className =
     "inventory-item-quantity";
 
+
   quantity.textContent =
-    `× ${Number(item.quantity) || 0}`;
+    `× ${Number(
+      item.quantity
+    ) || 0}`;
 
 
   imageArea.appendChild(
@@ -281,15 +1151,17 @@ function createInventoryCard(item) {
   );
 
 
-  /* ========================================
-     NAME
-  ======================================== */
+  /* NAME */
 
   const name =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
+
 
   name.className =
     "inventory-item-name";
+
 
   name.textContent =
     item.name_ko ||
@@ -298,13 +1170,10 @@ function createInventoryCard(item) {
     "—";
 
 
-  /* ========================================
-     CARD
-  ======================================== */
-
   card.appendChild(
     imageArea
   );
+
 
   card.appendChild(
     name
@@ -329,15 +1198,18 @@ function createInventoryCard(item) {
 
 
 /* ========================================
-   INVENTORY EMPTY MESSAGE
+   INVENTORY EMPTY
 ======================================== */
 
 function showInventoryEmpty(
-  message = "이 분류에 보유 중인 소지품이 없습니다."
+  message =
+    "이 분류에 보유 중인 소지품이 없습니다."
 ) {
 
   if (!inventoryGrid) {
+
     return;
+
   }
 
 
@@ -350,10 +1222,14 @@ function showInventoryEmpty(
   if (!empty) {
 
     empty =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
+
 
     empty.className =
       "inventory-empty inventory-category-empty";
+
 
     inventoryGrid.appendChild(
       empty
@@ -367,7 +1243,9 @@ function showInventoryEmpty(
     <p>${message}</p>
   `;
 
-  empty.style.display = "";
+
+  empty.style.display =
+    "";
 
 }
 
@@ -375,7 +1253,9 @@ function showInventoryEmpty(
 function hideInventoryEmpty() {
 
   if (!inventoryGrid) {
+
     return;
+
   }
 
 
@@ -404,7 +1284,9 @@ function filterInventoryCards(
 ) {
 
   if (!inventoryGrid) {
+
     return;
+
   }
 
 
@@ -414,7 +1296,8 @@ function filterInventoryCards(
     );
 
 
-  let visibleCount = 0;
+  let visibleCount =
+    0;
 
 
   cards.forEach(
@@ -427,10 +1310,13 @@ function filterInventoryCards(
 
       /*
         전체:
-        모든 보유 아이템 표시.
+        보유품 전부 표시.
 
         그 외:
-        해당 카테고리만 표시.
+        정확히 해당 분류만 표시.
+
+        none:
+        전체 이외에서는 자동으로 숨김.
       */
 
       const visible =
@@ -438,16 +1324,16 @@ function filterInventoryCards(
         cardCategory === category;
 
 
+      card.style.display =
+        visible
+          ? ""
+          : "none";
+
+
       if (visible) {
 
-        card.style.display = "";
-
-        visibleCount += 1;
-
-      } else {
-
-        card.style.display =
-          "none";
+        visibleCount +=
+          1;
 
       }
 
@@ -455,7 +1341,9 @@ function filterInventoryCards(
   );
 
 
-  if (visibleCount === 0) {
+  if (
+    visibleCount === 0
+  ) {
 
     showInventoryEmpty();
 
@@ -469,7 +1357,7 @@ function filterInventoryCards(
 
 
 /* ========================================
-   SET INVENTORY TAB
+   SET INVENTORY CATEGORY
 ======================================== */
 
 function setInventoryCategory(
@@ -484,7 +1372,8 @@ function setInventoryCategory(
     function (tab) {
 
       const tabCategory =
-        tab.dataset.inventoryCategory ||
+        tab.dataset
+          .inventoryCategory ||
         "all";
 
 
@@ -511,26 +1400,32 @@ function setInventoryCategory(
 async function loadInventory() {
 
   if (!inventoryGrid) {
+
     return;
+
   }
 
 
-  inventoryGrid.innerHTML = "";
+  inventoryGrid.innerHTML =
+    "";
 
 
   if (
     !window.GameItems ||
     typeof window.GameItems
-      .getPlayerInventory !== "function"
+      .getPlayerInventory !==
+      "function"
   ) {
 
     console.error(
       "[INVENTORY] getPlayerInventory is unavailable."
     );
 
+
     showInventoryEmpty(
       "소지품 데이터를 불러올 수 없습니다."
     );
+
 
     return;
 
@@ -545,10 +1440,11 @@ async function loadInventory() {
 
 
     /*
-      MUN / Opulse는
-      인벤토리에 표시하지 않는다.
+      인벤토리 표시 조건:
 
-      수량 0 이하도 표시하지 않는다.
+      1. 실제 보유 수량 > 0
+      2. MUN 제외
+      3. Opulse 제외
     */
 
     const ownedItems =
@@ -556,7 +1452,9 @@ async function loadInventory() {
         function (item) {
 
           if (!item) {
+
             return false;
+
           }
 
 
@@ -571,7 +1469,9 @@ async function loadInventory() {
 
 
           return (
-            Number(item.quantity) > 0
+            Number(
+              item.quantity
+            ) > 0
           );
 
         }
@@ -586,6 +1486,7 @@ async function loadInventory() {
         "보유 중인 소지품이 없습니다."
       );
 
+
       return;
 
     }
@@ -599,6 +1500,7 @@ async function loadInventory() {
             item
           );
 
+
         inventoryGrid.appendChild(
           card
         );
@@ -608,8 +1510,8 @@ async function loadInventory() {
 
 
     /*
-      현재 선택되어 있는 탭을
-      새 카드에 다시 적용.
+      로드가 끝난 뒤
+      현재 탭 필터를 실제 카드에 적용.
     */
 
     filterInventoryCards(
@@ -624,6 +1526,7 @@ async function loadInventory() {
       error
     );
 
+
     showInventoryEmpty(
       "소지품을 불러오지 못했습니다."
     );
@@ -634,7 +1537,7 @@ async function loadInventory() {
 
 
 /* ========================================
-   INVENTORY OPEN
+   LOBBY → INVENTORY
 ======================================== */
 
 if (
@@ -648,7 +1551,9 @@ if (
     async function () {
 
       if (transitioning) {
+
         return;
+
       }
 
 
@@ -656,29 +1561,21 @@ if (
 
 
       /*
-        인벤토리를 새로 열면
-        전체 탭으로 초기화.
+        새로 열 때는 항상 전체.
       */
 
       currentInventoryCategory =
         "all";
 
 
-      inventoryTabs.forEach(
-        function (tab) {
-
-          const category =
-            tab.dataset.inventoryCategory ||
-            "all";
-
-          tab.classList.toggle(
-            "active",
-            category === "all"
-          );
-
-        }
+      setInventoryCategory(
+        "all"
       );
 
+
+      /*
+        화면 전환.
+      */
 
       changeGameScreen(
         lobbyScreen,
@@ -687,12 +1584,16 @@ if (
       );
 
 
+      /*
+        실제 서버 보유품 로드.
+      */
+
       await loadInventory();
 
 
       /*
-        로딩 완료 후
-        전체 필터 한 번 더 확정.
+        카드 생성 후
+        전체 필터 다시 확정.
       */
 
       setInventoryCategory(
@@ -720,7 +1621,9 @@ if (
     function () {
 
       if (transitioning) {
+
         return;
+
       }
 
 
@@ -750,18 +1653,19 @@ inventoryTabs.forEach(
       "click",
       function () {
 
-        const category =
-          tab.getAttribute(
-            "data-inventory-category"
-          ) || "all";
-
-
         safeClickSound();
 
 
+        const category =
+          tab.dataset
+            .inventoryCategory ||
+          "all";
+
+
         /*
-          여기서 실제 필터링.
-      */
+          탭을 누르는 즉시
+          실제 카드 필터링.
+        */
 
         setInventoryCategory(
           category
@@ -772,8 +1676,374 @@ inventoryTabs.forEach(
 
   }
 );
+
+
 /* ========================================
-   GACHA VIEW
+   START
+======================================== */
+
+if (
+  startButton &&
+  titleScreen &&
+  lobbyScreen
+) {
+
+  startButton.addEventListener(
+    "click",
+    async function () {
+
+      if (
+        transitioning ||
+        playerReady
+      ) {
+
+        return;
+
+      }
+
+
+      safeClickSound();
+
+
+      startButton.disabled =
+        true;
+
+
+      playerReady =
+        true;
+
+
+      try {
+
+        const player =
+          await preparePlayer();
+
+
+        console.log(
+          "[GAME] Player ready:",
+          player
+        );
+
+
+        await updateLobbyPlayerData(
+          player
+        );
+
+
+        /*
+          신규 플레이어
+        */
+
+        if (
+          !player.nickname ||
+          !player.nickname.trim()
+        ) {
+
+          if (
+            !playerRegistrationScreen
+          ) {
+
+            throw new Error(
+              "Player registration screen not found."
+            );
+
+          }
+
+
+          leaveTitleScreen(
+            playerRegistrationScreen
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+          기존 플레이어
+        */
+
+        leaveTitleScreen(
+          lobbyScreen
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "[GAME] Failed to prepare player:",
+          error
+        );
+
+
+        playerReady =
+          false;
+
+
+        startButton.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   NICKNAME CHARACTER COUNT
+======================================== */
+
+function updateNicknameCount() {
+
+  if (
+    !playerNicknameInput ||
+    !playerNicknameCount
+  ) {
+
+    return;
+
+  }
+
+
+  playerNicknameCount.textContent =
+    `${playerNicknameInput.value.length} / 20`;
+
+}
+
+
+/* ========================================
+   NICKNAME INPUT
+======================================== */
+
+if (playerNicknameInput) {
+
+  playerNicknameInput.addEventListener(
+    "input",
+    function () {
+
+      updateNicknameCount();
+
+
+      if (
+        playerRegistrationError
+      ) {
+
+        playerRegistrationError.textContent =
+          "";
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   SAVE NICKNAME
+======================================== */
+
+async function submitNickname() {
+
+  if (
+    !playerNicknameInput ||
+    !playerRegistrationConfirm
+  ) {
+
+    return;
+
+  }
+
+
+  const nickname =
+    playerNicknameInput
+      .value
+      .trim();
+
+
+  if (
+    nickname.length < 1
+  ) {
+
+    if (
+      playerRegistrationError
+    ) {
+
+      playerRegistrationError.textContent =
+        "별호를 입력하십시오.";
+
+    }
+
+
+    playerNicknameInput.focus();
+
+
+    return;
+
+  }
+
+
+  if (
+    nickname.length > 20
+  ) {
+
+    if (
+      playerRegistrationError
+    ) {
+
+      playerRegistrationError.textContent =
+        "별호는 20자 이내로 입력하십시오.";
+
+    }
+
+
+    playerNicknameInput.focus();
+
+
+    return;
+
+  }
+
+
+  playerRegistrationConfirm.disabled =
+    true;
+
+
+  if (
+    playerRegistrationError
+  ) {
+
+    playerRegistrationError.textContent =
+      "기록 중...";
+
+  }
+
+
+  safeClickSound();
+
+
+  try {
+
+    const player =
+      await window.GamePlayer
+        .updateNickname(
+          nickname
+        );
+
+
+    await updateLobbyPlayerData(
+      player
+    );
+
+
+    console.log(
+      "[GAME] Nickname registered:",
+      player.nickname
+    );
+
+
+    if (
+      playerRegistrationError
+    ) {
+
+      playerRegistrationError.textContent =
+        "";
+
+    }
+
+
+    changeGameScreen(
+      playerRegistrationScreen,
+      lobbyScreen,
+      300
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "[GAME] Nickname registration failed:",
+      error
+    );
+
+
+    if (
+      playerRegistrationError
+    ) {
+
+      playerRegistrationError.textContent =
+        "별호를 저장하지 못했습니다. 다시 시도하십시오.";
+
+    }
+
+
+    playerRegistrationConfirm.disabled =
+      false;
+
+  }
+
+}
+
+
+/* ========================================
+   NICKNAME CONFIRM
+======================================== */
+
+if (
+  playerRegistrationConfirm
+) {
+
+  playerRegistrationConfirm.addEventListener(
+    "click",
+    submitNickname
+  );
+
+}
+
+
+/* ========================================
+   NICKNAME ENTER
+======================================== */
+
+if (playerNicknameInput) {
+
+  playerNicknameInput.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key !== "Enter"
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      if (
+        playerRegistrationConfirm &&
+        !playerRegistrationConfirm
+          .disabled
+      ) {
+
+        submitNickname();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   GACHA
 ======================================== */
 
 function showRecruitment(
@@ -796,24 +2066,24 @@ function showRecruitment(
     "active"
   );
 
+
   standardGachaTab.classList.remove(
     "active"
   );
 
+
   eventRecruitment.classList.remove(
     "active"
   );
+
 
   standardRecruitment.classList.remove(
     "active"
   );
 
 
-  /* STANDARD */
-
   if (
-    type ===
-    "standard"
+    type === "standard"
   ) {
 
     standardGachaTab.classList.add(
@@ -826,21 +2096,18 @@ function showRecruitment(
     );
 
 
-    return;
+  } else {
+
+    eventGachaTab.classList.add(
+      "active"
+    );
+
+
+    eventRecruitment.classList.add(
+      "active"
+    );
 
   }
-
-
-  /* EVENT */
-
-  eventGachaTab.classList.add(
-    "active"
-  );
-
-
-  eventRecruitment.classList.add(
-    "active"
-  );
 
 }
 
@@ -1015,11 +2282,9 @@ if (
   playerRegistrationScreen
 ) {
 
-  playerRegistrationScreen
-    .classList
-    .remove(
-      "active"
-    );
+  playerRegistrationScreen.classList.remove(
+    "active"
+  );
 
 
   playerRegistrationScreen.style.display =
@@ -1030,11 +2295,9 @@ if (
 
 if (lobbyScreen) {
 
-  lobbyScreen
-    .classList
-    .remove(
-      "active"
-    );
+  lobbyScreen.classList.remove(
+    "active"
+  );
 
 
   lobbyScreen.style.display =
@@ -1045,11 +2308,9 @@ if (lobbyScreen) {
 
 if (gachaScreen) {
 
-  gachaScreen
-    .classList
-    .remove(
-      "active"
-    );
+  gachaScreen.classList.remove(
+    "active"
+  );
 
 
   gachaScreen.style.display =
@@ -1060,11 +2321,9 @@ if (gachaScreen) {
 
 if (inventoryScreen) {
 
-  inventoryScreen
-    .classList
-    .remove(
-      "active"
-    );
+  inventoryScreen.classList.remove(
+    "active"
+  );
 
 
   inventoryScreen.style.display =
