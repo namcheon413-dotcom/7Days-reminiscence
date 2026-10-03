@@ -24,7 +24,39 @@ const lobbyScreen =
   document.getElementById("lobby-screen");
 
 
-/* GACHA */
+/* ========================================
+   PLAYER REGISTRATION
+======================================== */
+
+const playerRegistrationScreen =
+  document.getElementById(
+    "player-registration-screen"
+  );
+
+const playerNicknameInput =
+  document.getElementById(
+    "player-nickname-input"
+  );
+
+const playerNicknameCount =
+  document.getElementById(
+    "player-nickname-count"
+  );
+
+const playerRegistrationError =
+  document.getElementById(
+    "player-registration-error"
+  );
+
+const playerRegistrationConfirm =
+  document.getElementById(
+    "player-registration-confirm"
+  );
+
+
+/* ========================================
+   GACHA
+======================================== */
 
 const gachaBanner =
   document.getElementById("gacha-banner");
@@ -33,22 +65,34 @@ const gachaScreen =
   document.getElementById("gacha-screen");
 
 const gachaBackButton =
-  document.getElementById("gacha-back-button");
+  document.getElementById(
+    "gacha-back-button"
+  );
 
 const eventGachaTab =
-  document.getElementById("event-gacha-tab");
+  document.getElementById(
+    "event-gacha-tab"
+  );
 
 const standardGachaTab =
-  document.getElementById("standard-gacha-tab");
+  document.getElementById(
+    "standard-gacha-tab"
+  );
 
 const eventRecruitment =
-  document.getElementById("event-recruitment");
+  document.getElementById(
+    "event-recruitment"
+  );
 
 const standardRecruitment =
-  document.getElementById("standard-recruitment");
+  document.getElementById(
+    "standard-recruitment"
+  );
 
 const recruitButtons =
-  document.querySelectorAll(".recruit-button");
+  document.querySelectorAll(
+    ".recruit-button"
+  );
 
 
 /* ========================================
@@ -56,7 +100,10 @@ const recruitButtons =
 ======================================== */
 
 let initialized = false;
+
 let transitioning = false;
+
+let playerReady = false;
 
 
 /* ========================================
@@ -67,8 +114,13 @@ function safeClickSound() {
 
   try {
 
-    if (typeof playClickSound === "function") {
+    if (
+      typeof playClickSound ===
+      "function"
+    ) {
+
       playClickSound();
+
     }
 
   } catch (error) {
@@ -87,8 +139,13 @@ function safeTitleBgm() {
 
   try {
 
-    if (typeof playTitleBgm === "function") {
+    if (
+      typeof playTitleBgm ===
+      "function"
+    ) {
+
       playTitleBgm();
+
     }
 
   } catch (error) {
@@ -104,13 +161,7 @@ function safeTitleBgm() {
 
 
 /* ========================================
-   GENERIC SCREEN TRANSITION
-
-   현재 화면
-   ↓ fade out
-   잠깐 빈 화면
-   ↓
-   다음 화면 fade in
+   GENERIC GAME SCREEN TRANSITION
 ======================================== */
 
 function changeGameScreen(
@@ -124,13 +175,14 @@ function changeGameScreen(
     !fromScreen ||
     !toScreen
   ) {
+
     return;
+
   }
+
 
   transitioning = true;
 
-
-  /* 현재 화면 OUT */
 
   fromScreen.classList.remove(
     "active"
@@ -140,32 +192,18 @@ function changeGameScreen(
   setTimeout(
     function () {
 
-      /*
-        기존 화면은 전환이 끝난 뒤
-        완전히 치워둔다.
-      */
-
       fromScreen.style.display =
         "none";
 
-
-      /*
-        다음 화면을 먼저 DOM에 복구.
-        아직 active가 없으므로
-        opacity: 0 상태.
-      */
 
       toScreen.style.display =
         "block";
 
 
-      /*
-        브라우저가 opacity:0을
-        한 번 렌더한 뒤 active 추가.
+      toScreen.classList.remove(
+        "active"
+      );
 
-        그래야 fade-in transition이
-        확실하게 발생한다.
-      */
 
       requestAnimationFrame(
         function () {
@@ -176,6 +214,7 @@ function changeGameScreen(
               toScreen.classList.add(
                 "active"
               );
+
 
               transitioning = false;
 
@@ -193,8 +232,88 @@ function changeGameScreen(
 
 
 /* ========================================
+   TITLE → GAME SCREEN
+
+   title-screen은 .game-screen이 아니므로
+   별도 전환 처리
+======================================== */
+
+function leaveTitleScreen(
+  destinationScreen
+) {
+
+  if (
+    transitioning ||
+    !titleScreen ||
+    !destinationScreen
+  ) {
+
+    return;
+
+  }
+
+
+  transitioning = true;
+
+
+  if (mainTitle) {
+
+    mainTitle.classList.remove(
+      "active"
+    );
+
+  }
+
+
+  titleScreen.classList.add(
+    "screen-out"
+  );
+
+
+  setTimeout(
+    function () {
+
+      titleScreen.style.display =
+        "none";
+
+
+      destinationScreen.style.display =
+        "block";
+
+
+      destinationScreen.classList.remove(
+        "active"
+      );
+
+
+      requestAnimationFrame(
+        function () {
+
+          requestAnimationFrame(
+            function () {
+
+              destinationScreen.classList.add(
+                "active"
+              );
+
+
+              transitioning = false;
+
+            }
+          );
+
+        }
+      );
+
+    },
+    700
+  );
+
+}
+
+
+/* ========================================
    INITIALIZE
-   CLICK TO INITIALIZE → MAIN TITLE
 ======================================== */
 
 function initializeGame() {
@@ -203,25 +322,24 @@ function initializeGame() {
     return;
   }
 
+
   if (
     !initializeScreen ||
     !mainTitle
   ) {
+
     return;
+
   }
+
 
   initialized = true;
 
 
   safeTitleBgm();
+
   safeClickSound();
 
-
-  /*
-    index.html에 이전 임시 onclick이
-    남아 있어서 display:none이 된 경우도
-    그대로 정상 진행 가능.
-  */
 
   initializeScreen.classList.remove(
     "active"
@@ -242,7 +360,9 @@ function initializeGame() {
 }
 
 
-/* INITIALIZE CLICK */
+/* ========================================
+   INITIALIZE CLICK
+======================================== */
 
 if (initializeScreen) {
 
@@ -255,11 +375,83 @@ if (initializeScreen) {
 
 
 /* ========================================
-   START → LOBBY
+   PLAYER AUTH + LOAD
+======================================== */
 
-   TITLE OUT
-   ↓
-   LOBBY IN
+async function preparePlayer() {
+
+  /*
+    Auth 계정 확인.
+
+    기존 계정이 있으면 복구하고,
+    없으면 익명 계정을 생성한다.
+  */
+
+  const authResult =
+    await window.GameAuth
+      .getOrCreateUser();
+
+
+  if (
+    !authResult ||
+    !authResult.user
+  ) {
+
+    throw new Error(
+      "Player authentication failed."
+    );
+
+  }
+
+
+  /*
+    해당 Auth UUID의 players 데이터를
+    서버에서 불러온다.
+  */
+
+  const player =
+    await window.GamePlayer
+      .getCurrentPlayer();
+
+
+  if (!player) {
+
+    throw new Error(
+      "Player data could not be loaded."
+    );
+
+  }
+
+
+  /*
+    접속 시간 갱신.
+
+    실패해도 게임 진입 자체를
+    막을 필요는 없으므로 별도 처리.
+  */
+
+  try {
+
+    await window.GamePlayer
+      .updateLastLogin();
+
+  } catch (error) {
+
+    console.warn(
+      "[PLAYER] Last login update failed:",
+      error
+    );
+
+  }
+
+
+  return player;
+
+}
+
+
+/* ========================================
+   START
 ======================================== */
 
 if (
@@ -270,92 +462,354 @@ if (
 
   startButton.addEventListener(
     "click",
-    function () {
+    async function () {
 
-      if (transitioning) {
+      if (
+        transitioning ||
+        playerReady
+      ) {
+
         return;
+
       }
 
-      transitioning = true;
 
       safeClickSound();
 
 
-      /*
-        중복 클릭 방지
-      */
-
-      startButton.disabled = true;
+      startButton.disabled =
+        true;
 
 
       /*
-        타이틀 UI부터 페이드 아웃
+        서버 처리 중에는 중복 START 방지.
       */
 
-      if (mainTitle) {
+      playerReady = true;
 
-        mainTitle.classList.remove(
-          "active"
+
+      try {
+
+        const player =
+          await preparePlayer();
+
+
+        console.log(
+          "[GAME] Player ready:",
+          player
         );
+
+
+        /*
+          별호가 없는 신규 플레이어
+        */
+
+        if (
+          !player.nickname ||
+          !player.nickname.trim()
+        ) {
+
+          if (
+            !playerRegistrationScreen
+          ) {
+
+            throw new Error(
+              "Player registration screen not found."
+            );
+
+          }
+
+
+          leaveTitleScreen(
+            playerRegistrationScreen
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+          이미 별호가 있는 플레이어
+          → 바로 로비
+        */
+
+        leaveTitleScreen(
+          lobbyScreen
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "[GAME] Failed to prepare player:",
+          error
+        );
+
+
+        /*
+          서버 오류가 났을 경우
+          START를 다시 누를 수 있게 복구.
+        */
+
+        playerReady = false;
+
+        startButton.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   NICKNAME CHARACTER COUNT
+======================================== */
+
+function updateNicknameCount() {
+
+  if (
+    !playerNicknameInput ||
+    !playerNicknameCount
+  ) {
+
+    return;
+
+  }
+
+
+  const length =
+    playerNicknameInput
+      .value
+      .length;
+
+
+  playerNicknameCount.textContent =
+    `${length} / 20`;
+
+}
+
+
+/* ========================================
+   NICKNAME INPUT
+======================================== */
+
+if (playerNicknameInput) {
+
+  playerNicknameInput.addEventListener(
+    "input",
+    function () {
+
+      updateNicknameCount();
+
+
+      /*
+        다시 입력하면 이전 오류 문구 제거.
+      */
+
+      if (playerRegistrationError) {
+
+        playerRegistrationError.textContent =
+          "";
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   SAVE NICKNAME
+======================================== */
+
+async function submitNickname() {
+
+  if (
+    !playerNicknameInput ||
+    !playerRegistrationConfirm
+  ) {
+
+    return;
+
+  }
+
+
+  const nickname =
+    playerNicknameInput
+      .value
+      .trim();
+
+
+  /* ========================================
+     VALIDATION
+  ======================================== */
+
+  if (nickname.length < 1) {
+
+    if (playerRegistrationError) {
+
+      playerRegistrationError.textContent =
+        "별호를 입력하십시오.";
+
+    }
+
+
+    playerNicknameInput.focus();
+
+    return;
+
+  }
+
+
+  if (nickname.length > 20) {
+
+    if (playerRegistrationError) {
+
+      playerRegistrationError.textContent =
+        "별호는 20자 이내로 입력하십시오.";
+
+    }
+
+
+    playerNicknameInput.focus();
+
+    return;
+
+  }
+
+
+  /*
+    저장 중 중복 클릭 방지.
+  */
+
+  playerRegistrationConfirm.disabled =
+    true;
+
+
+  if (playerRegistrationError) {
+
+    playerRegistrationError.textContent =
+      "기록 중...";
+
+  }
+
+
+  safeClickSound();
+
+
+  try {
+
+    /*
+      Supabase players.nickname 저장
+    */
+
+    const player =
+      await window.GamePlayer
+        .updateNickname(
+          nickname
+        );
+
+
+    console.log(
+      "[GAME] Nickname registered:",
+      player.nickname
+    );
+
+
+    if (playerRegistrationError) {
+
+      playerRegistrationError.textContent =
+        "";
+
+    }
+
+
+    /*
+      등록 완료
+      → 별호 화면에서 로비로 전환
+    */
+
+    changeGameScreen(
+      playerRegistrationScreen,
+      lobbyScreen,
+      300
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "[GAME] Nickname registration failed:",
+      error
+    );
+
+
+    if (playerRegistrationError) {
+
+      playerRegistrationError.textContent =
+        "별호를 저장하지 못했습니다. 다시 시도하십시오.";
+
+    }
+
+
+    playerRegistrationConfirm.disabled =
+      false;
+
+  }
+
+}
+
+
+/* ========================================
+   CONFIRM BUTTON
+======================================== */
+
+if (playerRegistrationConfirm) {
+
+  playerRegistrationConfirm.addEventListener(
+    "click",
+    submitNickname
+  );
+
+}
+
+
+/* ========================================
+   ENTER → CONFIRM
+======================================== */
+
+if (playerNicknameInput) {
+
+  playerNicknameInput.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key !== "Enter"
+      ) {
+
+        return;
 
       }
 
 
-      /*
-        title-screen 전체 페이드 아웃
-      */
-
-      titleScreen.classList.add(
-        "screen-out"
-      );
+      event.preventDefault();
 
 
-      /*
-        0.7초 후 로비 표시
-      */
+      if (
+        playerRegistrationConfirm &&
+        !playerRegistrationConfirm.disabled
+      ) {
 
-      setTimeout(
-        function () {
+        submitNickname();
 
-          titleScreen.style.display =
-            "none";
-
-
-          lobbyScreen.style.display =
-            "block";
-
-
-          /*
-            로비는 먼저 opacity:0 상태로
-            렌더한 뒤 active를 붙인다.
-          */
-
-          lobbyScreen.classList.remove(
-            "active"
-          );
-
-
-          requestAnimationFrame(
-            function () {
-
-              requestAnimationFrame(
-                function () {
-
-                  lobbyScreen.classList.add(
-                    "active"
-                  );
-
-                  transitioning = false;
-
-                }
-              );
-
-            }
-          );
-
-        },
-        700
-      );
+      }
 
     }
   );
@@ -431,8 +885,6 @@ function showRecruitment(type) {
 
 /* ========================================
    LOBBY → GACHA
-
-   신규 요원 모집 클릭
 ======================================== */
 
 if (
@@ -453,19 +905,10 @@ if (
       safeClickSound();
 
 
-      /*
-        모집 페이지 진입 시
-        이벤트 모집을 기본 선택
-      */
-
       showRecruitment(
         "event"
       );
 
-
-      /*
-        로비 → 모집
-      */
 
       changeGameScreen(
         lobbyScreen,
@@ -481,8 +924,6 @@ if (
 
 /* ========================================
    GACHA → LOBBY
-
-   BACK
 ======================================== */
 
 if (
@@ -502,10 +943,6 @@ if (
 
       safeClickSound();
 
-
-      /*
-        모집 → 로비
-      */
 
       changeGameScreen(
         gachaScreen,
@@ -531,6 +968,7 @@ if (eventGachaTab) {
 
       safeClickSound();
 
+
       showRecruitment(
         "event"
       );
@@ -552,6 +990,7 @@ if (standardGachaTab) {
     function () {
 
       safeClickSound();
+
 
       showRecruitment(
         "standard"
@@ -587,11 +1026,6 @@ recruitButtons.forEach(
           );
 
 
-        /*
-          아직 실제 모집 로직은 미구현.
-          현재는 테스트 출력.
-        */
-
         console.log(
           "RECRUIT:",
           recruitType,
@@ -610,12 +1044,22 @@ recruitButtons.forEach(
 ======================================== */
 
 /*
-  로비 / 모집 화면은 처음에
-  display 자체를 제거해 둔다.
-
-  이후 화면 전환 시 JS에서
-  display:block → active 순으로 복구.
+  타이틀 이외 게임 화면은
+  최초 접속 시 DOM에서 숨겨 둔다.
 */
+
+
+if (playerRegistrationScreen) {
+
+  playerRegistrationScreen.classList.remove(
+    "active"
+  );
+
+  playerRegistrationScreen.style.display =
+    "none";
+
+}
+
 
 if (lobbyScreen) {
 
@@ -641,7 +1085,12 @@ if (gachaScreen) {
 }
 
 
-/* 가챠 기본 선택 */
+/* ========================================
+   INITIAL VALUES
+======================================== */
+
+updateNicknameCount();
+
 
 showRecruitment(
   "event"
