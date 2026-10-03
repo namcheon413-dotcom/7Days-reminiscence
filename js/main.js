@@ -102,4 +102,57 @@ startButton.addEventListener(
     }, 500);
 
   }
+
+   /* ========================================
+   LOBBY → GACHA
+======================================== */
+
+const gachaBanner =
+  document.getElementById("gacha-banner");
+
+const gachaScreen =
+  document.getElementById("gacha-screen");
+
+const gachaBackButton =
+  document.getElementById("gacha-back-button");
+
+
+gachaBanner.addEventListener(
+  "click",
+  function () {
+
+    playClickSound();
+
+    lobbyScreen.classList.remove(
+      "active"
+    );
+
+    gachaScreen.classList.add(
+      "active"
+    );
+
+  }
+);
+
+
+/* ========================================
+   GACHA → LOBBY
+======================================== */
+
+gachaBackButton.addEventListener(
+  "click",
+  function () {
+
+    playClickSound();
+
+    gachaScreen.classList.remove(
+      "active"
+    );
+
+    lobbyScreen.classList.add(
+      "active"
+    );
+
+  }
+);
 );
