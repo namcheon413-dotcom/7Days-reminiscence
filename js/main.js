@@ -96,15 +96,17 @@ if (startButton && titleScreen && lobbyScreen) {
       console.warn("CLICK AUDIO ERROR:", error);
     }
 
-    /* 타이틀 페이드 아웃 */
-    titleScreen.classList.add("fade-out");
+    /* 1. 현재 타이틀 화면 페이드 아웃 */
+    titleScreen.classList.add("screen-exit");
 
-    /* 로비 페이드 인 */
+    /* 2. 완전히 사라진 뒤 로비 진입 */
     setTimeout(function () {
+
+      titleScreen.style.display = "none";
 
       lobbyScreen.classList.add("active");
 
-    }, 300);
+    }, 700);
 
   });
 
