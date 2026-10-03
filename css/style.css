@@ -306,7 +306,7 @@ body {
   justify-content: center;
 
   /* ★ 로고와 START 사이 실제 간격 */
-  gap: 70px;
+  gap: 300px;
 
   text-align: center;
 }
