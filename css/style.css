@@ -2121,30 +2121,28 @@ body {
 .player-level {
   width: 58px;
   height: 58px;
-
-  flex: 0 0 58px;
+  min-width: 58px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.55);
-
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 50%;
 
-  font-family:
-    Arial,
-    sans-serif;
+  color: #ffffff;
 
-  font-size: 17px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
   font-weight: 700;
+  line-height: 1;
 
-  color:
-    rgba(255, 255, 255, 0.92);
+  text-align: center;
 
-  font-variant-numeric:
-    tabular-nums;
+  opacity: 1;
+  visibility: visible;
+
+  flex-shrink: 0;
 }
 
 
