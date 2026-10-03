@@ -2658,12 +2658,12 @@ body {
 
 }
 
-#wallet-mun,
-#wallet-opulse {
+.wallet-item:has(#wallet-mun),
+.wallet-item:has(#wallet-opulse) {
   cursor: pointer;
 }
 
-#wallet-mun:hover,
-#wallet-opulse:hover {
+.wallet-item:has(#wallet-mun):hover,
+.wallet-item:has(#wallet-opulse):hover {
   color: #ffffff;
 }
