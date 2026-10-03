@@ -5,17 +5,17 @@ const clickSfx =
   document.getElementById("click-sfx");
 
 
-/* ========================================
+/* =========================
    VOLUME
-======================================== */
+========================= */
 
 titleBgm.volume = 0.5;
 clickSfx.volume = 0.8;
 
 
-/* ========================================
+/* =========================
    TITLE BGM
-======================================== */
+========================= */
 
 function playTitleBgm() {
 
@@ -24,32 +24,37 @@ function playTitleBgm() {
   }
 
   titleBgm.play().catch((error) => {
-
     console.error(
       "BGM playback failed:",
       error
     );
-
   });
 
 }
 
 
-/* ========================================
+/* =========================
    CLICK SOUND
-======================================== */
+========================= */
 
 function playClickSound() {
 
-  clickSfx.currentTime = 0;
+  const sound =
+    clickSfx.cloneNode(true);
 
-  clickSfx.play().catch((error) => {
+  sound.volume = 0.8;
+  sound.currentTime = 0;
 
+  sound.play().catch((error) => {
     console.error(
       "Click sound failed:",
       error
     );
-
   });
+
+  sound.addEventListener(
+    "ended",
+    () => sound.remove()
+  );
 
 }
