@@ -1235,6 +1235,647 @@ body {
     rgba(255, 255, 255, 0.55);
 }
 
+/* ========================================
+   GACHA INNER VIEWS
+======================================== */
+
+.gacha-view {
+  position: absolute;
+
+  top: 100px;
+  left: 0;
+
+  width: 100%;
+  height: calc(100% - 100px);
+
+  padding: 52px 6%;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 240ms ease,
+    visibility 240ms ease;
+}
+
+
+.gacha-view.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* ========================================
+   GACHA SELECT HEADER
+======================================== */
+
+.gacha-select-heading {
+  margin-bottom: 34px;
+}
+
+
+.gacha-select-label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.28em;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+}
+
+
+.gacha-select-heading h2 {
+  margin: 0;
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size:
+    clamp(34px, 4vw, 54px);
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+
+.gacha-select-heading p {
+  margin:
+    14px 0 0;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+}
+
+
+/* ========================================
+   RECRUITMENT BANNER LIST
+======================================== */
+
+.gacha-banner-list {
+  width: 100%;
+  height:
+    min(58vh, 520px);
+
+  display: grid;
+
+  grid-template-columns:
+    1.35fr 1fr;
+
+  gap: 22px;
+}
+
+
+/* ========================================
+   RECRUITMENT BANNER
+======================================== */
+
+.recruit-banner {
+  position: relative;
+
+  min-width: 0;
+
+  padding:
+    34px 36px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.17);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.09),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  color: #fff;
+
+  text-align: left;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 200ms ease;
+}
+
+
+.recruit-banner::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 4px;
+  height: 100%;
+
+  background:
+    rgba(255, 255, 255, 0.72);
+}
+
+
+.recruit-banner::after {
+  content: "";
+
+  position: absolute;
+
+  right: -80px;
+  bottom: -120px;
+
+  width: 320px;
+  height: 320px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+
+.recruit-banner:hover {
+  transform:
+    translateY(-5px);
+
+  border-color:
+    rgba(255, 255, 255, 0.42);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.03)
+    );
+}
+
+
+/* 이벤트 배너를 조금 더 크게 */
+
+.recruit-banner-event {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.025)
+    );
+}
+
+
+.recruit-banner-standard {
+  opacity: 0.82;
+}
+
+
+.recruit-banner-standard:hover {
+  opacity: 1;
+}
+
+
+/* ========================================
+   BANNER TEXT
+======================================== */
+
+.recruit-type {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.25em;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+}
+
+
+.recruit-title {
+  margin-top: auto;
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size:
+    clamp(30px, 3vw, 46px);
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+
+.recruit-description {
+  margin-top: 12px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color:
+    rgba(255, 255, 255, 0.5);
+}
+
+
+.recruit-enter {
+  margin-top: 30px;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+}
+
+
+/* ========================================
+   RECRUITMENT DETAIL
+======================================== */
+
+.gacha-select-back {
+  position: absolute;
+
+  top: 30px;
+  left: 6%;
+
+  border: none;
+
+  background: transparent;
+
+  color:
+    rgba(255, 255, 255, 0.55);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.gacha-select-back:hover {
+  color: #fff;
+}
+
+
+.recruit-detail {
+  width: 100%;
+  height: 100%;
+
+  padding-top: 42px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.recruit-detail-type {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.28em;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+}
+
+
+.recruit-detail-title {
+  margin:
+    12px 0 0;
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size:
+    clamp(38px, 5vw, 68px);
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+}
+
+
+.recruit-detail-description {
+  margin:
+    15px 0 0;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+}
+
+
+/* 나중에 픽업 캐릭터 일러스트가 들어갈 곳 */
+
+.recruit-detail-space {
+  position: relative;
+
+  flex: 1;
+
+  min-height: 160px;
+
+  margin-top: 28px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.1);
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.1);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018),
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+
+.recruit-detail-space span {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.25em;
+
+  color:
+    rgba(255, 255, 255, 0.18);
+}
+
+
+/* ========================================
+   1 / 10 RECRUIT
+======================================== */
+
+.recruit-actions {
+  width: 100%;
+
+  padding-top: 24px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 16px;
+}
+
+
+.recruit-button {
+  min-height: 82px;
+
+  padding:
+    14px 24px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.22);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+
+.recruit-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  border-color:
+    rgba(255, 255, 255, 0.48);
+}
+
+
+.recruit-button-multi {
+  background:
+    rgba(255, 255, 255, 0.075);
+}
+
+
+.recruit-count {
+  font-size: 17px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+
+.recruit-cost {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+  .gacha-view {
+    top: 78px;
+
+    height:
+      calc(100% - 78px);
+
+    padding:
+      28px 20px;
+  }
+
+
+  .gacha-select-heading {
+    margin-bottom: 22px;
+  }
+
+
+  .gacha-select-heading h2 {
+    font-size: 32px;
+  }
+
+
+  .gacha-select-heading p {
+    font-size: 11px;
+  }
+
+
+  .gacha-banner-list {
+    height:
+      calc(100% - 105px);
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows:
+      1fr 1fr;
+
+    gap: 12px;
+  }
+
+
+  .recruit-banner {
+    padding:
+      20px 22px;
+  }
+
+
+  .recruit-type {
+    font-size: 8px;
+  }
+
+
+  .recruit-title {
+    font-size: 25px;
+  }
+
+
+  .recruit-description {
+    margin-top: 7px;
+
+    font-size: 11px;
+  }
+
+
+  .recruit-enter {
+    margin-top: 14px;
+
+    font-size: 8px;
+  }
+
+
+  .gacha-select-back {
+    top: 18px;
+    left: 20px;
+
+    font-size: 10px;
+  }
+
+
+  .recruit-detail {
+    padding-top: 38px;
+  }
+
+
+  .recruit-detail-type {
+    font-size: 8px;
+  }
+
+
+  .recruit-detail-title {
+    font-size: 36px;
+  }
+
+
+  .recruit-detail-description {
+    font-size: 11px;
+  }
+
+
+  .recruit-detail-space {
+    margin-top: 20px;
+  }
+
+
+  .recruit-actions {
+    padding-top: 14px;
+
+    gap: 10px;
+  }
+
+
+  .recruit-button {
+    min-height: 70px;
+
+    padding:
+      10px 8px;
+  }
+
+
+  .recruit-count {
+    font-size: 14px;
+  }
+
+
+  .recruit-cost {
+    font-size: 8px;
+  }
+
+}
 
 /* ========================================
    GACHA MOBILE
