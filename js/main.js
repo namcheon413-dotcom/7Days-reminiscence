@@ -724,9 +724,20 @@ function closeItemDetail() {
    WALLET ITEM CLICK
 ======================================== */
 
-if (walletMunDisplay) {
+const walletMunItem =
+  walletMunDisplay?.closest(
+    ".wallet-item"
+  );
 
-  walletMunDisplay.addEventListener(
+const walletOpulseItem =
+  walletOpulseDisplay?.closest(
+    ".wallet-item"
+  );
+
+
+if (walletMunItem) {
+
+  walletMunItem.addEventListener(
     "click",
     function () {
 
@@ -740,9 +751,9 @@ if (walletMunDisplay) {
 }
 
 
-if (walletOpulseDisplay) {
+if (walletOpulseItem) {
 
-  walletOpulseDisplay.addEventListener(
+  walletOpulseItem.addEventListener(
     "click",
     function () {
 
