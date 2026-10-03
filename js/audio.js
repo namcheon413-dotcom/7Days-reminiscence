@@ -1,21 +1,32 @@
-const titleBgm =
-  document.getElementById("title-bgm");
+/* ========================================
+   AUDIO MANAGER
+======================================== */
 
-const clickSfx =
-  document.getElementById("click-sfx");
+const titleBgm = new Audio(
+  "./assets/audio/title-bgm.mp3"
+);
 
-
-/* =========================
-   VOLUME
-========================= */
-
-titleBgm.volume = 0.5;
-clickSfx.volume = 0.8;
+const clickSfx = new Audio(
+  "./assets/audio/click.mp3"
+);
 
 
-/* =========================
+/* ========================================
+   SETTINGS
+======================================== */
+
+titleBgm.loop = true;
+
+titleBgm.volume = 0.5; // BGM 50%
+clickSfx.volume = 0.8; // 클릭음 80%
+
+titleBgm.preload = "auto";
+clickSfx.preload = "auto";
+
+
+/* ========================================
    TITLE BGM
-========================= */
+======================================== */
 
 function playTitleBgm() {
 
@@ -23,38 +34,41 @@ function playTitleBgm() {
     return;
   }
 
-  titleBgm.play().catch((error) => {
-    console.error(
-      "BGM playback failed:",
-      error
-    );
-  });
+  titleBgm.play()
+    .then(() => {
+      console.log("BGM PLAY");
+    })
+    .catch((error) => {
+      console.error(
+        "BGM ERROR:",
+        error
+      );
+    });
 
 }
 
 
-/* =========================
+/* ========================================
    CLICK SOUND
-========================= */
+======================================== */
 
 function playClickSound() {
 
-  const sound =
-    clickSfx.cloneNode(true);
+  const sound = new Audio(
+    "./assets/audio/click.mp3"
+  );
 
   sound.volume = 0.8;
-  sound.currentTime = 0;
 
-  sound.play().catch((error) => {
-    console.error(
-      "Click sound failed:",
-      error
-    );
-  });
-
-  sound.addEventListener(
-    "ended",
-    () => sound.remove()
-  );
+  sound.play()
+    .then(() => {
+      console.log("CLICK PLAY");
+    })
+    .catch((error) => {
+      console.error(
+        "CLICK ERROR:",
+        error
+      );
+    });
 
 }
