@@ -898,7 +898,15 @@ function closeItemDetail() {
 
 
 /* ========================================
-   INVENTORY CARD
+   INVENTORY
+======================================== */
+
+let currentInventoryCategory =
+  "all";
+
+
+/* ========================================
+   CREATE INVENTORY CARD
 ======================================== */
 
 function createInventoryCard(
@@ -919,7 +927,23 @@ function createInventoryCard(
     "inventory-item-card";
 
 
-  /* IMAGE AREA */
+  /*
+    DB category가 없거나
+    none이면 none으로 취급.
+
+    none 아이템은 전체 탭에서만 표시.
+  */
+
+  card.dataset.category =
+    item.category &&
+    item.category !== "none"
+      ? item.category
+      : "none";
+
+
+  /* ========================================
+     IMAGE
+  ======================================== */
 
   const imageArea =
     document.createElement(
@@ -991,7 +1015,9 @@ function createInventoryCard(
   );
 
 
-  /* QUANTITY */
+  /* ========================================
+     QUANTITY
+  ======================================== */
 
   const quantity =
     document.createElement(
@@ -1014,7 +1040,9 @@ function createInventoryCard(
   );
 
 
-  /* NAME */
+  /* ========================================
+     NAME
+  ======================================== */
 
   const name =
     document.createElement(
@@ -1033,7 +1061,9 @@ function createInventoryCard(
     "—";
 
 
-  /* CARD */
+  /* ========================================
+     CARD
+  ======================================== */
 
   card.appendChild(
     imageArea
@@ -1058,6 +1088,144 @@ function createInventoryCard(
 
 
   return card;
+
+}
+
+
+/* ========================================
+   INVENTORY FILTER
+======================================== */
+
+function filterInventoryCards(
+  category
+) {
+
+  if (!inventoryGrid) {
+
+    return;
+
+  }
+
+
+  const cards =
+    inventoryGrid.querySelectorAll(
+      ".inventory-item-card"
+    );
+
+
+  let visibleCount =
+    0;
+
+
+  cards.forEach(
+    function (card) {
+
+      const itemCategory =
+        card.dataset.category ||
+        "none";
+
+
+      let visible =
+        false;
+
+
+      /*
+        전체:
+        보유 중인 모든 아이템 표시.
+
+        다른 탭:
+        해당 category만 표시.
+
+        none:
+        전체에서만 표시.
+      */
+
+      if (
+        category === "all"
+      ) {
+
+        visible =
+          true;
+
+      } else if (
+        itemCategory ===
+        category
+      ) {
+
+        visible =
+          true;
+
+      }
+
+
+      if (visible) {
+
+        card.style.display =
+          "";
+
+
+        visibleCount +=
+          1;
+
+      } else {
+
+        card.style.display =
+          "none";
+
+      }
+
+    }
+  );
+
+
+  /* ========================================
+     CATEGORY EMPTY
+  ======================================== */
+
+  let emptyMessage =
+    inventoryGrid.querySelector(
+      ".inventory-category-empty"
+    );
+
+
+  if (
+    visibleCount === 0
+  ) {
+
+    if (!emptyMessage) {
+
+      emptyMessage =
+        document.createElement(
+          "div"
+        );
+
+
+      emptyMessage.className =
+        "inventory-empty inventory-category-empty";
+
+
+      emptyMessage.innerHTML = `
+        <span>EMPTY</span>
+        <p>이 분류에 보유 중인 소지품이 없습니다.</p>
+      `;
+
+
+      inventoryGrid.appendChild(
+        emptyMessage
+      );
+
+    }
+
+
+    emptyMessage.style.display =
+      "";
+
+  } else if (emptyMessage) {
+
+    emptyMessage.style.display =
+      "none";
+
+  }
 
 }
 
@@ -1111,9 +1279,27 @@ async function loadInventory() {
         .getPlayerInventory();
 
 
+    /*
+      수량이 실제로 존재하는 아이템만
+      인벤토리에 넣는다.
+    */
+
+    const ownedItems =
+      (items || []).filter(
+        function (item) {
+
+          return (
+            Number(
+              item.quantity
+            ) > 0
+          );
+
+        }
+      );
+
+
     if (
-      !items ||
-      items.length === 0
+      ownedItems.length === 0
     ) {
 
       inventoryGrid.innerHTML = `
@@ -1129,26 +1315,8 @@ async function loadInventory() {
     }
 
 
-    items.forEach(
+    ownedItems.forEach(
       function (item) {
-
-        const quantity =
-          Number(
-            item.quantity
-          ) || 0;
-
-
-        /*
-          수량 0인 아이템은
-          인벤토리에 표시하지 않는다.
-        */
-
-        if (quantity <= 0) {
-
-          return;
-
-        }
-
 
         const card =
           createInventoryCard(
@@ -1165,23 +1333,13 @@ async function loadInventory() {
 
 
     /*
-      필터 후 아무 카드도
-      남지 않은 경우
+      새로 로드한 뒤에도
+      현재 선택된 탭 유지.
     */
 
-    if (
-      inventoryGrid.children.length ===
-      0
-    ) {
-
-      inventoryGrid.innerHTML = `
-        <div class="inventory-empty">
-          <span>EMPTY</span>
-          <p>보유 중인 소지품이 없습니다.</p>
-        </div>
-      `;
-
-    }
+    filterInventoryCards(
+      currentInventoryCategory
+    );
 
 
   } catch (error) {
@@ -1200,483 +1358,6 @@ async function loadInventory() {
     `;
 
   }
-
-}
-
-
-/* ========================================
-   WALLET ITEM CLICK
-======================================== */
-
-const walletMunItem =
-  walletMunDisplay
-    ?.closest(
-      ".wallet-item"
-    );
-
-const walletOpulseItem =
-  walletOpulseDisplay
-    ?.closest(
-      ".wallet-item"
-    );
-
-
-if (walletMunItem) {
-
-  walletMunItem.addEventListener(
-    "click",
-    function () {
-
-      openItemDetail(
-        "mun"
-      );
-
-    }
-  );
-
-}
-
-
-if (walletOpulseItem) {
-
-  walletOpulseItem.addEventListener(
-    "click",
-    function () {
-
-      openItemDetail(
-        "opulse"
-      );
-
-    }
-  );
-
-}
-
-
-/* ========================================
-   ITEM DETAIL CLOSE EVENTS
-======================================== */
-
-if (itemDetailClose) {
-
-  itemDetailClose.addEventListener(
-    "click",
-    function () {
-
-      safeClickSound();
-
-      closeItemDetail();
-
-    }
-  );
-
-}
-
-
-if (itemDetailBackdrop) {
-
-  itemDetailBackdrop.addEventListener(
-    "click",
-    function () {
-
-      closeItemDetail();
-
-    }
-  );
-
-}
-
-
-document.addEventListener(
-  "keydown",
-  function (event) {
-
-    if (
-      event.key ===
-        "Escape" &&
-      itemDetailModal &&
-      itemDetailModal
-        .classList
-        .contains(
-          "active"
-        )
-    ) {
-
-      closeItemDetail();
-
-    }
-
-  }
-);
-
-
-/* ========================================
-   START
-======================================== */
-
-if (
-  startButton &&
-  titleScreen &&
-  lobbyScreen
-) {
-
-  startButton.addEventListener(
-    "click",
-    async function () {
-
-      if (
-        transitioning ||
-        playerReady
-      ) {
-
-        return;
-
-      }
-
-
-      safeClickSound();
-
-
-      startButton.disabled =
-        true;
-
-
-      playerReady =
-        true;
-
-
-      try {
-
-        const player =
-          await preparePlayer();
-
-
-        console.log(
-          "[GAME] Player ready:",
-          player
-        );
-
-
-        await updateLobbyPlayerData(
-          player
-        );
-
-
-        /* 신규 플레이어 */
-
-        if (
-          !player.nickname ||
-          !player.nickname.trim()
-        ) {
-
-          if (
-            !playerRegistrationScreen
-          ) {
-
-            throw new Error(
-              "Player registration screen not found."
-            );
-
-          }
-
-
-          leaveTitleScreen(
-            playerRegistrationScreen
-          );
-
-
-          return;
-
-        }
-
-
-        /* 기존 플레이어 */
-
-        leaveTitleScreen(
-          lobbyScreen
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "[GAME] Failed to prepare player:",
-          error
-        );
-
-
-        playerReady =
-          false;
-
-
-        startButton.disabled =
-          false;
-
-      }
-
-    }
-  );
-
-}
-
-
-/* ========================================
-   NICKNAME CHARACTER COUNT
-======================================== */
-
-function updateNicknameCount() {
-
-  if (
-    !playerNicknameInput ||
-    !playerNicknameCount
-  ) {
-
-    return;
-
-  }
-
-
-  const length =
-    playerNicknameInput
-      .value
-      .length;
-
-
-  playerNicknameCount.textContent =
-    `${length} / 20`;
-
-}
-
-
-/* ========================================
-   NICKNAME INPUT
-======================================== */
-
-if (playerNicknameInput) {
-
-  playerNicknameInput.addEventListener(
-    "input",
-    function () {
-
-      updateNicknameCount();
-
-
-      if (
-        playerRegistrationError
-      ) {
-
-        playerRegistrationError.textContent =
-          "";
-
-      }
-
-    }
-  );
-
-}
-
-
-/* ========================================
-   SAVE NICKNAME
-======================================== */
-
-async function submitNickname() {
-
-  if (
-    !playerNicknameInput ||
-    !playerRegistrationConfirm
-  ) {
-
-    return;
-
-  }
-
-
-  const nickname =
-    playerNicknameInput
-      .value
-      .trim();
-
-
-  /* EMPTY */
-
-  if (
-    nickname.length < 1
-  ) {
-
-    if (
-      playerRegistrationError
-    ) {
-
-      playerRegistrationError.textContent =
-        "별호를 입력하십시오.";
-
-    }
-
-
-    playerNicknameInput.focus();
-
-
-    return;
-
-  }
-
-
-  /* MAX LENGTH */
-
-  if (
-    nickname.length > 20
-  ) {
-
-    if (
-      playerRegistrationError
-    ) {
-
-      playerRegistrationError.textContent =
-        "별호는 20자 이내로 입력하십시오.";
-
-    }
-
-
-    playerNicknameInput.focus();
-
-
-    return;
-
-  }
-
-
-  playerRegistrationConfirm.disabled =
-    true;
-
-
-  if (
-    playerRegistrationError
-  ) {
-
-    playerRegistrationError.textContent =
-      "기록 중...";
-
-  }
-
-
-  safeClickSound();
-
-
-  try {
-
-    const player =
-      await window.GamePlayer
-        .updateNickname(
-          nickname
-        );
-
-
-    await updateLobbyPlayerData(
-      player
-    );
-
-
-    console.log(
-      "[GAME] Nickname registered:",
-      player.nickname
-    );
-
-
-    if (
-      playerRegistrationError
-    ) {
-
-      playerRegistrationError.textContent =
-        "";
-
-    }
-
-
-    changeGameScreen(
-      playerRegistrationScreen,
-      lobbyScreen,
-      300
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "[GAME] Nickname registration failed:",
-      error
-    );
-
-
-    if (
-      playerRegistrationError
-    ) {
-
-      playerRegistrationError.textContent =
-        "별호를 저장하지 못했습니다. 다시 시도하십시오.";
-
-    }
-
-
-    playerRegistrationConfirm.disabled =
-      false;
-
-  }
-
-}
-
-
-/* ========================================
-   NICKNAME CONFIRM
-======================================== */
-
-if (
-  playerRegistrationConfirm
-) {
-
-  playerRegistrationConfirm.addEventListener(
-    "click",
-    submitNickname
-  );
-
-}
-
-
-/* ========================================
-   NICKNAME ENTER
-======================================== */
-
-if (playerNicknameInput) {
-
-  playerNicknameInput.addEventListener(
-    "keydown",
-    function (event) {
-
-      if (
-        event.key !==
-        "Enter"
-      ) {
-
-        return;
-
-      }
-
-
-      event.preventDefault();
-
-
-      if (
-        playerRegistrationConfirm &&
-        !playerRegistrationConfirm
-          .disabled
-      ) {
-
-        submitNickname();
-
-      }
-
-    }
-  );
 
 }
 
@@ -1706,10 +1387,44 @@ if (
 
 
       /*
-        화면은 먼저 전환하고
-        인벤토리는 그 뒤 로드한다.
-        서버 응답 때문에 버튼이
-        멈춘 것처럼 보이는 현상 방지.
+        인벤토리를 새로 열 때는
+        항상 전체 탭부터 시작.
+      */
+
+      currentInventoryCategory =
+        "all";
+
+
+      inventoryTabs.forEach(
+        function (tab) {
+
+          const category =
+            tab.dataset
+              .inventoryCategory;
+
+
+          if (
+            category === "all"
+          ) {
+
+            tab.classList.add(
+              "active"
+            );
+
+          } else {
+
+            tab.classList.remove(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+        화면 먼저 전환.
       */
 
       changeGameScreen(
@@ -1718,6 +1433,10 @@ if (
         300
       );
 
+
+      /*
+        서버에서 실제 보유품 로드.
+      */
 
       await loadInventory();
 
@@ -1765,9 +1484,6 @@ if (
 
 /* ========================================
    INVENTORY TABS
-   현재는 UI 선택 상태만 처리.
-   실제 카테고리 필터는
-   분류 데이터 확정 후 연결.
 ======================================== */
 
 inventoryTabs.forEach(
@@ -1777,8 +1493,30 @@ inventoryTabs.forEach(
       "click",
       function () {
 
+        const category =
+          tab.dataset
+            .inventoryCategory ||
+          "all";
+
+
+        if (
+          category ===
+          currentInventoryCategory
+        ) {
+
+          return;
+
+        }
+
+
         safeClickSound();
 
+
+        currentInventoryCategory =
+          category;
+
+
+        /* ACTIVE TAB */
 
         inventoryTabs.forEach(
           function (otherTab) {
@@ -1795,12 +1533,18 @@ inventoryTabs.forEach(
           "active"
         );
 
+
+        /* ACTUAL FILTER */
+
+        filterInventoryCards(
+          category
+        );
+
       }
     );
 
   }
 );
-
 
 /* ========================================
    GACHA VIEW
