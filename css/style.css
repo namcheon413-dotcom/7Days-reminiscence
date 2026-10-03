@@ -232,6 +232,25 @@ body {
 
 
 /* ========================================
+   MAIN LOGO
+======================================== */
+
+.game-logo {
+  display: block;
+
+  width: min(70vw, 620px);
+  height: auto;
+
+  margin: 0 auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+}
+
+
+/* ========================================
    START BUTTON
 ======================================== */
 
@@ -313,13 +332,11 @@ body {
 
 @media (max-width: 600px) {
 
-  .initialize-title,
-  .game-title {
-    font-size:
-      clamp(42px, 15vw, 72px);
-
-    letter-spacing: 0.06em;
+  .game-logo {
+    width: min(82vw, 480px);
   }
+
+}
 
   .initialize-text {
     font-size: 8px;
