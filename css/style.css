@@ -506,9 +506,6 @@ body {
     visibility 0.7s ease;
 }
 
-
-/* 활성화된 게임 화면 */
-
 .game-screen.active {
   opacity: 1;
   visibility: visible;
@@ -516,7 +513,7 @@ body {
 
 
 /* ========================================
-   LOBBY
+   LOBBY SCREEN
 ======================================== */
 
 #lobby-screen {
@@ -545,54 +542,63 @@ body {
   left: 0;
 
   width: 100%;
-  height: 86px;
+  height: 100px;
 
-  padding: 0 42px;
+  padding: 0 48px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   border-bottom:
-    1px solid rgba(255, 255, 255, 0.12);
+    1px solid rgba(255, 255, 255, 0.14);
 
   z-index: 3;
 }
 
 
-/* 관리국 이름 */
+/* ----------------------------------------
+   왼쪽 상단 게임명
+---------------------------------------- */
 
 .lobby-brand {
   display: flex;
   flex-direction: column;
 
-  gap: 6px;
+  gap: 7px;
 }
 
+
+/* 七曜回顧錄 */
 
 .lobby-brand-main {
   font-family:
     "Noto Serif KR",
     serif;
 
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 700;
 
-  letter-spacing: 0.18em;
+  line-height: 1;
+
+  letter-spacing: 0.12em;
 }
 
+
+/* 7 DAYS : REMINISCENCE */
 
 .lobby-brand-sub {
   font-family:
     Arial,
     sans-serif;
 
-  font-size: 7px;
+  font-size: 12px;
+  font-weight: 700;
 
-  letter-spacing: 0.38em;
+  letter-spacing: 0.22em;
 
   color:
-    rgba(255, 255, 255, 0.35);
+    rgba(255, 255, 255, 0.62);
 }
 
 
@@ -601,7 +607,7 @@ body {
 ======================================== */
 
 .header-button {
-  padding: 8px 0;
+  padding: 10px 0;
 
   border: none;
   outline: none;
@@ -609,25 +615,28 @@ body {
   background: transparent;
 
   color:
-    rgba(255, 255, 255, 0.45);
+    rgba(255, 255, 255, 0.68);
 
   font-family:
     Arial,
     sans-serif;
 
-  font-size: 8px;
+  font-size: 14px;
+  font-weight: 700;
 
-  letter-spacing: 0.35em;
+  letter-spacing: 0.18em;
 
   cursor: pointer;
 
   transition:
-    color 180ms ease;
+    color 180ms ease,
+    opacity 180ms ease;
 }
 
 
 .header-button:hover {
-  color: rgba(255, 255, 255, 1);
+  color:
+    rgba(255, 255, 255, 1);
 }
 
 
@@ -638,8 +647,8 @@ body {
 .lobby-main {
   position: absolute;
 
-  top: 86px;
-  bottom: 112px;
+  top: 100px;
+  bottom: 126px;
 
   left: 0;
 
@@ -658,8 +667,11 @@ body {
 .lobby-visual {
   position: relative;
 
-  width: min(82vw, 1200px);
-  height: min(64vh, 680px);
+  width:
+    min(86vw, 1280px);
+
+  height:
+    min(68vh, 720px);
 
   display: flex;
   align-items: center;
@@ -669,7 +681,7 @@ body {
 }
 
 
-/* 지금은 실제 로비 이미지 대신 임시 표시 */
+/* 현재 임시 중앙 표시 영역 */
 
 .lobby-visual-placeholder {
   text-align: center;
@@ -678,25 +690,34 @@ body {
 }
 
 
-.visual-small {
+/* ----------------------------------------
+   FIELD DIVISION · UNIT 01
+---------------------------------------- */
+
+.lobby-unit-label {
   display: block;
 
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 
   font-family:
     Arial,
     sans-serif;
 
-  font-size: 8px;
+  font-size: 14px;
+  font-weight: 700;
 
-  letter-spacing: 0.5em;
+  letter-spacing: 0.28em;
 
   color:
-    rgba(255, 255, 255, 0.3);
+    rgba(255, 255, 255, 0.55);
 }
 
 
-.lobby-visual-placeholder h2 {
+/* ----------------------------------------
+   현장부 1조
+---------------------------------------- */
+
+.lobby-unit-title {
   margin: 0;
 
   font-family:
@@ -704,40 +725,52 @@ body {
     serif;
 
   font-size:
-    clamp(38px, 5vw, 74px);
+    clamp(56px, 6vw, 92px);
 
-  font-weight: 400;
+  font-weight: 700;
 
   line-height: 1;
 
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
+
+  color:
+    rgba(255, 255, 255, 0.96);
 }
 
 
-.visual-line {
-  width: 36px;
-  height: 1px;
+/* ----------------------------------------
+   중앙 구분선
+---------------------------------------- */
 
-  margin: 28px auto;
+.lobby-unit-line {
+  width: 48px;
+  height: 2px;
+
+  margin: 30px auto;
 
   background:
-    rgba(255, 255, 255, 0.4);
+    rgba(255, 255, 255, 0.6);
 }
 
 
-.lobby-visual-placeholder p {
+/* ----------------------------------------
+   「반영」
+---------------------------------------- */
+
+.lobby-unit-name {
   margin: 0;
 
   font-family:
     "Noto Serif KR",
     serif;
 
-  font-size: 18px;
+  font-size: 28px;
+  font-weight: 700;
 
-  letter-spacing: 0.45em;
+  letter-spacing: 0.24em;
 
   color:
-    rgba(255, 255, 255, 0.65);
+    rgba(255, 255, 255, 0.84);
 }
 
 
@@ -752,7 +785,7 @@ body {
   bottom: 0;
 
   width: 100%;
-  height: 112px;
+  height: 126px;
 
   display: grid;
 
@@ -760,10 +793,10 @@ body {
     repeat(4, 1fr);
 
   border-top:
-    1px solid rgba(255, 255, 255, 0.12);
+    1px solid rgba(255, 255, 255, 0.14);
 
   background:
-    rgba(5, 6, 6, 0.82);
+    rgba(5, 6, 6, 0.84);
 
   backdrop-filter:
     blur(10px);
@@ -772,7 +805,9 @@ body {
 }
 
 
-/* 메뉴 버튼 */
+/* ========================================
+   LOBBY MENU BUTTON
+======================================== */
 
 .lobby-nav-button {
   position: relative;
@@ -780,12 +815,13 @@ body {
   border: none;
 
   border-right:
-    1px solid rgba(255, 255, 255, 0.08);
+    1px solid rgba(255, 255, 255, 0.09);
 
-  background: transparent;
+  background:
+    transparent;
 
   color:
-    rgba(255, 255, 255, 0.48);
+    rgba(255, 255, 255, 0.7);
 
   display: flex;
   flex-direction: column;
@@ -793,7 +829,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
+  gap: 9px;
 
   cursor: pointer;
 
@@ -808,13 +844,11 @@ body {
 }
 
 
-/* 마우스 올렸을 때 */
-
 .lobby-nav-button:hover {
   color: #fff;
 
   background:
-    rgba(255, 255, 255, 0.045);
+    rgba(255, 255, 255, 0.055);
 }
 
 
@@ -829,12 +863,13 @@ body {
   left: 50%;
 
   width: 0;
-  height: 1px;
+  height: 2px;
 
   transform:
     translateX(-50%);
 
-  background: rgba(255, 255, 255, 0.85);
+  background:
+    rgba(255, 255, 255, 0.9);
 
   transition:
     width 200ms ease;
@@ -842,34 +877,47 @@ body {
 
 
 .lobby-nav-button:hover::before {
-  width: 42px;
+  width: 54px;
 }
 
 
-/* 영어 메뉴 */
+/* ----------------------------------------
+   CASE / ROSTER / AGENT / ARCHIVE
+---------------------------------------- */
 
 .nav-en {
   font-family:
     Arial,
     sans-serif;
 
-  font-size: 11px;
+  font-size: 17px;
   font-weight: 700;
 
-  letter-spacing: 0.35em;
-  text-indent: 0.35em;
+  line-height: 1;
+
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
 }
 
 
-/* 한국어 메뉴 */
+/* ----------------------------------------
+   사건 / 편성 / 인물 / 기록
+---------------------------------------- */
 
 .nav-ko {
-  font-size: 9px;
+  font-family:
+    "Noto Sans KR",
+    sans-serif;
 
-  letter-spacing: 0.2em;
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: 0.1em;
 
   color:
-    rgba(255, 255, 255, 0.32);
+    rgba(255, 255, 255, 0.6);
 }
 
 
@@ -879,75 +927,131 @@ body {
 
 @media (max-width: 600px) {
 
-  .lobby-header {
-    height: 68px;
 
-    padding: 0 18px;
+  /* HEADER */
+
+  .lobby-header {
+    height: 78px;
+
+    padding:
+      0 20px;
   }
 
+
+  /* 七曜回顧錄 */
 
   .lobby-brand-main {
-    font-size: 16px;
+    font-size: 22px;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
   }
 
+
+  /* 7 DAYS : REMINISCENCE */
 
   .lobby-brand-sub {
-    font-size: 5px;
+    font-size: 9px;
+    font-weight: 700;
 
-    letter-spacing: 0.25em;
+    letter-spacing: 0.15em;
   }
 
+
+  /* SETTINGS */
 
   .header-button {
-    font-size: 7px;
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
   }
 
 
+  /* MAIN */
+
   .lobby-main {
-    top: 68px;
-    bottom: 82px;
+    top: 78px;
+    bottom: 96px;
   }
 
 
   .lobby-visual {
-    width: 92vw;
+    width: 94vw;
     height: 70vh;
   }
 
 
-  .visual-small {
-    font-size: 6px;
+  /* FIELD DIVISION · UNIT 01 */
 
-    letter-spacing: 0.3em;
+  .lobby-unit-label {
+    margin-bottom: 22px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
   }
 
 
-  .lobby-visual-placeholder h2 {
+  /* 현장부 1조 */
+
+  .lobby-unit-title {
     font-size:
-      clamp(30px, 11vw, 48px);
+      clamp(40px, 12vw, 58px);
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
   }
 
 
-  .lobby-visual-placeholder p {
-    font-size: 14px;
+  /* 구분선 */
+
+  .lobby-unit-line {
+    width: 38px;
+    height: 2px;
+
+    margin:
+      24px auto;
   }
 
+
+  /* 「반영」 */
+
+  .lobby-unit-name {
+    font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+  }
+
+
+  /* BOTTOM NAV */
 
   .lobby-nav {
-    height: 82px;
+    height: 96px;
   }
 
+
+  /* CASE / ROSTER / AGENT / ARCHIVE */
 
   .nav-en {
-    font-size: 8px;
+    font-size: 12px;
+    font-weight: 700;
 
-    letter-spacing: 0.2em;
-    text-indent: 0.2em;
+    letter-spacing: 0.1em;
+    text-indent: 0.1em;
   }
 
 
+  /* 사건 / 편성 / 인물 / 기록 */
+
   .nav-ko {
-    font-size: 8px;
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
   }
 
 }
