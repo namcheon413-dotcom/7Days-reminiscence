@@ -47,6 +47,55 @@ const walletOpulseDisplay =
     "wallet-opulse"
   );
 
+/* ========================================
+   ITEM DETAIL MODAL
+======================================== */
+
+const itemDetailModal =
+  document.getElementById(
+    "item-detail-modal"
+  );
+
+const itemDetailBackdrop =
+  document.getElementById(
+    "item-detail-backdrop"
+  );
+
+const itemDetailClose =
+  document.getElementById(
+    "item-detail-close"
+  );
+
+const itemDetailImage =
+  document.getElementById(
+    "item-detail-image"
+  );
+
+const itemDetailPlaceholder =
+  document.getElementById(
+    "item-detail-placeholder"
+  );
+
+const itemDetailGrade =
+  document.getElementById(
+    "item-detail-grade"
+  );
+
+const itemDetailName =
+  document.getElementById(
+    "item-detail-name"
+  );
+
+const itemDetailNameEn =
+  document.getElementById(
+    "item-detail-name-en"
+  );
+
+const itemDetailDescription =
+  document.getElementById(
+    "item-detail-description"
+  );
+
 const walletEnduranceDisplay =
   document.getElementById(
     "wallet-endurance"
@@ -495,6 +544,273 @@ async function updateLobbyPlayerData(
   player
 ) {
 
+   /* ========================================
+   ITEM DETAIL
+======================================== */
+
+async function openItemDetail(
+  itemId
+) {
+
+  if (
+    !itemId ||
+    !itemDetailModal
+  ) {
+    return;
+  }
+
+
+  safeClickSound();
+
+
+  try {
+
+    const item =
+      await window.GameItems
+        .getItem(itemId);
+
+
+    if (!item) {
+      return;
+    }
+
+
+    /* 이름 */
+
+    if (itemDetailName) {
+
+      itemDetailName.textContent =
+        item.name_ko || "—";
+
+    }
+
+
+    if (itemDetailNameEn) {
+
+      itemDetailNameEn.textContent =
+        item.name_en || "";
+
+    }
+
+
+    /* 등급 */
+
+    if (itemDetailGrade) {
+
+      itemDetailGrade.textContent =
+        item.grade
+          ? String(item.grade).toUpperCase()
+          : "";
+
+    }
+
+
+    /* 설명 */
+
+    if (itemDetailDescription) {
+
+      itemDetailDescription.textContent =
+        item.description || "";
+
+    }
+
+
+    /* 이미지 */
+
+    if (
+      itemDetailImage &&
+      itemDetailPlaceholder
+    ) {
+
+      itemDetailImage.classList.remove(
+        "visible"
+      );
+
+      itemDetailImage.removeAttribute(
+        "src"
+      );
+
+      itemDetailImage.alt =
+        item.name_ko || "";
+
+
+      itemDetailPlaceholder.style.display =
+        "block";
+
+
+      if (item.image_path) {
+
+        itemDetailImage.onload =
+          function () {
+
+            itemDetailPlaceholder.style.display =
+              "none";
+
+            itemDetailImage.classList.add(
+              "visible"
+            );
+
+          };
+
+
+        itemDetailImage.onerror =
+          function () {
+
+            itemDetailImage.classList.remove(
+              "visible"
+            );
+
+            itemDetailPlaceholder.style.display =
+              "block";
+
+          };
+
+
+        itemDetailImage.src =
+          item.image_path;
+
+      }
+
+    }
+
+
+    /* 팝업 열기 */
+
+    itemDetailModal.classList.add(
+      "active"
+    );
+
+    itemDetailModal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "[GAME] Item detail failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ========================================
+   CLOSE ITEM DETAIL
+======================================== */
+
+function closeItemDetail() {
+
+  if (!itemDetailModal) {
+    return;
+  }
+
+
+  itemDetailModal.classList.remove(
+    "active"
+  );
+
+  itemDetailModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+   /* ========================================
+   WALLET ITEM CLICK
+======================================== */
+
+if (walletMunDisplay) {
+
+  walletMunDisplay.addEventListener(
+    "click",
+    function () {
+
+      openItemDetail(
+        "mun"
+      );
+
+    }
+  );
+
+}
+
+
+if (walletOpulseDisplay) {
+
+  walletOpulseDisplay.addEventListener(
+    "click",
+    function () {
+
+      openItemDetail(
+        "opulse"
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   ITEM DETAIL CLOSE
+======================================== */
+
+if (itemDetailClose) {
+
+  itemDetailClose.addEventListener(
+    "click",
+    function () {
+
+      safeClickSound();
+
+      closeItemDetail();
+
+    }
+  );
+
+}
+
+
+if (itemDetailBackdrop) {
+
+  itemDetailBackdrop.addEventListener(
+    "click",
+    function () {
+
+      closeItemDetail();
+
+    }
+  );
+
+}
+
+
+/* ESC로 닫기 */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (
+      event.key === "Escape" &&
+      itemDetailModal &&
+      itemDetailModal.classList.contains(
+        "active"
+      )
+    ) {
+
+      closeItemDetail();
+
+    }
+
+  }
+);
+   
   if (!player) {
     return;
   }
