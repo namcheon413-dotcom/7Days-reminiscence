@@ -517,7 +517,116 @@
 
   </main>
 
+<!-- ========================================
+     INVENTORY SCREEN
+========================================= -->
 
+<main
+  id="inventory-screen"
+  class="game-screen"
+>
+
+  <!-- HEADER -->
+  <header class="inventory-header">
+
+    <button
+      id="inventory-back-button"
+      class="inventory-back-button"
+      type="button"
+      aria-label="로비로 돌아가기"
+    >
+      <span class="inventory-back-arrow">←</span>
+
+      <span class="inventory-back-text">
+        BACK
+      </span>
+    </button>
+
+
+    <div class="inventory-title-group">
+
+      <span class="inventory-title-en">
+        INVENTORY
+      </span>
+
+      <h1 class="inventory-title">
+        소지품
+      </h1>
+
+    </div>
+
+  </header>
+
+
+  <!-- BODY -->
+  <section class="inventory-main">
+
+    <!-- CATEGORY -->
+    <nav
+      class="inventory-tabs"
+      aria-label="소지품 분류"
+    >
+
+      <button
+        class="inventory-tab active"
+        type="button"
+        data-inventory-category="all"
+      >
+        전체
+      </button>
+
+      <button
+        class="inventory-tab"
+        type="button"
+        data-inventory-category="growth"
+      >
+        육성
+      </button>
+
+      <button
+        class="inventory-tab"
+        type="button"
+        data-inventory-category="liberation"
+      >
+        해방
+      </button>
+
+      <button
+        class="inventory-tab"
+        type="button"
+        data-inventory-category="consumable"
+      >
+        소모품
+      </button>
+
+      <button
+        class="inventory-tab"
+        type="button"
+        data-inventory-category="recruitment"
+      >
+        모집권
+      </button>
+
+    </nav>
+
+
+    <!-- ITEM GRID -->
+    <div
+      id="inventory-grid"
+      class="inventory-grid"
+    >
+
+      <!--
+        이후 JS가 game_items +
+        player_inventory를 읽어서
+        이 안에 아이템 카드를 생성한다.
+      -->
+
+    </div>
+
+  </section>
+
+</main>
 
   <!-- ========================================
        GACHA SCREEN
