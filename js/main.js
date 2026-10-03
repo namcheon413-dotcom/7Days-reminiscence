@@ -1,5 +1,5 @@
 /* ========================================
-   ELEMENTS
+   BASIC ELEMENTS
 ======================================== */
 
 const initializeScreen =
@@ -17,41 +17,13 @@ const titleScreen =
 const lobbyScreen =
   document.getElementById("lobby-screen");
 
-const gachaBanner =
-  document.getElementById("gacha-banner");
-
-const gachaScreen =
-  document.getElementById("gacha-screen");
-
-const gachaBackButton =
-  document.getElementById("gacha-back-button");
-
-
-/* ========================================
-   RECRUITMENT ELEMENTS
-======================================== */
-
-const eventGachaTab =
-  document.getElementById("event-gacha-tab");
-
-const standardGachaTab =
-  document.getElementById("standard-gacha-tab");
-
-const eventRecruitment =
-  document.getElementById("event-recruitment");
-
-const standardRecruitment =
-  document.getElementById("standard-recruitment");
-
-const recruitButtons =
-  document.querySelectorAll(".recruit-button");
-
 
 let initialized = false;
 
 
 /* ========================================
    INITIALIZE
+   첫 화면 → 메인 타이틀
 ======================================== */
 
 function initializeGame() {
@@ -63,13 +35,29 @@ function initializeGame() {
   initialized = true;
 
 
-  /* 오디오 시작 */
+  /* 오디오는 실패해도 화면 진행을 막지 않음 */
 
-  playTitleBgm();
-  playClickSound();
+  try {
+
+    if (typeof playTitleBgm === "function") {
+      playTitleBgm();
+    }
+
+    if (typeof playClickSound === "function") {
+      playClickSound();
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Audio initialization failed:",
+      error
+    );
+
+  }
 
 
-  /* INITIALIZE 화면 숨기기 */
+  /* CLICK TO INITIALIZE 숨김 */
 
   initializeScreen.classList.remove(
     "active"
@@ -78,72 +66,167 @@ function initializeGame() {
 
   /* 메인 타이틀 표시 */
 
-  setTimeout(() => {
+  setTimeout(
+    function () {
 
-    mainTitle.classList.add(
-      "active"
-    );
+      mainTitle.classList.add(
+        "active"
+      );
 
-  }, 350);
+    },
+    350
+  );
 
 }
 
 
 /* ========================================
-   INITIALIZE CLICK
+   INITIALIZE EVENT
 ======================================== */
 
-initializeScreen.addEventListener(
-  "click",
-  initializeGame
-);
+if (initializeScreen) {
+
+  initializeScreen.addEventListener(
+    "click",
+    initializeGame
+  );
+
+}
 
 
 /* ========================================
    START → LOBBY
 ======================================== */
 
-startButton.addEventListener(
-  "click",
-  function () {
+if (
+  startButton &&
+  titleScreen &&
+  lobbyScreen
+) {
 
-    playClickSound();
+  startButton.addEventListener(
+    "click",
+    function () {
+
+      try {
+
+        if (
+          typeof playClickSound ===
+          "function"
+        ) {
+
+          playClickSound();
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "Click sound failed:",
+          error
+        );
+
+      }
 
 
-    startButton.disabled = true;
+      startButton.disabled =
+        true;
 
-    startButton.textContent =
-      "CONNECTING...";
-
-
-    setTimeout(() => {
-
-      /* 타이틀 숨김 */
-
-      titleScreen.style.display =
-        "none";
+      startButton.textContent =
+        "CONNECTING...";
 
 
-      /* 로비 표시 */
+      setTimeout(
+        function () {
 
-      lobbyScreen.style.display =
-        "block";
+          titleScreen.style.display =
+            "none";
 
-      lobbyScreen.classList.add(
-        "active"
+          lobbyScreen.style.display =
+            "block";
+
+          lobbyScreen.classList.add(
+            "active"
+          );
+
+        },
+        500
       );
 
-    }, 500);
+    }
+  );
 
-  }
-);
+}
 
 
 /* ========================================
-   RECRUITMENT SWITCH
+   GACHA ELEMENTS
+======================================== */
+
+const gachaBanner =
+  document.getElementById(
+    "gacha-banner"
+  );
+
+const gachaScreen =
+  document.getElementById(
+    "gacha-screen"
+  );
+
+const gachaBackButton =
+  document.getElementById(
+    "gacha-back-button"
+  );
+
+const eventGachaTab =
+  document.getElementById(
+    "event-gacha-tab"
+  );
+
+const standardGachaTab =
+  document.getElementById(
+    "standard-gacha-tab"
+  );
+
+const eventRecruitment =
+  document.getElementById(
+    "event-recruitment"
+  );
+
+const standardRecruitment =
+  document.getElementById(
+    "standard-recruitment"
+  );
+
+const recruitButtons =
+  document.querySelectorAll(
+    ".recruit-button"
+  );
+
+
+/* ========================================
+   GACHA SWITCH
 ======================================== */
 
 function showRecruitment(type) {
+
+  /*
+    가챠 HTML이 아직 없거나
+    로드되지 않았더라도
+    초기 화면에는 영향을 주지 않음
+  */
+
+  if (
+    !eventGachaTab ||
+    !standardGachaTab ||
+    !eventRecruitment ||
+    !standardRecruitment
+  ) {
+
+    return;
+
+  }
+
 
   eventGachaTab.classList.remove(
     "active"
@@ -162,8 +245,6 @@ function showRecruitment(type) {
   );
 
 
-  /* 상시 모집 */
-
   if (type === "standard") {
 
     standardGachaTab.classList.add(
@@ -175,10 +256,9 @@ function showRecruitment(type) {
     );
 
     return;
+
   }
 
-
-  /* 이벤트 모집 */
 
   eventGachaTab.classList.add(
     "active"
@@ -195,116 +275,213 @@ function showRecruitment(type) {
    LOBBY → GACHA
 ======================================== */
 
-gachaBanner.addEventListener(
-  "click",
-  function () {
+if (
+  gachaBanner &&
+  gachaScreen &&
+  lobbyScreen
+) {
 
-    playClickSound();
+  gachaBanner.addEventListener(
+    "click",
+    function () {
+
+      try {
+
+        if (
+          typeof playClickSound ===
+          "function"
+        ) {
+
+          playClickSound();
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "Click sound failed:",
+          error
+        );
+
+      }
 
 
-    /* 가챠 진입 시 이벤트 모집 기본 선택 */
+      /* 기본은 이벤트 모집 */
 
-    showRecruitment(
-      "event"
-    );
-
-
-    lobbyScreen.classList.remove(
-      "active"
-    );
+      showRecruitment(
+        "event"
+      );
 
 
-    setTimeout(() => {
-
-      lobbyScreen.style.display =
-        "none";
-
-      gachaScreen.style.display =
-        "block";
-
-      gachaScreen.classList.add(
+      lobbyScreen.classList.remove(
         "active"
       );
 
-    }, 300);
 
-  }
-);
+      setTimeout(
+        function () {
+
+          lobbyScreen.style.display =
+            "none";
+
+          gachaScreen.style.display =
+            "block";
+
+          gachaScreen.classList.add(
+            "active"
+          );
+
+        },
+        300
+      );
+
+    }
+  );
+
+}
 
 
 /* ========================================
    GACHA → LOBBY
 ======================================== */
 
-gachaBackButton.addEventListener(
-  "click",
-  function () {
+if (
+  gachaBackButton &&
+  gachaScreen &&
+  lobbyScreen
+) {
 
-    playClickSound();
+  gachaBackButton.addEventListener(
+    "click",
+    function () {
+
+      try {
+
+        if (
+          typeof playClickSound ===
+          "function"
+        ) {
+
+          playClickSound();
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "Click sound failed:",
+          error
+        );
+
+      }
 
 
-    gachaScreen.classList.remove(
-      "active"
-    );
-
-
-    setTimeout(() => {
-
-      gachaScreen.style.display =
-        "none";
-
-      lobbyScreen.style.display =
-        "block";
-
-      lobbyScreen.classList.add(
+      gachaScreen.classList.remove(
         "active"
       );
 
-    }, 300);
 
-  }
-);
+      setTimeout(
+        function () {
+
+          gachaScreen.style.display =
+            "none";
+
+          lobbyScreen.style.display =
+            "block";
+
+          lobbyScreen.classList.add(
+            "active"
+          );
+
+        },
+        300
+      );
+
+    }
+  );
+
+}
 
 
 /* ========================================
-   EVENT RECRUITMENT TAB
+   EVENT TAB
 ======================================== */
 
-eventGachaTab.addEventListener(
-  "click",
-  function () {
+if (eventGachaTab) {
 
-    playClickSound();
+  eventGachaTab.addEventListener(
+    "click",
+    function () {
 
-    showRecruitment(
-      "event"
-    );
+      try {
 
-  }
-);
+        if (
+          typeof playClickSound ===
+          "function"
+        ) {
+
+          playClickSound();
+
+        }
+
+      } catch (error) {
+
+        console.warn(error);
+
+      }
+
+
+      showRecruitment(
+        "event"
+      );
+
+    }
+  );
+
+}
 
 
 /* ========================================
-   STANDARD RECRUITMENT TAB
+   STANDARD TAB
 ======================================== */
 
-standardGachaTab.addEventListener(
-  "click",
-  function () {
+if (standardGachaTab) {
 
-    playClickSound();
+  standardGachaTab.addEventListener(
+    "click",
+    function () {
 
-    showRecruitment(
-      "standard"
-    );
+      try {
 
-  }
-);
+        if (
+          typeof playClickSound ===
+          "function"
+        ) {
+
+          playClickSound();
+
+        }
+
+      } catch (error) {
+
+        console.warn(error);
+
+      }
+
+
+      showRecruitment(
+        "standard"
+      );
+
+    }
+  );
+
+}
 
 
 /* ========================================
    RECRUIT BUTTONS
-   실제 추첨 로직은 아직 연결하지 않음
 ======================================== */
 
 recruitButtons.forEach(
@@ -314,7 +491,22 @@ recruitButtons.forEach(
       "click",
       function () {
 
-        playClickSound();
+        try {
+
+          if (
+            typeof playClickSound ===
+            "function"
+          ) {
+
+            playClickSound();
+
+          }
+
+        } catch (error) {
+
+          console.warn(error);
+
+        }
 
 
         const recruitType =
@@ -340,7 +532,7 @@ recruitButtons.forEach(
 
 
 /* ========================================
-   DEFAULT RECRUITMENT
+   DEFAULT GACHA
 ======================================== */
 
 showRecruitment(
