@@ -48,6 +48,12 @@ const walletOpulseDisplay =
     "wallet-opulse"
   );
 
+const walletEnduranceDisplay =
+  document.getElementById(
+    "wallet-endurance"
+  );
+
+
 /* ========================================
    ITEM DETAIL MODAL
 ======================================== */
@@ -97,10 +103,6 @@ const itemDetailDescription =
     "item-detail-description"
   );
 
-const walletEnduranceDisplay =
-  document.getElementById(
-    "wallet-endurance"
-  );
 
 /* ========================================
    INVENTORY
@@ -130,6 +132,7 @@ const inventoryTabs =
   document.querySelectorAll(
     ".inventory-tab"
   );
+
 
 /* ========================================
    PLAYER REGISTRATION
@@ -162,85 +165,18 @@ const playerRegistrationConfirm =
 
 
 /* ========================================
-   LOBBY → INVENTORY
-======================================== */
-
-if (
-  inventoryButton &&
-  lobbyScreen &&
-  inventoryScreen
-) {
-
-  inventoryButton.addEventListener(
-  "click",
-  async function () {
-
-    if (transitioning) {
-      return;
-    }
-
-
-    safeClickSound();
-
-
-    await loadInventory();
-
-
-    changeGameScreen(
-      lobbyScreen,
-      inventoryScreen,
-      300
-    );
-
-  }
-);
-
-}
-
-
-/* ========================================
-   INVENTORY → LOBBY
-======================================== */
-
-if (
-  inventoryBackButton &&
-  inventoryScreen &&
-  lobbyScreen
-) {
-
-  inventoryBackButton.addEventListener(
-    "click",
-    function () {
-
-      if (transitioning) {
-        return;
-      }
-
-
-      safeClickSound();
-
-
-      changeGameScreen(
-        inventoryScreen,
-        lobbyScreen,
-        300
-      );
-
-    }
-  );
-
-}
-
-
-/* ========================================
    GACHA
 ======================================== */
 
 const gachaBanner =
-  document.getElementById("gacha-banner");
+  document.getElementById(
+    "gacha-banner"
+  );
 
 const gachaScreen =
-  document.getElementById("gacha-screen");
+  document.getElementById(
+    "gacha-screen"
+  );
 
 const gachaBackButton =
   document.getElementById(
@@ -304,7 +240,7 @@ function safeClickSound() {
   } catch (error) {
 
     console.warn(
-      "Click sound failed:",
+      "[AUDIO] Click sound failed:",
       error
     );
 
@@ -329,7 +265,7 @@ function safeTitleBgm() {
   } catch (error) {
 
     console.warn(
-      "Title BGM failed:",
+      "[AUDIO] Title BGM failed:",
       error
     );
 
@@ -339,7 +275,7 @@ function safeTitleBgm() {
 
 
 /* ========================================
-   GENERIC GAME SCREEN TRANSITION
+   SCREEN TRANSITION
 ======================================== */
 
 function changeGameScreen(
@@ -411,9 +347,6 @@ function changeGameScreen(
 
 /* ========================================
    TITLE → GAME SCREEN
-
-   title-screen은 .game-screen이 아니므로
-   별도 전환 처리
 ======================================== */
 
 function leaveTitleScreen(
@@ -497,7 +430,9 @@ function leaveTitleScreen(
 function initializeGame() {
 
   if (initialized) {
+
     return;
+
   }
 
 
@@ -558,12 +493,17 @@ if (initializeScreen) {
 
 async function preparePlayer() {
 
-  /*
-    Auth 계정 확인.
+  if (
+    !window.GameAuth ||
+    !window.GamePlayer
+  ) {
 
-    기존 계정이 있으면 복구하고,
-    없으면 익명 계정을 생성한다.
-  */
+    throw new Error(
+      "Game auth/player module not loaded."
+    );
+
+  }
+
 
   const authResult =
     await window.GameAuth
@@ -582,11 +522,6 @@ async function preparePlayer() {
   }
 
 
-  /*
-    해당 Auth UUID의 players 데이터를
-    서버에서 불러온다.
-  */
-
   const player =
     await window.GamePlayer
       .getCurrentPlayer();
@@ -600,13 +535,6 @@ async function preparePlayer() {
 
   }
 
-
-  /*
-    접속 시간 갱신.
-
-    실패해도 게임 진입 자체를
-    막을 필요는 없으므로 별도 처리.
-  */
 
   try {
 
@@ -627,35 +555,49 @@ async function preparePlayer() {
 
 }
 
+
 /* ========================================
-   LOBBY PLAYER DATA
+   NUMBER FORMAT
 ======================================== */
 
-function formatNumber(value) {
+function formatNumber(
+  value
+) {
 
-  return Number(value).toLocaleString(
+  const number =
+    Number(value);
+
+
+  if (!Number.isFinite(number)) {
+
+    return "0";
+
+  }
+
+
+  return number.toLocaleString(
     "ko-KR"
   );
 
 }
 
 
+/* ========================================
+   LOBBY PLAYER DATA
+======================================== */
+
 async function updateLobbyPlayerData(
   player
 ) {
 
-   async function updateLobbyPlayerData(
-  player
-) {
-
   if (!player) {
+
     return;
+
   }
 
 
-  /* ========================================
-     PLAYER
-  ======================================== */
+  /* PLAYER */
 
   if (playerLevelDisplay) {
 
@@ -673,9 +615,16 @@ async function updateLobbyPlayerData(
   }
 
 
-  /* ========================================
-     WALLET + ENDURANCE REFRESH
-  ======================================== */
+  /* WALLET */
+
+  if (!window.GameWallet) {
+
+    throw new Error(
+      "GameWallet module not loaded."
+    );
+
+  }
+
 
   const wallet =
     await window.GameWallet
@@ -690,10 +639,6 @@ async function updateLobbyPlayerData(
 
   }
 
-
-  /* ========================================
-     WALLET UI
-  ======================================== */
 
   if (walletMunDisplay) {
 
@@ -718,7 +663,11 @@ async function updateLobbyPlayerData(
   if (walletEnduranceDisplay) {
 
     walletEnduranceDisplay.textContent =
-      `${formatNumber(wallet.endurance)} / ${formatNumber(wallet.endurance_max)}`;
+      `${formatNumber(
+        wallet.endurance
+      )} / ${formatNumber(
+        wallet.endurance_max
+      )}`;
 
   }
 
@@ -752,6 +701,21 @@ async function openItemDetail(
   }
 
 
+  if (
+    !window.GameItems ||
+    typeof window.GameItems.getItem !==
+      "function"
+  ) {
+
+    console.error(
+      "[ITEM] GameItems.getItem is unavailable."
+    );
+
+    return;
+
+  }
+
+
   safeClickSound();
 
 
@@ -759,7 +723,9 @@ async function openItemDetail(
 
     const item =
       await window.GameItems
-        .getItem(itemId);
+        .getItem(
+          itemId
+        );
 
 
     if (!item) {
@@ -769,12 +735,14 @@ async function openItemDetail(
     }
 
 
-    /* 이름 */
+    /* NAME */
 
     if (itemDetailName) {
 
       itemDetailName.textContent =
-        item.name_ko || "—";
+        item.name_ko ||
+        item.name ||
+        "—";
 
     }
 
@@ -782,34 +750,38 @@ async function openItemDetail(
     if (itemDetailNameEn) {
 
       itemDetailNameEn.textContent =
-        item.name_en || "";
+        item.name_en ||
+        "";
 
     }
 
 
-    /* 등급 */
+    /* GRADE */
 
     if (itemDetailGrade) {
 
       itemDetailGrade.textContent =
         item.grade
-          ? String(item.grade).toUpperCase()
+          ? String(
+              item.grade
+            ).toUpperCase()
           : "";
 
     }
 
 
-    /* 설명 */
+    /* DESCRIPTION */
 
     if (itemDetailDescription) {
 
       itemDetailDescription.textContent =
-        item.description || "";
+        item.description ||
+        "";
 
     }
 
 
-    /* 이미지 */
+    /* IMAGE */
 
     if (
       itemDetailImage &&
@@ -827,7 +799,9 @@ async function openItemDetail(
 
 
       itemDetailImage.alt =
-        item.name_ko || "";
+        item.name_ko ||
+        item.name ||
+        "";
 
 
       itemDetailPlaceholder.style.display =
@@ -872,7 +846,7 @@ async function openItemDetail(
     }
 
 
-    /* 팝업 열기 */
+    /* OPEN */
 
     itemDetailModal.classList.add(
       "active"
@@ -888,7 +862,7 @@ async function openItemDetail(
   } catch (error) {
 
     console.error(
-      "[GAME] Item detail failed:",
+      "[ITEM] Item detail failed:",
       error
     );
 
@@ -924,7 +898,7 @@ function closeItemDetail() {
 
 
 /* ========================================
-   INVENTORY RENDER
+   INVENTORY CARD
 ======================================== */
 
 function createInventoryCard(
@@ -967,18 +941,33 @@ function createInventoryCard(
     "inventory-item-image";
 
 
-  image.src =
-    item.image_path || "";
-
-
   image.alt =
     item.name_ko ||
+    item.name ||
     item.id ||
     "";
 
 
   image.loading =
     "lazy";
+
+
+  if (item.image_path) {
+
+    image.src =
+      item.image_path;
+
+  } else {
+
+    image.style.display =
+      "none";
+
+
+    imageArea.classList.add(
+      "no-image"
+    );
+
+  }
 
 
   image.addEventListener(
@@ -1015,7 +1004,9 @@ function createInventoryCard(
 
 
   quantity.textContent =
-    `× ${Number(item.quantity) || 0}`;
+    `× ${Number(
+      item.quantity
+    ) || 0}`;
 
 
   imageArea.appendChild(
@@ -1037,7 +1028,9 @@ function createInventoryCard(
 
   name.textContent =
     item.name_ko ||
-    item.id;
+    item.name ||
+    item.id ||
+    "—";
 
 
   /* CARD */
@@ -1051,8 +1044,6 @@ function createInventoryCard(
     name
   );
 
-
-  /* DETAIL MODAL */
 
   card.addEventListener(
     "click",
@@ -1088,6 +1079,31 @@ async function loadInventory() {
     "";
 
 
+  if (
+    !window.GameItems ||
+    typeof window.GameItems
+      .getPlayerInventory !==
+      "function"
+  ) {
+
+    console.error(
+      "[INVENTORY] getPlayerInventory is unavailable."
+    );
+
+
+    inventoryGrid.innerHTML = `
+      <div class="inventory-empty">
+        <span>ERROR</span>
+        <p>소지품 데이터를 불러올 수 없습니다.</p>
+      </div>
+    `;
+
+
+    return;
+
+  }
+
+
   try {
 
     const items =
@@ -1116,6 +1132,24 @@ async function loadInventory() {
     items.forEach(
       function (item) {
 
+        const quantity =
+          Number(
+            item.quantity
+          ) || 0;
+
+
+        /*
+          수량 0인 아이템은
+          인벤토리에 표시하지 않는다.
+        */
+
+        if (quantity <= 0) {
+
+          return;
+
+        }
+
+
         const card =
           createInventoryCard(
             item
@@ -1130,10 +1164,30 @@ async function loadInventory() {
     );
 
 
+    /*
+      필터 후 아무 카드도
+      남지 않은 경우
+    */
+
+    if (
+      inventoryGrid.children.length ===
+      0
+    ) {
+
+      inventoryGrid.innerHTML = `
+        <div class="inventory-empty">
+          <span>EMPTY</span>
+          <p>보유 중인 소지품이 없습니다.</p>
+        </div>
+      `;
+
+    }
+
+
   } catch (error) {
 
     console.error(
-      "[Inventory] 인벤토리 로드 실패:",
+      "[INVENTORY] Load failed:",
       error
     );
 
@@ -1155,15 +1209,16 @@ async function loadInventory() {
 ======================================== */
 
 const walletMunItem =
-  walletMunDisplay?.closest(
-    ".wallet-item"
-  );
-
+  walletMunDisplay
+    ?.closest(
+      ".wallet-item"
+    );
 
 const walletOpulseItem =
-  walletOpulseDisplay?.closest(
-    ".wallet-item"
-  );
+  walletOpulseDisplay
+    ?.closest(
+      ".wallet-item"
+    );
 
 
 if (walletMunItem) {
@@ -1199,7 +1254,7 @@ if (walletOpulseItem) {
 
 
 /* ========================================
-   ITEM DETAIL CLOSE
+   ITEM DETAIL CLOSE EVENTS
 ======================================== */
 
 if (itemDetailClose) {
@@ -1209,7 +1264,6 @@ if (itemDetailClose) {
     function () {
 
       safeClickSound();
-
 
       closeItemDetail();
 
@@ -1233,18 +1287,19 @@ if (itemDetailBackdrop) {
 }
 
 
-/* ESC로 닫기 */
-
 document.addEventListener(
   "keydown",
   function (event) {
 
     if (
-      event.key === "Escape" &&
+      event.key ===
+        "Escape" &&
       itemDetailModal &&
-      itemDetailModal.classList.contains(
-        "active"
-      )
+      itemDetailModal
+        .classList
+        .contains(
+          "active"
+        )
     ) {
 
       closeItemDetail();
@@ -1253,7 +1308,8 @@ document.addEventListener(
 
   }
 );
-   
+
+
 /* ========================================
    START
 ======================================== */
@@ -1285,11 +1341,8 @@ if (
         true;
 
 
-      /*
-        서버 처리 중에는 중복 START 방지.
-      */
-
-      playerReady = true;
+      playerReady =
+        true;
 
 
       try {
@@ -1303,13 +1356,13 @@ if (
           player
         );
 
-      await updateLobbyPlayerData(
+
+        await updateLobbyPlayerData(
           player
         );
-         
-        /*
-          별호가 없는 신규 플레이어
-        */
+
+
+        /* 신규 플레이어 */
 
         if (
           !player.nickname ||
@@ -1337,10 +1390,7 @@ if (
         }
 
 
-        /*
-          이미 별호가 있는 플레이어
-          → 바로 로비
-        */
+        /* 기존 플레이어 */
 
         leaveTitleScreen(
           lobbyScreen
@@ -1355,12 +1405,9 @@ if (
         );
 
 
-        /*
-          서버 오류가 났을 경우
-          START를 다시 누를 수 있게 복구.
-        */
+        playerReady =
+          false;
 
-        playerReady = false;
 
         startButton.disabled =
           false;
@@ -1414,11 +1461,9 @@ if (playerNicknameInput) {
       updateNicknameCount();
 
 
-      /*
-        다시 입력하면 이전 오류 문구 제거.
-      */
-
-      if (playerRegistrationError) {
+      if (
+        playerRegistrationError
+      ) {
 
         playerRegistrationError.textContent =
           "";
@@ -1453,13 +1498,15 @@ async function submitNickname() {
       .trim();
 
 
-  /* ========================================
-     VALIDATION
-  ======================================== */
+  /* EMPTY */
 
-  if (nickname.length < 1) {
+  if (
+    nickname.length < 1
+  ) {
 
-    if (playerRegistrationError) {
+    if (
+      playerRegistrationError
+    ) {
 
       playerRegistrationError.textContent =
         "별호를 입력하십시오.";
@@ -1469,14 +1516,21 @@ async function submitNickname() {
 
     playerNicknameInput.focus();
 
+
     return;
 
   }
 
 
-  if (nickname.length > 20) {
+  /* MAX LENGTH */
 
-    if (playerRegistrationError) {
+  if (
+    nickname.length > 20
+  ) {
+
+    if (
+      playerRegistrationError
+    ) {
 
       playerRegistrationError.textContent =
         "별호는 20자 이내로 입력하십시오.";
@@ -1486,20 +1540,19 @@ async function submitNickname() {
 
     playerNicknameInput.focus();
 
+
     return;
 
   }
 
 
-  /*
-    저장 중 중복 클릭 방지.
-  */
-
   playerRegistrationConfirm.disabled =
     true;
 
 
-  if (playerRegistrationError) {
+  if (
+    playerRegistrationError
+  ) {
 
     playerRegistrationError.textContent =
       "기록 중...";
@@ -1512,18 +1565,16 @@ async function submitNickname() {
 
   try {
 
-    /*
-      Supabase players.nickname 저장
-    */
-
     const player =
       await window.GamePlayer
         .updateNickname(
           nickname
         );
-     await updateLobbyPlayerData(
-  player
-);
+
+
+    await updateLobbyPlayerData(
+      player
+    );
 
 
     console.log(
@@ -1532,18 +1583,15 @@ async function submitNickname() {
     );
 
 
-    if (playerRegistrationError) {
+    if (
+      playerRegistrationError
+    ) {
 
       playerRegistrationError.textContent =
         "";
 
     }
 
-
-    /*
-      등록 완료
-      → 별호 화면에서 로비로 전환
-    */
 
     changeGameScreen(
       playerRegistrationScreen,
@@ -1560,7 +1608,9 @@ async function submitNickname() {
     );
 
 
-    if (playerRegistrationError) {
+    if (
+      playerRegistrationError
+    ) {
 
       playerRegistrationError.textContent =
         "별호를 저장하지 못했습니다. 다시 시도하십시오.";
@@ -1577,10 +1627,12 @@ async function submitNickname() {
 
 
 /* ========================================
-   CONFIRM BUTTON
+   NICKNAME CONFIRM
 ======================================== */
 
-if (playerRegistrationConfirm) {
+if (
+  playerRegistrationConfirm
+) {
 
   playerRegistrationConfirm.addEventListener(
     "click",
@@ -1591,7 +1643,7 @@ if (playerRegistrationConfirm) {
 
 
 /* ========================================
-   ENTER → CONFIRM
+   NICKNAME ENTER
 ======================================== */
 
 if (playerNicknameInput) {
@@ -1601,7 +1653,8 @@ if (playerNicknameInput) {
     function (event) {
 
       if (
-        event.key !== "Enter"
+        event.key !==
+        "Enter"
       ) {
 
         return;
@@ -1614,7 +1667,8 @@ if (playerNicknameInput) {
 
       if (
         playerRegistrationConfirm &&
-        !playerRegistrationConfirm.disabled
+        !playerRegistrationConfirm
+          .disabled
       ) {
 
         submitNickname();
@@ -1628,11 +1682,133 @@ if (playerNicknameInput) {
 
 
 /* ========================================
-   GACHA
-   EVENT / STANDARD SWITCH
+   INVENTORY OPEN
 ======================================== */
 
-function showRecruitment(type) {
+if (
+  inventoryButton &&
+  lobbyScreen &&
+  inventoryScreen
+) {
+
+  inventoryButton.addEventListener(
+    "click",
+    async function () {
+
+      if (transitioning) {
+
+        return;
+
+      }
+
+
+      safeClickSound();
+
+
+      /*
+        화면은 먼저 전환하고
+        인벤토리는 그 뒤 로드한다.
+        서버 응답 때문에 버튼이
+        멈춘 것처럼 보이는 현상 방지.
+      */
+
+      changeGameScreen(
+        lobbyScreen,
+        inventoryScreen,
+        300
+      );
+
+
+      await loadInventory();
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   INVENTORY → LOBBY
+======================================== */
+
+if (
+  inventoryBackButton &&
+  inventoryScreen &&
+  lobbyScreen
+) {
+
+  inventoryBackButton.addEventListener(
+    "click",
+    function () {
+
+      if (transitioning) {
+
+        return;
+
+      }
+
+
+      safeClickSound();
+
+
+      changeGameScreen(
+        inventoryScreen,
+        lobbyScreen,
+        300
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   INVENTORY TABS
+   현재는 UI 선택 상태만 처리.
+   실제 카테고리 필터는
+   분류 데이터 확정 후 연결.
+======================================== */
+
+inventoryTabs.forEach(
+  function (tab) {
+
+    tab.addEventListener(
+      "click",
+      function () {
+
+        safeClickSound();
+
+
+        inventoryTabs.forEach(
+          function (otherTab) {
+
+            otherTab.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        tab.classList.add(
+          "active"
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* ========================================
+   GACHA VIEW
+======================================== */
+
+function showRecruitment(
+  type
+) {
 
   if (
     !eventGachaTab ||
@@ -1665,15 +1841,20 @@ function showRecruitment(type) {
 
   /* STANDARD */
 
-  if (type === "standard") {
+  if (
+    type ===
+    "standard"
+  ) {
 
     standardGachaTab.classList.add(
       "active"
     );
 
+
     standardRecruitment.classList.add(
       "active"
     );
+
 
     return;
 
@@ -1685,6 +1866,7 @@ function showRecruitment(type) {
   eventGachaTab.classList.add(
     "active"
   );
+
 
   eventRecruitment.classList.add(
     "active"
@@ -1708,7 +1890,9 @@ if (
     function () {
 
       if (transitioning) {
+
         return;
+
       }
 
 
@@ -1747,7 +1931,9 @@ if (
     function () {
 
       if (transitioning) {
+
         return;
+
       }
 
 
@@ -1827,17 +2013,19 @@ recruitButtons.forEach(
 
 
         const recruitType =
-          button.dataset.recruitType;
+          button.dataset
+            .recruitType;
 
 
         const recruitCount =
           Number(
-            button.dataset.recruitCount
+            button.dataset
+              .recruitCount
           );
 
 
         console.log(
-          "RECRUIT:",
+          "[RECRUIT]",
           recruitType,
           recruitCount
         );
@@ -1853,17 +2041,16 @@ recruitButtons.forEach(
    INITIAL SCREEN STATE
 ======================================== */
 
-/*
-  타이틀 이외 게임 화면은
-  최초 접속 시 DOM에서 숨겨 둔다.
-*/
+if (
+  playerRegistrationScreen
+) {
 
+  playerRegistrationScreen
+    .classList
+    .remove(
+      "active"
+    );
 
-if (playerRegistrationScreen) {
-
-  playerRegistrationScreen.classList.remove(
-    "active"
-  );
 
   playerRegistrationScreen.style.display =
     "none";
@@ -1873,9 +2060,12 @@ if (playerRegistrationScreen) {
 
 if (lobbyScreen) {
 
-  lobbyScreen.classList.remove(
-    "active"
-  );
+  lobbyScreen
+    .classList
+    .remove(
+      "active"
+    );
+
 
   lobbyScreen.style.display =
     "none";
@@ -1885,25 +2075,33 @@ if (lobbyScreen) {
 
 if (gachaScreen) {
 
-  gachaScreen.classList.remove(
-    "active"
-  );
+  gachaScreen
+    .classList
+    .remove(
+      "active"
+    );
+
 
   gachaScreen.style.display =
     "none";
 
 }
 
+
 if (inventoryScreen) {
 
-  inventoryScreen.classList.remove(
-    "active"
-  );
+  inventoryScreen
+    .classList
+    .remove(
+      "active"
+    );
+
 
   inventoryScreen.style.display =
     "none";
 
 }
+
 
 /* ========================================
    INITIAL VALUES
