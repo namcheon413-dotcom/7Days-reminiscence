@@ -302,7 +302,6 @@
       ← BACK
     </button>
 
-
     <div class="sub-screen-title">
 
       <span class="sub-screen-title-main">
@@ -318,57 +317,33 @@
   </header>
 
 
-  <!-- ========================================
-       GACHA SELECT
-  ========================================= -->
+  <!-- GACHA CONTENT -->
 
-  <section
-    id="gacha-select"
-    class="gacha-view active"
-  >
-
-    <div class="gacha-select-heading">
-
-      <span class="gacha-select-label">
-        RECRUITMENT LIST
-      </span>
-
-      <h2>
-        모집 선택
-      </h2>
-
-      <p>
-        진행할 모집을 선택하십시오.
-      </p>
-
-    </div>
+  <section class="recruitment-screen">
 
 
-    <div class="gacha-banner-list">
+    <!-- ========================================
+         LEFT BANNER TABS
+    ========================================= -->
+
+    <aside class="recruitment-tabs">
 
 
       <!-- EVENT -->
 
       <button
-        id="event-gacha-banner"
-        class="recruit-banner recruit-banner-event"
+        id="event-gacha-tab"
+        class="recruitment-tab active"
         type="button"
+        data-gacha="event"
       >
 
-        <span class="recruit-type">
-          EVENT RECRUITMENT
+        <span class="recruitment-tab-en">
+          EVENT
         </span>
 
-        <span class="recruit-title">
+        <span class="recruitment-tab-ko">
           이벤트 모집
-        </span>
-
-        <span class="recruit-description">
-          기간 한정 특별 모집
-        </span>
-
-        <span class="recruit-enter">
-          VIEW RECRUITMENT →
         </span>
 
       </button>
@@ -377,204 +352,181 @@
       <!-- STANDARD -->
 
       <button
-        id="standard-gacha-banner"
-        class="recruit-banner recruit-banner-standard"
+        id="standard-gacha-tab"
+        class="recruitment-tab"
         type="button"
+        data-gacha="standard"
       >
 
-        <span class="recruit-type">
-          STANDARD RECRUITMENT
+        <span class="recruitment-tab-en">
+          STANDARD
         </span>
 
-        <span class="recruit-title">
+        <span class="recruitment-tab-ko">
           상시 모집
-        </span>
-
-        <span class="recruit-description">
-          상시 운영 요원 모집
-        </span>
-
-        <span class="recruit-enter">
-          VIEW RECRUITMENT →
         </span>
 
       </button>
 
 
-    </div>
-
-  </section>
+    </aside>
 
 
-  <!-- ========================================
-       EVENT RECRUITMENT
-  ========================================= -->
+    <!-- ========================================
+         MAIN RECRUITMENT AREA
+    ========================================= -->
 
-  <section
-    id="event-gacha"
-    class="gacha-view"
-  >
-
-    <button
-      class="gacha-select-back"
-      type="button"
-    >
-      ← 모집 선택
-    </button>
+    <div class="recruitment-main">
 
 
-    <div class="recruit-detail">
+      <!-- EVENT CONTENT -->
 
-      <span class="recruit-detail-type">
-        EVENT RECRUITMENT
-      </span>
+      <section
+        id="event-recruitment"
+        class="recruitment-content active"
+      >
 
-      <h2 class="recruit-detail-title">
-        이벤트 모집
-      </h2>
+        <div class="recruitment-visual">
 
-      <p class="recruit-detail-description">
-        기간 한정 특별 모집
-      </p>
+          <!--
+            나중에 이벤트 한정 이미지 삽입.
+            지금은 임시 텍스트.
+          -->
 
+          <div class="recruitment-info">
 
-      <div class="recruit-detail-space">
+            <span class="recruitment-type">
+              EVENT RECRUITMENT
+            </span>
 
-        <span>
-          EVENT BANNER VISUAL
-        </span>
+            <h2 class="recruitment-title">
+              이벤트 모집
+            </h2>
 
-      </div>
+            <p class="recruitment-description">
+              기간 한정 특별 모집
+            </p>
 
+          </div>
 
-      <div class="recruit-actions">
-
-        <button
-          class="recruit-button"
-          data-recruit-type="event"
-          data-recruit-count="1"
-          type="button"
-        >
-
-          <span class="recruit-count">
-            1회 모집
-          </span>
-
-          <span class="recruit-cost">
-            RECRUIT × 1
-          </span>
-
-        </button>
+        </div>
 
 
-        <button
-          class="recruit-button recruit-button-multi"
-          data-recruit-type="event"
-          data-recruit-count="10"
-          type="button"
-        >
+        <div class="recruitment-actions">
 
-          <span class="recruit-count">
-            10회 모집
-          </span>
+          <button
+            class="recruit-button"
+            type="button"
+            data-recruit-type="event"
+            data-recruit-count="1"
+          >
 
-          <span class="recruit-cost">
-            RECRUIT × 10
-          </span>
+            <span class="recruit-count">
+              1회 모집
+            </span>
 
-        </button>
+            <span class="recruit-cost">
+              × 1
+            </span>
 
-      </div>
-
-    </div>
-
-  </section>
+          </button>
 
 
-  <!-- ========================================
-       STANDARD RECRUITMENT
-  ========================================= -->
+          <button
+            class="recruit-button recruit-button-multi"
+            type="button"
+            data-recruit-type="event"
+            data-recruit-count="10"
+          >
 
-  <section
-    id="standard-gacha"
-    class="gacha-view"
-  >
+            <span class="recruit-count">
+              10회 모집
+            </span>
 
-    <button
-      class="gacha-select-back"
-      type="button"
-    >
-      ← 모집 선택
-    </button>
+            <span class="recruit-cost">
+              × 10
+            </span>
 
+          </button>
 
-    <div class="recruit-detail">
+        </div>
 
-      <span class="recruit-detail-type">
-        STANDARD RECRUITMENT
-      </span>
-
-      <h2 class="recruit-detail-title">
-        상시 모집
-      </h2>
-
-      <p class="recruit-detail-description">
-        상시 운영 요원 모집
-      </p>
+      </section>
 
 
-      <div class="recruit-detail-space">
+      <!-- STANDARD CONTENT -->
 
-        <span>
-          STANDARD BANNER VISUAL
-        </span>
+      <section
+        id="standard-recruitment"
+        class="recruitment-content"
+      >
 
-      </div>
+        <div class="recruitment-visual">
+
+          <div class="recruitment-info">
+
+            <span class="recruitment-type">
+              STANDARD RECRUITMENT
+            </span>
+
+            <h2 class="recruitment-title">
+              상시 모집
+            </h2>
+
+            <p class="recruitment-description">
+              상시 운영 요원 모집
+            </p>
+
+          </div>
+
+        </div>
 
 
-      <div class="recruit-actions">
+        <div class="recruitment-actions">
 
-        <button
-          class="recruit-button"
-          data-recruit-type="standard"
-          data-recruit-count="1"
-          type="button"
-        >
+          <button
+            class="recruit-button"
+            type="button"
+            data-recruit-type="standard"
+            data-recruit-count="1"
+          >
 
-          <span class="recruit-count">
-            1회 모집
-          </span>
+            <span class="recruit-count">
+              1회 모집
+            </span>
 
-          <span class="recruit-cost">
-            RECRUIT × 1
-          </span>
+            <span class="recruit-cost">
+              × 1
+            </span>
 
-        </button>
+          </button>
 
 
-        <button
-          class="recruit-button recruit-button-multi"
-          data-recruit-type="standard"
-          data-recruit-count="10"
-          type="button"
-        >
+          <button
+            class="recruit-button recruit-button-multi"
+            type="button"
+            data-recruit-type="standard"
+            data-recruit-count="10"
+          >
 
-          <span class="recruit-count">
-            10회 모집
-          </span>
+            <span class="recruit-count">
+              10회 모집
+            </span>
 
-          <span class="recruit-cost">
-            RECRUIT × 10
-          </span>
+            <span class="recruit-cost">
+              × 10
+            </span>
 
-        </button>
+          </button>
 
-      </div>
+        </div>
+
+      </section>
+
 
     </div>
 
   </section>
-
 
 </main>
 
