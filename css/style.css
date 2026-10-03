@@ -260,29 +260,87 @@ body {
 ======================================== */
 
 #start-button {
-  margin-top: 12px;
+  position: relative;
 
-  min-width: 180px;
-  padding: 13px 28px;
+  margin-top: -20px;
+  padding: 12px 34px;
 
-  flex-shrink: 0;
+  min-width: 170px;
+
+  border: none;
+  background: transparent;
+
+  color: rgba(245, 243, 236, 0.78);
+
+  font-family:
+    "Noto Serif KR",
+    serif;
+
+  font-size: 11px;
+  font-weight: 400;
+
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+
+  cursor: pointer;
+
+  transition:
+    color 0.3s ease,
+    letter-spacing 0.3s ease,
+    opacity 0.3s ease;
 }
 
+
+/* 좌우 장식선 */
+
+#start-button::before,
+#start-button::after {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+
+  width: 42px;
+  height: 1px;
+
+  background: rgba(245, 243, 236, 0.35);
+
+  transition:
+    width 0.3s ease,
+    background 0.3s ease;
+}
+
+
+#start-button::before {
+  right: 100%;
+}
+
+#start-button::after {
+  left: 100%;
+}
+
+
+/* HOVER */
 
 #start-button:hover {
-  background:
-    rgba(255, 255, 255, 0.9);
+  color: #fff;
 
-  color: #111;
-
-  border-color: #fff;
-
-  transform: translateY(-2px);
+  letter-spacing: 0.65em;
 }
 
 
+#start-button:hover::before,
+#start-button:hover::after {
+  width: 64px;
+
+  background: rgba(255, 255, 255, 0.8);
+}
+
+
+/* CLICK */
+
 #start-button:active {
-  transform: translateY(0);
+  opacity: 0.45;
 }
 
 
