@@ -80,39 +80,26 @@ startButton.addEventListener(
 
     playClickSound();
 
-
-    /* 중복 클릭 방지 */
-
     startButton.disabled = true;
-
-
-    /* START 문구 변경 */
 
     startButton.textContent =
       "CONNECTING...";
 
 
-    /* 타이틀 전체 페이드 아웃 */
-
-    titleScreen.style.transition =
-      "opacity 0.7s ease";
-
-    titleScreen.style.opacity =
-      "0";
-
-
-    /* 페이드 종료 후 로비 표시 */
-
     setTimeout(() => {
 
-      titleScreen.style.display =
-        "none";
+      /* 타이틀 완전히 숨김 */
+      titleScreen.style.display = "none";
 
-      lobbyScreen.classList.add(
-        "active"
-      );
 
-    }, 700);
+      /* 로비 완전히 표시 */
+      lobbyScreen.style.display = "block";
+      lobbyScreen.style.opacity = "1";
+      lobbyScreen.style.visibility = "visible";
+
+      lobbyScreen.classList.add("active");
+
+    }, 500);
 
   }
 );
