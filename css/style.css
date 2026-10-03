@@ -51,19 +51,20 @@ body {
 }
 
 /* ========================================
-   SCREEN TRANSITION
+   TITLE → LOBBY TRANSITION
 ======================================== */
 
 #title-screen {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 
   transition:
     opacity 0.7s ease,
     visibility 0.7s ease;
 }
 
-#title-screen.screen-exit {
+#title-screen.leaving {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
