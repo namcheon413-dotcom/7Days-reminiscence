@@ -647,7 +647,176 @@ async function updateLobbyPlayerData(
 
 async function openItemDetail(
   itemId
-) {
+) 
+/* ========================================
+   INVENTORY RENDER
+======================================== */
+
+function createInventoryCard(item) {
+
+  const card =
+    document.createElement("button");
+
+  card.type = "button";
+  card.className = "inventory-item-card";
+
+
+  /* IMAGE AREA */
+
+  const imageArea =
+    document.createElement("div");
+
+  imageArea.className =
+    "inventory-item-image-area";
+
+
+  const image =
+    document.createElement("img");
+
+  image.className =
+    "inventory-item-image";
+
+  image.src = item.image_path || "";
+
+  image.alt = item.name || "";
+
+  image.loading = "lazy";
+
+
+  image.addEventListener(
+    "error",
+    function () {
+
+      image.style.display = "none";
+
+      imageArea.classList.add(
+        "no-image"
+      );
+
+    }
+  );
+
+
+  imageArea.appendChild(image);
+
+
+  /* QUANTITY */
+
+  const quantity =
+    document.createElement("span");
+
+  quantity.className =
+    "inventory-item-quantity";
+
+  quantity.textContent =
+    `× ${Number(item.quantity) || 0}`;
+
+
+  imageArea.appendChild(quantity);
+
+
+  /* NAME */
+
+  const name =
+    document.createElement("span");
+
+  name.className =
+    "inventory-item-name";
+
+  name.textContent =
+    item.name || item.id;
+
+
+  /* CARD */
+
+  card.appendChild(imageArea);
+  card.appendChild(name);
+
+
+  /* DETAIL MODAL */
+
+  card.addEventListener(
+    "click",
+    function () {
+
+      openItemDetail(item.id);
+
+    }
+  );
+
+
+  return card;
+
+}
+
+
+/* ========================================
+   LOAD INVENTORY
+======================================== */
+
+async function loadInventory() {
+
+  if (!inventoryGrid) {
+    return;
+  }
+
+
+  inventoryGrid.innerHTML = "";
+
+
+  try {
+
+    const items =
+      await window.GameItems
+        .getPlayerInventory();
+
+
+    if (!items || items.length === 0) {
+
+      inventoryGrid.innerHTML = `
+        <div class="inventory-empty">
+          <span>EMPTY</span>
+          <p>보유 중인 소지품이 없습니다.</p>
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    items.forEach(
+      function (item) {
+
+        const card =
+          createInventoryCard(item);
+
+        inventoryGrid.appendChild(card);
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "[Inventory] 인벤토리 로드 실패:",
+      error
+    );
+
+
+    inventoryGrid.innerHTML = `
+      <div class="inventory-empty">
+        <span>ERROR</span>
+        <p>소지품을 불러오지 못했습니다.</p>
+      </div>
+    `;
+
+  }
+
+}
+
+{
 
   if (
     !itemId ||
