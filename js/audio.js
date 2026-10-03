@@ -1,62 +1,55 @@
-const titleBgm = document.getElementById("title-bgm");
-const clickSfx = document.getElementById("click-sfx");
+const titleBgm =
+  document.getElementById("title-bgm");
+
+const clickSfx =
+  document.getElementById("click-sfx");
 
 
-// 초기 볼륨
+/* ========================================
+   VOLUME
+======================================== */
+
 titleBgm.volume = 0.5;
 clickSfx.volume = 0.7;
 
 
-/* =========================
-   BGM
-========================= */
+/* ========================================
+   TITLE BGM
+======================================== */
 
-async function playTitleBgm() {
+function playTitleBgm() {
 
-  try {
-
-    if (titleBgm.paused) {
-      await titleBgm.play();
-    }
-
-  } catch (error) {
-
-    console.log("BGM 재생 대기:", error);
-
+  if (!titleBgm.paused) {
+    return;
   }
+
+  titleBgm.play().catch((error) => {
+
+    console.error(
+      "BGM playback failed:",
+      error
+    );
+
+  });
 
 }
 
 
-/* =========================
-   CLICK
-========================= */
+/* ========================================
+   CLICK SOUND
+======================================== */
 
 function playClickSound() {
 
-  clickSfx.pause();
   clickSfx.currentTime = 0;
 
-  clickSfx.play()
-    .then(() => {
-      console.log("CLICK SFX PLAY");
-    })
-    .catch((error) => {
-      console.error("CLICK SFX ERROR:", error);
-    });
+  clickSfx.play().catch((error) => {
+
+    console.error(
+      "Click sound failed:",
+      error
+    );
+
+  });
 
 }
-
-
-/* =========================
-   자동재생 시도
-========================= */
-
-window.addEventListener("load", () => {
-
-  titleBgm.load();
-  clickSfx.load();
-
-  playTitleBgm();
-
-});
