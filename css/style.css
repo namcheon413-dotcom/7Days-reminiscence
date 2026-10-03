@@ -2764,3 +2764,243 @@ body {
   }
 
 }
+
+/* ========================================
+   INVENTORY SCREEN
+======================================== */
+
+#inventory-screen {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: #0b0d0d;
+
+  color: #ffffff;
+
+  overflow: hidden;
+}
+
+
+/* ========================================
+   INVENTORY HEADER
+======================================== */
+
+.inventory-header {
+  position: relative;
+
+  width: 100%;
+  height: 118px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 48px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.16);
+}
+
+
+.inventory-back-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  cursor: pointer;
+}
+
+
+.inventory-back-button:hover {
+  color: #ffffff;
+}
+
+
+.inventory-back-arrow {
+  font-size: 20px;
+}
+
+
+.inventory-back-text {
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+}
+
+
+.inventory-title-group {
+  margin-left: 42px;
+}
+
+
+.inventory-title-en {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color:
+    rgba(255, 255, 255, 0.4);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.22em;
+}
+
+
+.inventory-title {
+  margin: 0;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+
+/* ========================================
+   INVENTORY MAIN
+======================================== */
+
+.inventory-main {
+  height:
+    calc(100% - 118px);
+
+  padding:
+    34px 48px 48px;
+
+  overflow-y: auto;
+}
+
+
+/* ========================================
+   INVENTORY CATEGORY
+======================================== */
+
+.inventory-tabs {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 30px;
+}
+
+
+.inventory-tab {
+  min-width: 78px;
+  height: 36px;
+
+  padding: 0 16px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.14);
+
+  background: transparent;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+
+.inventory-tab:hover {
+  color:
+    rgba(255, 255, 255, 0.8);
+
+  border-color:
+    rgba(255, 255, 255, 0.32);
+}
+
+
+.inventory-tab.active {
+  color: #ffffff;
+
+  border-color:
+    rgba(255, 255, 255, 0.7);
+
+  background:
+    rgba(255, 255, 255, 0.055);
+}
+
+
+/* ========================================
+   INVENTORY GRID
+======================================== */
+
+.inventory-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(150px, 1fr));
+
+  gap: 14px;
+
+  width: 100%;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 760px) {
+
+  .inventory-header {
+    height: 92px;
+
+    padding:
+      0 20px;
+  }
+
+
+  .inventory-title-group {
+    margin-left: 24px;
+  }
+
+
+  .inventory-main {
+    height:
+      calc(100% - 92px);
+
+    padding:
+      24px 20px 36px;
+  }
+
+
+  .inventory-tabs {
+    overflow-x: auto;
+
+    padding-bottom: 4px;
+  }
+
+
+  .inventory-tab {
+    flex-shrink: 0;
+  }
+
+
+  .inventory-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+}
