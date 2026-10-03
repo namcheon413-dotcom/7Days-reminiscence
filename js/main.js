@@ -27,6 +27,26 @@ const gachaBackButton =
   document.getElementById("gacha-back-button");
 
 
+/* ========================================
+   RECRUITMENT ELEMENTS
+======================================== */
+
+const eventGachaTab =
+  document.getElementById("event-gacha-tab");
+
+const standardGachaTab =
+  document.getElementById("standard-gacha-tab");
+
+const eventRecruitment =
+  document.getElementById("event-recruitment");
+
+const standardRecruitment =
+  document.getElementById("standard-recruitment");
+
+const recruitButtons =
+  document.querySelectorAll(".recruit-button");
+
+
 let initialized = false;
 
 
@@ -130,6 +150,14 @@ gachaBanner.addEventListener(
     playClickSound();
 
 
+    /*
+      가챠 페이지에 들어갈 때마다
+      이벤트 모집을 기본으로 표시
+    */
+
+    showRecruitment("event");
+
+
     lobbyScreen.classList.remove(
       "active"
     );
@@ -188,94 +216,70 @@ gachaBackButton.addEventListener(
 
 
 /* ========================================
-   GACHA INNER NAVIGATION
+   RECRUITMENT SWITCH
 ======================================== */
 
-const gachaSelect =
-  document.getElementById("gacha-select");
+function showRecruitment(type) {
 
-const eventGacha =
-  document.getElementById("event-gacha");
+  eventGachaTab.classList.remove(
+    "active"
+  );
 
-const standardGacha =
-  document.getElementById("standard-gacha");
+  standardGachaTab.classList.remove(
+    "active"
+  );
 
-const eventGachaBanner =
-  document.getElementById("event-gacha-banner");
+  eventRecruitment.classList.remove(
+    "active"
+  );
 
-const standardGachaBanner =
-  document.getElementById("standard-gacha-banner");
-
-const gachaSelectBackButtons =
-  document.querySelectorAll(".gacha-select-back");
-
-const recruitButtons =
-  document.querySelectorAll(".recruit-button");
+  standardRecruitment.classList.remove(
+    "active"
+  );
 
 
-/* ========================================
-   GACHA VIEW SWITCH
-======================================== */
+  /* 상시 모집 */
 
-function showGachaView(view) {
+  if (type === "standard") {
 
-  gachaSelect.classList.remove("active");
-  eventGacha.classList.remove("active");
-  standardGacha.classList.remove("active");
+    standardGachaTab.classList.add(
+      "active"
+    );
 
-  view.classList.add("active");
+    standardRecruitment.classList.add(
+      "active"
+    );
+
+    return;
+
+  }
+
+
+  /* 이벤트 모집 */
+
+  eventGachaTab.classList.add(
+    "active"
+  );
+
+  eventRecruitment.classList.add(
+    "active"
+  );
 
 }
 
 
 /* ========================================
-   EVENT BANNER
+   EVENT RECRUITMENT
 ======================================== */
 
-eventGachaBanner.addEventListener(
+eventGachaTab.addEventListener(
   "click",
   function () {
 
     playClickSound();
 
-    showGachaView(eventGacha);
-
-  }
-);
-
-
-/* ========================================
-   STANDARD BANNER
-======================================== */
-
-standardGachaBanner.addEventListener(
-  "click",
-  function () {
-
-    playClickSound();
-
-    showGachaView(standardGacha);
-
-  }
-);
-
-
-/* ========================================
-   DETAIL → SELECT
-======================================== */
-
-gachaSelectBackButtons.forEach(
-  function (button) {
-
-    button.addEventListener(
-      "click",
-      function () {
-
-        playClickSound();
-
-        showGachaView(gachaSelect);
-
-      }
+    showRecruitment(
+      "event"
     );
 
   }
@@ -283,8 +287,26 @@ gachaSelectBackButtons.forEach(
 
 
 /* ========================================
-   RECRUIT BUTTON
-   현재는 테스트용
+   STANDARD RECRUITMENT
+======================================== */
+
+standardGachaTab.addEventListener(
+  "click",
+  function () {
+
+    playClickSound();
+
+    showRecruitment(
+      "standard"
+    );
+
+  }
+);
+
+
+/* ========================================
+   RECRUIT BUTTONS
+   현재 실제 추첨은 아직 연결하지 않음
 ======================================== */
 
 recruitButtons.forEach(
@@ -296,11 +318,15 @@ recruitButtons.forEach(
 
         playClickSound();
 
+
         const recruitType =
           button.dataset.recruitType;
 
         const recruitCount =
-          button.dataset.recruitCount;
+          Number(
+            button.dataset.recruitCount
+          );
+
 
         console.log(
           "RECRUIT:",
@@ -312,4 +338,13 @@ recruitButtons.forEach(
     );
 
   }
+);
+
+
+/* ========================================
+   DEFAULT RECRUITMENT
+======================================== */
+
+showRecruitment(
+  "event"
 );
