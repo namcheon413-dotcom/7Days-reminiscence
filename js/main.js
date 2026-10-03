@@ -23,6 +23,7 @@ const titleScreen =
 const lobbyScreen =
   document.getElementById("lobby-screen");
 
+
 /* ========================================
    LOBBY PLAYER INFO
 ======================================== */
@@ -101,6 +102,34 @@ const walletEnduranceDisplay =
     "wallet-endurance"
   );
 
+/* ========================================
+   INVENTORY
+======================================== */
+
+const inventoryScreen =
+  document.getElementById(
+    "inventory-screen"
+  );
+
+const inventoryButton =
+  document.getElementById(
+    "inventory-button"
+  );
+
+const inventoryBackButton =
+  document.getElementById(
+    "inventory-back-button"
+  );
+
+const inventoryGrid =
+  document.getElementById(
+    "inventory-grid"
+  );
+
+const inventoryTabs =
+  document.querySelectorAll(
+    ".inventory-tab"
+  );
 
 /* ========================================
    PLAYER REGISTRATION
