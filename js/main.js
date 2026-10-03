@@ -23,6 +23,35 @@ const titleScreen =
 const lobbyScreen =
   document.getElementById("lobby-screen");
 
+/* ========================================
+   LOBBY PLAYER INFO
+======================================== */
+
+const playerLevelDisplay =
+  document.getElementById(
+    "player-level"
+  );
+
+const playerNicknameDisplay =
+  document.getElementById(
+    "player-nickname"
+  );
+
+const walletMunDisplay =
+  document.getElementById(
+    "wallet-mun"
+  );
+
+const walletOpulseDisplay =
+  document.getElementById(
+    "wallet-opulse"
+  );
+
+const walletEnduranceDisplay =
+  document.getElementById(
+    "wallet-endurance"
+  );
+
 
 /* ========================================
    PLAYER REGISTRATION
@@ -449,6 +478,108 @@ async function preparePlayer() {
 
 }
 
+/* ========================================
+   LOBBY PLAYER DATA
+======================================== */
+
+function formatNumber(value) {
+
+  return Number(value).toLocaleString(
+    "ko-KR"
+  );
+
+}
+
+
+async function updateLobbyPlayerData(
+  player
+) {
+
+  if (!player) {
+    return;
+  }
+
+
+  /* ========================================
+     PLAYER
+  ======================================== */
+
+  if (playerLevelDisplay) {
+
+    playerLevelDisplay.textContent =
+      player.level ?? 1;
+
+  }
+
+
+  if (playerNicknameDisplay) {
+
+    playerNicknameDisplay.textContent =
+      player.nickname || "—";
+
+  }
+
+
+  /* ========================================
+     WALLET + ENDURANCE REFRESH
+  ======================================== */
+
+  const wallet =
+    await window.GameWallet
+      .refreshWallet();
+
+
+  if (!wallet) {
+
+    throw new Error(
+      "Player wallet could not be loaded."
+    );
+
+  }
+
+
+  /* ========================================
+     WALLET UI
+  ======================================== */
+
+  if (walletMunDisplay) {
+
+    walletMunDisplay.textContent =
+      formatNumber(
+        wallet.mun
+      );
+
+  }
+
+
+  if (walletOpulseDisplay) {
+
+    walletOpulseDisplay.textContent =
+      formatNumber(
+        wallet.opulse
+      );
+
+  }
+
+
+  if (walletEnduranceDisplay) {
+
+    walletEnduranceDisplay.textContent =
+      `${formatNumber(wallet.endurance)} / ${formatNumber(wallet.endurance_max)}`;
+
+  }
+
+
+  console.log(
+    "[GAME] Lobby data updated:",
+    {
+      player,
+      wallet
+    }
+  );
+
+}
+
 
 /* ========================================
    START
@@ -499,7 +630,10 @@ if (
           player
         );
 
-
+      await updateLobbyPlayerData(
+          player
+        );
+         
         /*
           별호가 없는 신규 플레이어
         */
@@ -714,6 +848,9 @@ async function submitNickname() {
         .updateNickname(
           nickname
         );
+     await updateLobbyPlayerData(
+  player
+);
 
 
     console.log(
