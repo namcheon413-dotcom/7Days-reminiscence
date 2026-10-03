@@ -306,7 +306,7 @@ body {
   justify-content: center;
 
   /* ★ 로고와 START 사이 실제 간격 */
-  gap: 50px;
+  gap: 70px;
 
   text-align: center;
 }
@@ -336,9 +336,6 @@ body {
 
   position: relative;
   display: block;
-
-  /* ★ 기존 margin 전부 무력화 */
-  margin: 0 !important;
 
   padding: 10px 4px;
 
@@ -383,13 +380,6 @@ body {
   background: rgba(255, 255, 255, 0.65);
 
   transition: width 220ms ease;
-}
-
-
-/* 기존 ::before 강제 제거 */
-
-#main-title #start-button::before {
-  content: none;
 }
 
 
