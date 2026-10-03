@@ -306,14 +306,14 @@ body {
   /*
     ★ START 크기
   */
-  font-size: 18px;
+  font-size: 24px;
 
   /*
     ★ BOLD
   */
   font-weight: 700;
 
-  line-height: 1;
+  line-height: 0.5em;
 
   letter-spacing: 0.5em;
   text-indent: 0.5em;
