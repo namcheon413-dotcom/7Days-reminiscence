@@ -172,25 +172,28 @@ if (
 ) {
 
   inventoryButton.addEventListener(
-    "click",
-    function () {
+  "click",
+  async function () {
 
-      if (transitioning) {
-        return;
-      }
-
-
-      safeClickSound();
-
-
-      changeGameScreen(
-        lobbyScreen,
-        inventoryScreen,
-        300
-      );
-
+    if (transitioning) {
+      return;
     }
-  );
+
+
+    safeClickSound();
+
+
+    await loadInventory();
+
+
+    changeGameScreen(
+      lobbyScreen,
+      inventoryScreen,
+      300
+    );
+
+  }
+);
 
 }
 
