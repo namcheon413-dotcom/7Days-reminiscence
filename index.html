@@ -624,81 +624,8 @@
      JAVASCRIPT
 ======================================== -->
 
-<script src="./js/audio.js?v=6"></script>
-
-<script>
-  /*
-    TITLE BOOT
-    외부 main.js와 관계없이
-    초기 화면 → 메인 타이틀을 먼저 보장한다.
-  */
-
-  const bootInitializeScreen =
-    document.getElementById("initialize-screen");
-
-  const bootMainTitle =
-    document.getElementById("main-title");
-
-
-  if (bootInitializeScreen && bootMainTitle) {
-
-    bootInitializeScreen.addEventListener(
-      "click",
-      function () {
-
-        /*
-          오디오는 실패해도
-          화면 전환에는 영향 없음
-        */
-
-        try {
-
-          if (typeof playTitleBgm === "function") {
-            playTitleBgm();
-          }
-
-          if (typeof playClickSound === "function") {
-            playClickSound();
-          }
-
-        } catch (error) {
-
-          console.warn(
-            "TITLE AUDIO ERROR:",
-            error
-          );
-
-        }
-
-
-        /* 초기 화면 제거 */
-
-        bootInitializeScreen.classList.remove(
-          "active"
-        );
-
-
-        /* 메인 타이틀 표시 */
-
-        setTimeout(
-          function () {
-
-            bootMainTitle.classList.add(
-              "active"
-            );
-
-          },
-          350
-        );
-
-      },
-      { once: true }
-    );
-
-  }
-</script>
-
-<script src="./js/main.js?v=6"></script>
+<script src="./js/audio.js?v=7"></script>
+<script src="./js/main.js?v=7"></script>
 
 
 </body>
