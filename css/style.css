@@ -3004,3 +3004,181 @@ body {
   }
 
 }
+
+/* ========================================
+   INVENTORY ITEM CARD
+======================================== */
+
+.inventory-item-card {
+  position: relative;
+
+  min-width: 0;
+
+  padding: 0 0 14px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.12);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+
+
+.inventory-item-card:hover {
+  border-color:
+    rgba(255, 255, 255, 0.42);
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  transform:
+    translateY(-2px);
+}
+
+
+/* IMAGE */
+
+.inventory-item-image-area {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  overflow: hidden;
+}
+
+
+.inventory-item-image {
+  width: 82%;
+  height: 82%;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* IMAGE ERROR */
+
+.inventory-item-image-area.no-image::before {
+  content: "NO IMAGE";
+
+  color:
+    rgba(255, 255, 255, 0.22);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+}
+
+
+/* QUANTITY */
+
+.inventory-item-quantity {
+  position: absolute;
+
+  right: 9px;
+  bottom: 8px;
+
+  min-width: 34px;
+
+  padding: 4px 7px;
+
+  background:
+    rgba(0, 0, 0, 0.68);
+
+  color:
+    rgba(255, 255, 255, 0.92);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+
+/* NAME */
+
+.inventory-item-name {
+  display: block;
+
+  padding: 0 13px;
+
+  overflow: hidden;
+
+  color:
+    rgba(255, 255, 255, 0.78);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* ========================================
+   EMPTY / ERROR
+======================================== */
+
+.inventory-empty {
+  grid-column: 1 / -1;
+
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color:
+    rgba(255, 255, 255, 0.28);
+
+  text-align: center;
+}
+
+
+.inventory-empty span {
+  margin-bottom: 10px;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.22em;
+}
+
+
+.inventory-empty p {
+  margin: 0;
+
+  font-size: 12px;
+}
