@@ -186,14 +186,13 @@ body {
 
   transform: translate(-50%, -50%);
 
-  width: min(90vw, 900px);
-  max-height: 90vh;
+  width: 100%;
+  height: auto;
 
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 }
@@ -247,23 +246,12 @@ body {
 .game-logo {
   display: block;
 
-  /* 화면보다 커지지 않게 */
-  width: auto;
+  width: min(90vw, 960px);
   height: auto;
-
-  max-width: min(75vw, 650px);
-  max-height: 45vh;
 
   margin: 0 auto;
 
   object-fit: contain;
-
-  flex-shrink: 1;
-
-  filter:
-    drop-shadow(
-      0 3px 12px rgba(0, 0, 0, 0.45)
-    );
 }
 
 
@@ -272,25 +260,12 @@ body {
 ======================================== */
 
 #start-button {
-  flex-shrink: 0;
+  margin-top: 12px;
 
   min-width: 180px;
-
   padding: 13px 28px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.45);
-
-  background:
-    rgba(0, 0, 0, 0.16);
-
-  color:
-    rgba(255, 255, 255, 0.88);
-
-  font-size: 11px;
-  letter-spacing: 0.45em;
-
-  cursor: pointer;
+  flex-shrink: 0;
 }
 
 
