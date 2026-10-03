@@ -17,6 +17,15 @@ const titleScreen =
 const lobbyScreen =
   document.getElementById("lobby-screen");
 
+const gachaBanner =
+  document.getElementById("gacha-banner");
+
+const gachaScreen =
+  document.getElementById("gacha-screen");
+
+const gachaBackButton =
+  document.getElementById("gacha-back-button");
+
 
 let initialized = false;
 
@@ -34,7 +43,7 @@ function initializeGame() {
   initialized = true;
 
 
-  /* 사용자 입력 직후 오디오 재생 */
+  /* 오디오 시작 */
 
   playTitleBgm();
   playClickSound();
@@ -47,7 +56,7 @@ function initializeGame() {
   );
 
 
-  /* 실제 타이틀 표시 */
+  /* 메인 타이틀 표시 */
 
   setTimeout(() => {
 
@@ -80,6 +89,7 @@ startButton.addEventListener(
 
     playClickSound();
 
+
     startButton.disabled = true;
 
     startButton.textContent =
@@ -88,34 +98,30 @@ startButton.addEventListener(
 
     setTimeout(() => {
 
-      /* 타이틀 완전히 숨김 */
-      titleScreen.style.display = "none";
+      /* 타이틀 숨김 */
+
+      titleScreen.style.display =
+        "none";
 
 
-      /* 로비 완전히 표시 */
-      lobbyScreen.style.display = "block";
-      lobbyScreen.style.opacity = "1";
-      lobbyScreen.style.visibility = "visible";
+      /* 로비 표시 */
 
-      lobbyScreen.classList.add("active");
+      lobbyScreen.style.display =
+        "block";
+
+      lobbyScreen.classList.add(
+        "active"
+      );
 
     }, 500);
 
   }
+);
 
-   /* ========================================
+
+/* ========================================
    LOBBY → GACHA
 ======================================== */
-
-const gachaBanner =
-  document.getElementById("gacha-banner");
-
-const gachaScreen =
-  document.getElementById("gacha-screen");
-
-const gachaBackButton =
-  document.getElementById("gacha-back-button");
-
 
 gachaBanner.addEventListener(
   "click",
@@ -123,13 +129,25 @@ gachaBanner.addEventListener(
 
     playClickSound();
 
+
     lobbyScreen.classList.remove(
       "active"
     );
 
-    gachaScreen.classList.add(
-      "active"
-    );
+
+    setTimeout(() => {
+
+      lobbyScreen.style.display =
+        "none";
+
+      gachaScreen.style.display =
+        "block";
+
+      gachaScreen.classList.add(
+        "active"
+      );
+
+    }, 300);
 
   }
 );
@@ -145,14 +163,25 @@ gachaBackButton.addEventListener(
 
     playClickSound();
 
+
     gachaScreen.classList.remove(
       "active"
     );
 
-    lobbyScreen.classList.add(
-      "active"
-    );
+
+    setTimeout(() => {
+
+      gachaScreen.style.display =
+        "none";
+
+      lobbyScreen.style.display =
+        "block";
+
+      lobbyScreen.classList.add(
+        "active"
+      );
+
+    }, 300);
 
   }
-);
 );
