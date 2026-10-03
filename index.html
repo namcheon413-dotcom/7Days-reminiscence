@@ -14,13 +14,18 @@
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
+
 <body>
+
+
+  <!-- ========================================
+       TITLE SCREEN
+  ========================================= -->
 
   <main id="title-screen">
 
-    <!-- ================================
-         BACKGROUND VIDEO
-    ================================= -->
+
+    <!-- BACKGROUND VIDEO -->
 
     <video
       id="title-video"
@@ -37,12 +42,14 @@
 
 
     <!-- 영상 위 명암 -->
+
     <div class="video-overlay"></div>
 
 
-    <!-- ================================
+
+    <!-- ========================================
          INITIALIZE SCREEN
-    ================================= -->
+    ========================================= -->
 
     <section
       id="initialize-screen"
@@ -60,54 +67,249 @@
     </section>
 
 
-<!-- ================================
-     MAIN TITLE UI
-================================= -->
 
-<section
-  id="main-title"
-  class="screen-layer"
->
+    <!-- ========================================
+         MAIN TITLE UI
+    ========================================= -->
 
-  <!-- 화면 상단 고정 -->
-  <p class="fanmade">
-    fanmade by anonymous agent
-  </p>
-
-
-  <!-- 화면 중앙 -->
-  <div class="title-content">
-
-    <img
-      class="game-logo"
-      src="./assets/images/logo.png"
-      alt="七曜回顧錄"
+    <section
+      id="main-title"
+      class="screen-layer"
     >
 
-    <button
-      id="start-button"
-      type="button"
-    >
-      START
-    </button>
+      <!-- 화면 상단 -->
 
-  </div>
+      <p class="fanmade">
+        fanmade by anonymous agent
+      </p>
 
 
-  <!-- 화면 하단 고정 -->
-  <div class="bottom-text">
-    7 DAYS : REMINISCENCE
-  </div>
+      <!-- 화면 중앙 -->
 
-</section>
+      <div class="title-content">
+
+        <img
+          class="game-logo"
+          src="./assets/images/logo.png"
+          alt="七曜回顧錄"
+        >
+
+        <button
+          id="start-button"
+          type="button"
+        >
+          START
+        </button>
+
+      </div>
 
 
-  <!-- ================================
-       AUDIO
-  ================================= -->
+      <!-- 화면 하단 -->
+
+      <div class="bottom-text">
+        7 DAYS : REMINISCENCE
+      </div>
+
+    </section>
+
+
+  </main>
+  <!-- ↑ 여기서 TITLE SCREEN 종료 -->
+
+
+
+  <!-- ========================================
+       LOBBY SCREEN
+  ========================================= -->
+
+  <main
+    id="lobby-screen"
+    class="game-screen"
+  >
+
+
+    <!-- ========================================
+         LOBBY HEADER
+    ========================================= -->
+
+    <header class="lobby-header">
+
+
+      <div class="lobby-brand">
+
+        <span class="lobby-brand-main">
+          七曜管理局
+        </span>
+
+        <span class="lobby-brand-sub">
+          FIELD MANAGEMENT SYSTEM
+        </span>
+
+      </div>
+
+
+      <button
+        id="settings-button"
+        class="header-button"
+        type="button"
+        aria-label="설정"
+      >
+        SETTINGS
+      </button>
+
+
+    </header>
+
+
+
+    <!-- ========================================
+         LOBBY MAIN VISUAL
+    ========================================= -->
+
+    <section class="lobby-main">
+
+
+      <div class="lobby-visual">
+
+
+        <!--
+          지금은 실제 로비 일러스트가 없으므로
+          임시 표시 영역.
+          나중에 여기만 교체하면 됨.
+        -->
+
+        <div class="lobby-visual-placeholder">
+
+
+          <span class="visual-small">
+            FIELD DIVISION · UNIT 01
+          </span>
+
+
+          <h2>
+            現場部 一組
+          </h2>
+
+
+          <div class="visual-line"></div>
+
+
+          <p>
+            「反映」
+          </p>
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ========================================
+         LOBBY NAVIGATION
+    ========================================= -->
+
+    <nav class="lobby-nav">
+
+
+      <!-- 사건 -->
+
+      <button
+        class="lobby-nav-button"
+        data-screen="case"
+        type="button"
+      >
+
+        <span class="nav-en">
+          CASE
+        </span>
+
+        <span class="nav-ko">
+          사건
+        </span>
+
+      </button>
+
+
+
+      <!-- 편성 -->
+
+      <button
+        class="lobby-nav-button"
+        data-screen="roster"
+        type="button"
+      >
+
+        <span class="nav-en">
+          ROSTER
+        </span>
+
+        <span class="nav-ko">
+          편성
+        </span>
+
+      </button>
+
+
+
+      <!-- 인물 -->
+
+      <button
+        class="lobby-nav-button"
+        data-screen="agent"
+        type="button"
+      >
+
+        <span class="nav-en">
+          AGENT
+        </span>
+
+        <span class="nav-ko">
+          인물
+        </span>
+
+      </button>
+
+
+
+      <!-- 기록 -->
+
+      <button
+        class="lobby-nav-button"
+        data-screen="archive"
+        type="button"
+      >
+
+        <span class="nav-en">
+          ARCHIVE
+        </span>
+
+        <span class="nav-ko">
+          기록
+        </span>
+
+      </button>
+
+
+    </nav>
+
+
+  </main>
+  <!-- ↑ 여기서 LOBBY SCREEN 종료 -->
+
+
+
+  <!-- ========================================
+       JAVASCRIPT
+  ========================================= -->
 
   <script src="./js/audio.js"></script>
   <script src="./js/main.js"></script>
+
 
 </body>
 
