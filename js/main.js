@@ -1,3 +1,7 @@
+/* ========================================
+   ELEMENTS
+======================================== */
+
 const initializeScreen =
   document.getElementById("initialize-screen");
 
@@ -6,6 +10,12 @@ const mainTitle =
 
 const startButton =
   document.getElementById("start-button");
+
+const titleScreen =
+  document.getElementById("title-screen");
+
+const lobbyScreen =
+  document.getElementById("lobby-screen");
 
 
 let initialized = false;
@@ -24,26 +34,35 @@ function initializeGame() {
   initialized = true;
 
 
-  // 사용자 입력 직후 오디오 재생
+  /* 사용자 입력 직후 오디오 재생 */
+
   playTitleBgm();
   playClickSound();
 
 
-  // INITIALIZE 화면 숨기기
-  initializeScreen.classList.remove("active");
+  /* INITIALIZE 화면 숨기기 */
+
+  initializeScreen.classList.remove(
+    "active"
+  );
 
 
-  // 약간의 간격 후 실제 타이틀 표시
+  /* 실제 타이틀 표시 */
+
   setTimeout(() => {
 
-    mainTitle.classList.add("active");
+    mainTitle.classList.add(
+      "active"
+    );
 
   }, 350);
 
 }
 
 
-/* 화면 클릭 */
+/* ========================================
+   INITIALIZE CLICK
+======================================== */
 
 initializeScreen.addEventListener(
   "click",
@@ -52,7 +71,7 @@ initializeScreen.addEventListener(
 
 
 /* ========================================
-   START
+   START → LOBBY
 ======================================== */
 
 startButton.addEventListener(
@@ -61,14 +80,39 @@ startButton.addEventListener(
 
     playClickSound();
 
+
+    /* 중복 클릭 방지 */
+
+    startButton.disabled = true;
+
+
+    /* START 문구 변경 */
+
     startButton.textContent =
       "CONNECTING...";
 
 
-    /*
-      다음 단계에서
-      여기에 로비 전환을 연결한다.
-    */
+    /* 타이틀 전체 페이드 아웃 */
+
+    titleScreen.style.transition =
+      "opacity 0.7s ease";
+
+    titleScreen.style.opacity =
+      "0";
+
+
+    /* 페이드 종료 후 로비 표시 */
+
+    setTimeout(() => {
+
+      titleScreen.style.display =
+        "none";
+
+      lobbyScreen.classList.add(
+        "active"
+      );
+
+    }, 700);
 
   }
 );
