@@ -199,30 +199,30 @@ async function getPlayerInventory() {
   ======================================== */
 
   const result =
-    (items || [])
-      .filter(
-        function (item) {
+  (items || [])
+    .filter(
+      function (item) {
 
-          return (
-            item.id !== "mun" &&
-            item.id !== "opulse"
-          );
+        return (
+          item.id !== "mun" &&
+          item.id !== "opulse" &&
+          (quantityMap.get(item.id) || 0) > 0
+        );
 
-        }
-      )
-      .map(
-        function (item) {
+      }
+    )
+    .map(
+      function (item) {
 
-          return {
-            ...item,
+        return {
+          ...item,
 
-            quantity:
-              quantityMap.get(item.id) || 0
-          };
+          quantity:
+            quantityMap.get(item.id) || 0
+        };
 
-        }
-      );
-
+      }
+    );
 
   return result;
 
