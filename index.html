@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -13,16 +14,13 @@
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
-
 <body>
-
-  <!-- ================================
-       진입 화면
-  ================================= -->
 
   <main id="title-screen">
 
-    <!-- 배경 영상 -->
+    <!-- ================================
+         BACKGROUND VIDEO
+    ================================= -->
 
     <video
       id="title-video"
@@ -38,46 +36,71 @@
     </video>
 
 
-    <!-- 영상 가독성용 레이어 -->
-
+    <!-- 영상 위 명암 -->
     <div class="video-overlay"></div>
 
 
-    <!-- 중앙 UI -->
+    <!-- ================================
+         INITIALIZE SCREEN
+    ================================= -->
 
-    <section class="title-content">
+    <section
+      id="initialize-screen"
+      class="screen-layer active"
+    >
 
-      <p class="fanmade">
-        fanmade by anonymous agent
-      </p>
-
-      <h1 class="game-title">
+      <h1 class="initialize-title">
         七曜回顧錄
       </h1>
 
-      <div class="title-line"></div>
-
-      <button
-        id="start-button"
-        type="button"
-      >
-        START
-      </button>
+      <p class="initialize-text">
+        CLICK TO INITIALIZE
+      </p>
 
     </section>
 
 
-    <!-- 하단 -->
+    <!-- ================================
+         MAIN TITLE UI
+    ================================= -->
 
-    <div class="bottom-text">
-      7 DAYS : REMINISCENCE
-    </div>
+    <section
+      id="main-title"
+      class="screen-layer"
+    >
+
+      <div class="title-content">
+
+        <p class="fanmade">
+          fanmade by anonymous agent
+        </p>
+
+        <h1 class="game-title">
+          七曜回顧錄
+        </h1>
+
+        <div class="title-line"></div>
+
+        <button
+          id="start-button"
+          type="button"
+        >
+          START
+        </button>
+
+      </div>
+
+      <div class="bottom-text">
+        7 DAYS : REMINISCENCE
+      </div>
+
+    </section>
 
   </main>
 
 
   <!-- ================================
-       오디오
+       AUDIO
   ================================= -->
 
   <audio
