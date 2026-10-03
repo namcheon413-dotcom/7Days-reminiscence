@@ -11,7 +11,10 @@
 
   <title>七曜回顧錄</title>
 
-  <link rel="stylesheet" href="./css/style.css?v=3">
+  <link
+    rel="stylesheet"
+    href="./css/style.css?v=4"
+  >
 </head>
 
 
@@ -23,6 +26,9 @@
   ========================================= -->
 
   <main id="title-screen">
+
+
+    <!-- BACKGROUND VIDEO -->
 
     <video
       id="title-video"
@@ -38,10 +44,15 @@
     </video>
 
 
+    <!-- 영상 위 명암 -->
+
     <div class="video-overlay"></div>
 
 
-    <!-- INITIALIZE -->
+
+    <!-- ========================================
+         INITIALIZE SCREEN
+    ========================================= -->
 
     <section
       id="initialize-screen"
@@ -59,17 +70,25 @@
     </section>
 
 
-    <!-- MAIN TITLE -->
+
+    <!-- ========================================
+         MAIN TITLE UI
+    ========================================= -->
 
     <section
       id="main-title"
       class="screen-layer"
     >
 
+
+      <!-- 화면 상단 -->
+
       <p class="fanmade">
         fanmade by anonymous agent
       </p>
 
+
+      <!-- 화면 중앙 -->
 
       <div class="title-content">
 
@@ -89,13 +108,18 @@
       </div>
 
 
+      <!-- 화면 하단 -->
+
       <div class="bottom-text">
         7 DAYS : REMINISCENCE
       </div>
 
+
     </section>
 
+
   </main>
+
 
 
   <!-- ========================================
@@ -108,9 +132,14 @@
   >
 
 
-    <!-- LOBBY HEADER -->
+    <!-- ========================================
+         LOBBY HEADER
+    ========================================= -->
 
     <header class="lobby-header">
+
+
+      <!-- 왼쪽 게임 타이틀 -->
 
       <div class="lobby-brand">
 
@@ -125,6 +154,8 @@
       </div>
 
 
+      <!-- 오른쪽 설정 -->
+
       <button
         id="settings-button"
         class="header-button"
@@ -134,15 +165,21 @@
         SETTINGS
       </button>
 
+
     </header>
 
 
-    <!-- LOBBY MAIN -->
+
+    <!-- ========================================
+         LOBBY MAIN
+    ========================================= -->
 
     <section class="lobby-main">
 
 
-      <!-- GACHA BANNER -->
+      <!-- ========================================
+           GACHA BANNER
+      ========================================= -->
 
       <button
         id="gacha-banner"
@@ -165,13 +202,18 @@
 
         <span class="gacha-banner-link">
           VIEW
-          <span aria-hidden="true">→</span>
+          <span aria-hidden="true">
+            →
+          </span>
         </span>
 
       </button>
 
 
-      <!-- CENTER VISUAL -->
+
+      <!-- ========================================
+           CENTER VISUAL
+      ========================================= -->
 
       <div class="lobby-visual">
 
@@ -181,14 +223,11 @@
             FIELD DIVISION · UNIT 01
           </span>
 
-
           <h2 class="lobby-unit-title">
             현장부 1조
           </h2>
 
-
           <div class="lobby-unit-line"></div>
-
 
           <p class="lobby-unit-name">
             「반영」
@@ -202,10 +241,15 @@
     </section>
 
 
-    <!-- LOBBY NAVIGATION -->
+
+    <!-- ========================================
+         LOBBY NAVIGATION
+    ========================================= -->
 
     <nav class="lobby-nav">
 
+
+      <!-- 사건 -->
 
       <button
         class="lobby-nav-button"
@@ -224,6 +268,9 @@
       </button>
 
 
+
+      <!-- 편성 -->
+
       <button
         class="lobby-nav-button"
         data-screen="roster"
@@ -241,6 +288,9 @@
       </button>
 
 
+
+      <!-- 인물 -->
+
       <button
         class="lobby-nav-button"
         data-screen="agent"
@@ -257,6 +307,9 @@
 
       </button>
 
+
+
+      <!-- 기록 -->
 
       <button
         class="lobby-nav-button"
@@ -277,266 +330,301 @@
 
     </nav>
 
+
   </main>
-  <!-- LOBBY SCREEN 끝 -->
 
 
-<!-- ========================================
-     GACHA SCREEN
-======================================== -->
 
-<main
-  id="gacha-screen"
-  class="game-screen"
->
+  <!-- ========================================
+       GACHA SCREEN
+  ========================================= -->
 
-  <!-- HEADER -->
-
-  <header class="sub-screen-header">
-
-    <button
-      id="gacha-back-button"
-      class="back-button"
-      type="button"
-    >
-      ← BACK
-    </button>
-
-    <div class="sub-screen-title">
-
-      <span class="sub-screen-title-main">
-        RECRUITMENT
-      </span>
-
-      <span class="sub-screen-title-sub">
-        요원 모집
-      </span>
-
-    </div>
-
-  </header>
-
-
-  <!-- GACHA CONTENT -->
-
-  <section class="recruitment-screen">
+  <main
+    id="gacha-screen"
+    class="game-screen"
+  >
 
 
     <!-- ========================================
-         LEFT BANNER TABS
+         GACHA HEADER
     ========================================= -->
 
-    <aside class="recruitment-tabs">
+    <header class="sub-screen-header">
 
-
-      <!-- EVENT -->
 
       <button
-        id="event-gacha-tab"
-        class="recruitment-tab active"
+        id="gacha-back-button"
+        class="back-button"
         type="button"
-        data-gacha="event"
       >
-
-        <span class="recruitment-tab-en">
-          EVENT
-        </span>
-
-        <span class="recruitment-tab-ko">
-          이벤트 모집
-        </span>
-
+        ← BACK
       </button>
 
 
-      <!-- STANDARD -->
+      <div class="sub-screen-title">
 
-      <button
-        id="standard-gacha-tab"
-        class="recruitment-tab"
-        type="button"
-        data-gacha="standard"
-      >
-
-        <span class="recruitment-tab-en">
-          STANDARD
+        <span class="sub-screen-title-main">
+          RECRUITMENT
         </span>
 
-        <span class="recruitment-tab-ko">
-          상시 모집
+        <span class="sub-screen-title-sub">
+          요원 모집
         </span>
 
-      </button>
+      </div>
 
 
-    </aside>
+    </header>
+
 
 
     <!-- ========================================
-         MAIN RECRUITMENT AREA
+         RECRUITMENT SCREEN
     ========================================= -->
 
-    <div class="recruitment-main">
+    <section class="recruitment-screen">
 
 
-      <!-- EVENT CONTENT -->
+      <!-- ========================================
+           LEFT BANNERS
+      ========================================= -->
 
-      <section
-        id="event-recruitment"
-        class="recruitment-content active"
-      >
-
-        <div class="recruitment-visual">
-
-          <!--
-            나중에 이벤트 한정 이미지 삽입.
-            지금은 임시 텍스트.
-          -->
-
-          <div class="recruitment-info">
-
-            <span class="recruitment-type">
-              EVENT RECRUITMENT
-            </span>
-
-            <h2 class="recruitment-title">
-              이벤트 모집
-            </h2>
-
-            <p class="recruitment-description">
-              기간 한정 특별 모집
-            </p>
-
-          </div>
-
-        </div>
+      <aside class="recruitment-tabs">
 
 
-        <div class="recruitment-actions">
+        <!-- EVENT -->
 
-          <button
-            class="recruit-button"
-            type="button"
-            data-recruit-type="event"
-            data-recruit-count="1"
-          >
+        <button
+          id="event-gacha-tab"
+          class="recruitment-tab active"
+          type="button"
+          data-gacha="event"
+        >
 
-            <span class="recruit-count">
-              1회 모집
-            </span>
+          <span class="recruitment-tab-en">
+            EVENT
+          </span>
 
-            <span class="recruit-cost">
-              × 1
-            </span>
+          <span class="recruitment-tab-ko">
+            이벤트 모집
+          </span>
 
-          </button>
-
-
-          <button
-            class="recruit-button recruit-button-multi"
-            type="button"
-            data-recruit-type="event"
-            data-recruit-count="10"
-          >
-
-            <span class="recruit-count">
-              10회 모집
-            </span>
-
-            <span class="recruit-cost">
-              × 10
-            </span>
-
-          </button>
-
-        </div>
-
-      </section>
+        </button>
 
 
-      <!-- STANDARD CONTENT -->
 
-      <section
-        id="standard-recruitment"
-        class="recruitment-content"
-      >
+        <!-- STANDARD -->
 
-        <div class="recruitment-visual">
+        <button
+          id="standard-gacha-tab"
+          class="recruitment-tab"
+          type="button"
+          data-gacha="standard"
+        >
 
-          <div class="recruitment-info">
+          <span class="recruitment-tab-en">
+            STANDARD
+          </span>
 
-            <span class="recruitment-type">
-              STANDARD RECRUITMENT
-            </span>
+          <span class="recruitment-tab-ko">
+            상시 모집
+          </span>
 
-            <h2 class="recruitment-title">
-              상시 모집
-            </h2>
+        </button>
 
-            <p class="recruitment-description">
-              상시 운영 요원 모집
-            </p>
+
+      </aside>
+
+
+
+      <!-- ========================================
+           RIGHT RECRUITMENT AREA
+      ========================================= -->
+
+      <div class="recruitment-main">
+
+
+        <!-- ========================================
+             EVENT RECRUITMENT
+        ========================================= -->
+
+        <section
+          id="event-recruitment"
+          class="recruitment-content active"
+        >
+
+
+          <!-- 이벤트 배너 이미지 영역 -->
+
+          <div class="recruitment-visual">
+
+            <div class="recruitment-info">
+
+              <span class="recruitment-type">
+                EVENT RECRUITMENT
+              </span>
+
+              <h2 class="recruitment-title">
+                이벤트 모집
+              </h2>
+
+              <p class="recruitment-description">
+                기간 한정 특별 모집
+              </p>
+
+            </div>
 
           </div>
 
-        </div>
 
 
-        <div class="recruitment-actions">
+          <!-- 모집 버튼 -->
 
-          <button
-            class="recruit-button"
-            type="button"
-            data-recruit-type="standard"
-            data-recruit-count="1"
-          >
-
-            <span class="recruit-count">
-              1회 모집
-            </span>
-
-            <span class="recruit-cost">
-              × 1
-            </span>
-
-          </button>
+          <div class="recruitment-actions">
 
 
-          <button
-            class="recruit-button recruit-button-multi"
-            type="button"
-            data-recruit-type="standard"
-            data-recruit-count="10"
-          >
+            <button
+              class="recruit-button"
+              type="button"
+              data-recruit-type="event"
+              data-recruit-count="1"
+            >
 
-            <span class="recruit-count">
-              10회 모집
-            </span>
+              <span class="recruit-count">
+                1회 모집
+              </span>
 
-            <span class="recruit-cost">
-              × 10
-            </span>
+              <span class="recruit-cost">
+                × 1
+              </span>
 
-          </button>
-
-        </div>
-
-      </section>
+            </button>
 
 
-    </div>
 
-  </section>
+            <button
+              class="recruit-button recruit-button-multi"
+              type="button"
+              data-recruit-type="event"
+              data-recruit-count="10"
+            >
 
-</main>
+              <span class="recruit-count">
+                10회 모집
+              </span>
+
+              <span class="recruit-cost">
+                × 10
+              </span>
+
+            </button>
+
+
+          </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             STANDARD RECRUITMENT
+        ========================================= -->
+
+        <section
+          id="standard-recruitment"
+          class="recruitment-content"
+        >
+
+
+          <!-- 상시 모집 배너 이미지 영역 -->
+
+          <div class="recruitment-visual">
+
+            <div class="recruitment-info">
+
+              <span class="recruitment-type">
+                STANDARD RECRUITMENT
+              </span>
+
+              <h2 class="recruitment-title">
+                상시 모집
+              </h2>
+
+              <p class="recruitment-description">
+                상시 운영 요원 모집
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 모집 버튼 -->
+
+          <div class="recruitment-actions">
+
+
+            <button
+              class="recruit-button"
+              type="button"
+              data-recruit-type="standard"
+              data-recruit-count="1"
+            >
+
+              <span class="recruit-count">
+                1회 모집
+              </span>
+
+              <span class="recruit-cost">
+                × 1
+              </span>
+
+            </button>
+
+
+
+            <button
+              class="recruit-button recruit-button-multi"
+              type="button"
+              data-recruit-type="standard"
+              data-recruit-count="10"
+            >
+
+              <span class="recruit-count">
+                10회 모집
+              </span>
+
+              <span class="recruit-cost">
+                × 10
+              </span>
+
+            </button>
+
+
+          </div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
 
 
   <!-- ========================================
        JAVASCRIPT
   ========================================= -->
 
-  <script src="./js/audio.js?v=3"></script>
-  <script src="./js/main.js?v=3"></script>
+  <script src="./js/audio.js?v=4"></script>
+  <script src="./js/main.js?v=4"></script>
 
 
 </body>
