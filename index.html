@@ -114,7 +114,6 @@
 
 
   </main>
-  <!-- ↑ 여기서 TITLE SCREEN 종료 -->
 
 
 
@@ -135,18 +134,22 @@
     <header class="lobby-header">
 
 
+      <!-- 왼쪽 게임 타이틀 -->
+
       <div class="lobby-brand">
 
-  <span class="lobby-brand-main">
-    七曜回顧錄
-  </span>
+        <span class="lobby-brand-main">
+          七曜回顧錄
+        </span>
 
-  <span class="lobby-brand-sub">
-    7 DAYS : REMINISCENCE
-  </span>
+        <span class="lobby-brand-sub">
+          7 DAYS : REMINISCENCE
+        </span>
 
       </div>
 
+
+      <!-- 오른쪽 설정 -->
 
       <button
         id="settings-button"
@@ -173,29 +176,34 @@
 
 
         <!--
-          지금은 실제 로비 일러스트가 없으므로
-          임시 표시 영역.
-          나중에 여기만 교체하면 됨.
+          임시 로비 중앙 영역.
+          나중에 캐릭터 일러스트 / 배경으로 교체.
         -->
 
         <div class="lobby-visual-placeholder">
 
 
-          <span class="visual-small">
+          <!-- 중앙 작은 영문 -->
+
+          <span class="lobby-unit-label">
             FIELD DIVISION · UNIT 01
           </span>
 
 
-          <h2>
-            現場部 一組
+          <!-- 중앙 메인 -->
+
+          <h2 class="lobby-unit-title">
+            현장부 1조
           </h2>
 
 
-          <div class="visual-line"></div>
+          <div class="lobby-unit-line"></div>
 
 
-          <p>
-            「反映」
+          <!-- 중앙 부대명 -->
+
+          <p class="lobby-unit-name">
+            「반영」
           </p>
 
 
@@ -299,7 +307,6 @@
 
 
   </main>
-  <!-- ↑ 여기서 LOBBY SCREEN 종료 -->
 
 
 
@@ -307,8 +314,8 @@
        JAVASCRIPT
   ========================================= -->
 
-<script src="./js/audio.js?v=2"></script>
-<script src="./js/main.js?v=2"></script>
+  <script src="./js/audio.js?v=2"></script>
+  <script src="./js/main.js?v=2"></script>
 
 
 </body>
