@@ -2657,3 +2657,13 @@ body {
   }
 
 }
+
+#wallet-mun,
+#wallet-opulse {
+  cursor: pointer;
+}
+
+#wallet-mun:hover,
+#wallet-opulse:hover {
+  color: #ffffff;
+}
