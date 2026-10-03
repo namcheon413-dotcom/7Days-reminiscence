@@ -126,6 +126,9 @@ body {
 
   cursor: pointer;
   user-select: none;
+
+  z-index: 100;
+  pointer-events: auto;
 }
 
 
@@ -489,6 +492,8 @@ body {
 ======================================== */
 
 .game-screen {
+  display: none;
+
   position: fixed;
   inset: 0;
 
@@ -497,6 +502,7 @@ body {
 
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 
   background: #080909;
   color: #f2f2ee;
@@ -507,10 +513,12 @@ body {
 }
 
 .game-screen.active {
+  display: block;
+
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
-
 
 /* ========================================
    LOBBY SCREEN
