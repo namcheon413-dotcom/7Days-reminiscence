@@ -10,7 +10,7 @@ const clickSfx =
 ======================================== */
 
 titleBgm.volume = 0.5;
-clickSfx.volume = 0.7;
+clickSfx.volume = 0.8;
 
 
 /* ========================================
