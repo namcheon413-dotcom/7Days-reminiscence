@@ -2675,36 +2675,29 @@ body {
 .inventory-button {
   position: absolute;
 
-  /* lobby-main 우측 상단 */
-  top: 42px;
-  right: 54px;
+  top: 70px;
+  right: 46px;
 
-  width: 190px;
-  height: 92px;
+  width: 210px;
+  height: 105px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  gap: 14px;
+  gap: 16px;
 
-  padding: 0 22px;
+  padding: 0 24px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.24);
 
-  background:
-    rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.025);
 
-  color:
-    rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.72);
 
-  font-family:
-    Arial,
-    sans-serif;
+  font-family: Arial, sans-serif;
 
   cursor: pointer;
-
   z-index: 3;
 
   transition:
