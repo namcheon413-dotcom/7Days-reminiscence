@@ -120,7 +120,81 @@
 
   </main>
 
+<!-- ========================================
+     PLAYER REGISTRATION
+     최초 플레이어 별호 등록
+========================================= -->
 
+<main
+  id="player-registration-screen"
+  class="game-screen"
+>
+
+  <section class="player-registration">
+
+    <div class="player-registration-panel">
+
+      <span class="player-registration-label">
+        PLAYER IDENTIFICATION
+      </span>
+
+      <h2 class="player-registration-title">
+        별호 등록
+      </h2>
+
+      <div class="player-registration-line"></div>
+
+      <p class="player-registration-description">
+        기록 식별을 위한 별호를 입력하십시오.
+      </p>
+
+      <div class="player-registration-field">
+
+        <input
+          id="player-nickname-input"
+          class="player-nickname-input"
+          type="text"
+          minlength="1"
+          maxlength="20"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="별호 입력"
+        >
+
+        <span
+          id="player-nickname-count"
+          class="player-nickname-count"
+        >
+          0 / 20
+        </span>
+
+      </div>
+
+      <p
+        id="player-registration-error"
+        class="player-registration-error"
+        aria-live="polite"
+      ></p>
+
+      <button
+        id="player-registration-confirm"
+        class="player-registration-confirm"
+        type="button"
+      >
+        <span class="registration-confirm-en">
+          CONFIRM
+        </span>
+
+        <span class="registration-confirm-ko">
+          등록
+        </span>
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
 
   <!-- ========================================
        LOBBY SCREEN
