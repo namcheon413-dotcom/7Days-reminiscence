@@ -387,9 +387,8 @@ body {
 
 #main-title #start-button:hover {
   background: none;
-
   color: rgba(255, 255, 255, 0.95);
-
+  letter-spacing: 0.65em;
   transform: none;
 }
 
