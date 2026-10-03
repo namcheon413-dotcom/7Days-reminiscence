@@ -281,61 +281,302 @@
   <!-- LOBBY SCREEN 끝 -->
 
 
+<!-- ========================================
+     GACHA SCREEN
+======================================== -->
+
+<main
+  id="gacha-screen"
+  class="game-screen"
+>
+
+  <!-- HEADER -->
+
+  <header class="sub-screen-header">
+
+    <button
+      id="gacha-back-button"
+      class="back-button"
+      type="button"
+    >
+      ← BACK
+    </button>
+
+
+    <div class="sub-screen-title">
+
+      <span class="sub-screen-title-main">
+        RECRUITMENT
+      </span>
+
+      <span class="sub-screen-title-sub">
+        요원 모집
+      </span>
+
+    </div>
+
+  </header>
+
+
   <!-- ========================================
-       GACHA SCREEN
+       GACHA SELECT
   ========================================= -->
 
-  <main
-    id="gacha-screen"
-    class="game-screen"
+  <section
+    id="gacha-select"
+    class="gacha-view active"
   >
 
+    <div class="gacha-select-heading">
 
-    <header class="sub-screen-header">
+      <span class="gacha-select-label">
+        RECRUITMENT LIST
+      </span>
+
+      <h2>
+        모집 선택
+      </h2>
+
+      <p>
+        진행할 모집을 선택하십시오.
+      </p>
+
+    </div>
+
+
+    <div class="gacha-banner-list">
+
+
+      <!-- EVENT -->
 
       <button
-        id="gacha-back-button"
-        class="back-button"
+        id="event-gacha-banner"
+        class="recruit-banner recruit-banner-event"
         type="button"
       >
-        ← BACK
+
+        <span class="recruit-type">
+          EVENT RECRUITMENT
+        </span>
+
+        <span class="recruit-title">
+          이벤트 모집
+        </span>
+
+        <span class="recruit-description">
+          기간 한정 특별 모집
+        </span>
+
+        <span class="recruit-enter">
+          VIEW RECRUITMENT →
+        </span>
+
       </button>
 
 
-      <div class="sub-screen-title">
+      <!-- STANDARD -->
 
-        <span class="sub-screen-title-main">
-          RECRUITMENT
+      <button
+        id="standard-gacha-banner"
+        class="recruit-banner recruit-banner-standard"
+        type="button"
+      >
+
+        <span class="recruit-type">
+          STANDARD RECRUITMENT
         </span>
 
-        <span class="sub-screen-title-sub">
-          요원 모집
+        <span class="recruit-title">
+          상시 모집
+        </span>
+
+        <span class="recruit-description">
+          상시 운영 요원 모집
+        </span>
+
+        <span class="recruit-enter">
+          VIEW RECRUITMENT →
+        </span>
+
+      </button>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       EVENT RECRUITMENT
+  ========================================= -->
+
+  <section
+    id="event-gacha"
+    class="gacha-view"
+  >
+
+    <button
+      class="gacha-select-back"
+      type="button"
+    >
+      ← 모집 선택
+    </button>
+
+
+    <div class="recruit-detail">
+
+      <span class="recruit-detail-type">
+        EVENT RECRUITMENT
+      </span>
+
+      <h2 class="recruit-detail-title">
+        이벤트 모집
+      </h2>
+
+      <p class="recruit-detail-description">
+        기간 한정 특별 모집
+      </p>
+
+
+      <div class="recruit-detail-space">
+
+        <span>
+          EVENT BANNER VISUAL
         </span>
 
       </div>
 
-    </header>
+
+      <div class="recruit-actions">
+
+        <button
+          class="recruit-button"
+          data-recruit-type="event"
+          data-recruit-count="1"
+          type="button"
+        >
+
+          <span class="recruit-count">
+            1회 모집
+          </span>
+
+          <span class="recruit-cost">
+            RECRUIT × 1
+          </span>
+
+        </button>
 
 
-    <section class="gacha-page">
+        <button
+          class="recruit-button recruit-button-multi"
+          data-recruit-type="event"
+          data-recruit-count="10"
+          type="button"
+        >
 
-      <p class="gacha-page-label">
-        SPECIAL RECRUITMENT
-      </p>
+          <span class="recruit-count">
+            10회 모집
+          </span>
 
-      <h2 class="gacha-page-title">
-        요원 모집
+          <span class="recruit-cost">
+            RECRUIT × 10
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       STANDARD RECRUITMENT
+  ========================================= -->
+
+  <section
+    id="standard-gacha"
+    class="gacha-view"
+  >
+
+    <button
+      class="gacha-select-back"
+      type="button"
+    >
+      ← 모집 선택
+    </button>
+
+
+    <div class="recruit-detail">
+
+      <span class="recruit-detail-type">
+        STANDARD RECRUITMENT
+      </span>
+
+      <h2 class="recruit-detail-title">
+        상시 모집
       </h2>
 
-      <p class="gacha-page-description">
-        새로운 요원을 모집할 수 있습니다.
+      <p class="recruit-detail-description">
+        상시 운영 요원 모집
       </p>
 
-    </section>
+
+      <div class="recruit-detail-space">
+
+        <span>
+          STANDARD BANNER VISUAL
+        </span>
+
+      </div>
 
 
-  </main>
-  <!-- GACHA SCREEN 끝 -->
+      <div class="recruit-actions">
+
+        <button
+          class="recruit-button"
+          data-recruit-type="standard"
+          data-recruit-count="1"
+          type="button"
+        >
+
+          <span class="recruit-count">
+            1회 모집
+          </span>
+
+          <span class="recruit-cost">
+            RECRUIT × 1
+          </span>
+
+        </button>
+
+
+        <button
+          class="recruit-button recruit-button-multi"
+          data-recruit-type="standard"
+          data-recruit-count="10"
+          type="button"
+        >
+
+          <span class="recruit-count">
+            10회 모집
+          </span>
+
+          <span class="recruit-cost">
+            RECRUIT × 10
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+</main>
 
 
   <!-- ========================================
