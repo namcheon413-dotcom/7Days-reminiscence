@@ -39,12 +39,13 @@ body {
   height: 100vh;
 
   overflow: hidden;
+
   background: #000;
 }
 
 
 /* ========================================
-   VIDEO
+   BACKGROUND VIDEO
 ======================================== */
 
 #title-video {
@@ -66,7 +67,7 @@ body {
 
 
 /* ========================================
-   OVERLAY
+   VIDEO OVERLAY
 ======================================== */
 
 .video-overlay {
@@ -112,7 +113,7 @@ body {
 
 
 /* ========================================
-   INITIALIZE
+   INITIALIZE SCREEN
 ======================================== */
 
 #initialize-screen {
@@ -124,10 +125,11 @@ body {
   align-items: center;
 
   cursor: pointer;
-
   user-select: none;
 }
 
+
+/* 최초 화면 제목 */
 
 .initialize-title {
   margin: 0;
@@ -143,6 +145,8 @@ body {
     0 2px 16px rgba(0, 0, 0, 0.6);
 }
 
+
+/* CLICK TO INITIALIZE */
 
 .initialize-text {
   margin-top: 38px;
@@ -178,89 +182,16 @@ body {
    MAIN TITLE
 ======================================== */
 
-.title-content {
+#main-title {
   position: absolute;
-
-  top: 50%;
-  left: 50%;
-
-  transform: translate(-50%, -50%);
-
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-}
-
-
-.fanmade {
-  margin: 0 0 12px;
-
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-
-  letter-spacing: 0.35em;
-
-  color: rgba(255, 255, 255, 0.65);
-
-  flex-shrink: 0;
-}
-
-
-.game-title {
-  margin: 0;
-
-  font-size: clamp(48px, 8vw, 104px);
-  font-weight: 400;
-
-  line-height: 1;
-
-  letter-spacing: 0.12em;
-
-  text-shadow:
-    0 2px 16px rgba(0, 0, 0, 0.6);
-}
-
-
-.title-line {
-  width: 42px;
-  height: 1px;
-
-  margin: 24px auto;
-
-  flex-shrink: 0;
-
-  background: rgba(255, 255, 255, 0.55);
+  inset: 0;
 }
 
 
 /* ========================================
-   MAIN LOGO
+   TOP TEXT
+   하단 텍스트와 동일한 양식
 ======================================== */
-
-.game-logo {
-  display: block;
-
-  width: min(90vw, 960px);
-  height: auto;
-
-  margin: 0 auto;
-
-  object-fit: contain;
-}
-
-
-/* ========================================
-   FINAL TITLE OVERRIDE
-======================================== */
-
-
-/* ---------- 상단 FANMADE ---------- */
 
 #main-title > .fanmade {
   position: absolute;
@@ -275,6 +206,7 @@ body {
   white-space: nowrap;
 
   font-family: Arial, sans-serif;
+
   font-size: 8px;
   font-weight: 400;
 
@@ -288,7 +220,9 @@ body {
 }
 
 
-/* ---------- 중앙 ---------- */
+/* ========================================
+   CENTER CONTENT
+======================================== */
 
 #main-title .title-content {
   position: absolute;
@@ -302,17 +236,23 @@ body {
 
   display: flex;
   flex-direction: column;
+
   align-items: center;
   justify-content: center;
 
-  /* ★ 로고와 START 사이 실제 간격 */
-  gap: 250px;
+  /*
+    로고 이미지 자체가 16:9라서
+    시각적인 여백 확보를 위해 넉넉하게 둠
+  */
+  gap: 70px;
 
   text-align: center;
 }
 
 
-/* ---------- LOGO ---------- */
+/* ========================================
+   LOGO
+======================================== */
 
 #main-title .game-logo {
   display: block;
@@ -323,46 +263,71 @@ body {
   max-width: 90vw;
   max-height: 60vh;
 
-  margin: 0 !important;
+  margin: 0;
 
   object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 3px 12px rgba(0, 0, 0, 0.35)
+    );
 }
 
-/* ---------- START MINIMAL ---------- */
+
+/* ========================================
+   START BUTTON
+======================================== */
 
 #main-title #start-button {
   appearance: none;
   -webkit-appearance: none;
 
   position: relative;
+
   display: block;
 
-  padding: 10px 4px;
+  margin: 0;
+  padding: 12px 8px;
 
-  border: none !important;
+  border: none;
   outline: none;
   border-radius: 0;
 
-  background: transparent !important;
-  box-shadow: none !important;
+  background: transparent;
 
-  color: rgba(255, 255, 255, 0.58);
+  box-shadow: none;
 
-  font-family: Arial, sans-serif;
-  font-size: 32px;
+  color: rgba(255, 255, 255, 0.78);
 
-  letter-spacing: 0.65em;
-  text-indent: 0.65em;
+  font-family:
+    Arial,
+    sans-serif;
+
+  /*
+    ★ START 크기
+  */
+  font-size: 18px;
+
+  /*
+    ★ BOLD
+  */
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
 
   cursor: pointer;
 
   transition:
     color 220ms ease,
-    opacity 220ms ease;
+    opacity 220ms ease,
+    letter-spacing 220ms ease;
 }
 
 
-/* 아래에 아주 짧은 선 하나 */
+/* START 아래 선 */
 
 #main-title #start-button::after {
   content: "";
@@ -370,92 +335,46 @@ body {
   position: absolute;
 
   left: 50%;
-  bottom: 3px;
+  bottom: 0;
 
   width: 0;
   height: 1px;
 
   transform: translateX(-50%);
 
-  background: rgba(255, 255, 255, 0.65);
+  background:
+    rgba(255, 255, 255, 0.7);
 
-  transition: width 220ms ease;
+  transition:
+    width 220ms ease;
 }
 
 
-/* HOVER */
+/* START HOVER */
 
 #main-title #start-button:hover {
-  background: none;
-  color: rgba(255, 255, 255, 0.95);
-  letter-spacing: 0.65em;
-  transform: none;
+  color: rgba(255, 255, 255, 1);
+
+  letter-spacing: 0.6em;
 }
 
+
+/* HOVER UNDERLINE */
 
 #main-title #start-button:hover::after {
-  width: 38px;
+  width: 52px;
 }
 
 
-/* CLICK */
+/* START CLICK */
 
 #main-title #start-button:active {
-  transform: none;
-
   opacity: 0.45;
 }
 
-/* ========================================
-   MOBILE
-======================================== */
-
-@media (max-width: 600px) {
-
-  #main-title > .fanmade {
-    top: 20px;
-
-    font-size: 7px;
-
-    letter-spacing: 0.25em;
-  }
-
-
-  #main-title .game-logo {
-    width: 94vw !important;
-    max-width: 94vw !important;
-    max-height: 60vh !important;
-  }
-
-
-  #main-title #start-button {
-    margin-top: -20px !important;
-
-    padding: 10px 24px !important;
-
-    font-size: 9px;
-
-    letter-spacing: 0.4em;
-    text-indent: 0.4em;
-  }
-
-
-  #main-title #start-button::before,
-  #main-title #start-button::after {
-    width: 28px;
-  }
-
-
-  #main-title #start-button:hover::before,
-  #main-title #start-button:hover::after {
-    width: 38px;
-  }
-
-}
-
 
 /* ========================================
-   BOTTOM
+   BOTTOM TEXT
 ======================================== */
 
 .bottom-text {
@@ -471,11 +390,11 @@ body {
   font-family: Arial, sans-serif;
 
   font-size: 8px;
+  font-weight: 400;
 
   letter-spacing: 0.4em;
 
-  color:
-    rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 
@@ -485,62 +404,84 @@ body {
 
 @media (max-width: 600px) {
 
-  .title-content {
-    width: 92vw;
-    max-height: 88vh;
+  /* INITIALIZE */
+
+  .initialize-title {
+    font-size:
+      clamp(42px, 15vw, 72px);
+
+    letter-spacing: 0.06em;
   }
 
-  .game-logo {
-    max-width: 85vw;
-    max-height: 38vh;
-  }
-
-  .fanmade {
-    font-size: 8px;
-    letter-spacing: 0.22em;
-  }
-
-  .title-line {
-    margin: 18px auto;
-  }
-
-  #start-button {
-    min-width: 160px;
-  }
-
-}
 
   .initialize-text {
+    margin-top: 28px;
+
     font-size: 8px;
   }
 
-  .fanmade {
-    font-size: 8px;
 
-    letter-spacing: 0.25em;
+  /* FANMADE */
+
+  #main-title > .fanmade {
+    top: 18px;
+
+    font-size: 7px;
+
+    letter-spacing: 0.3em;
   }
 
-#start-button {
-  min-width: 140px;
 
-  font-size: 10px;
-  letter-spacing: 0.4em;
-}
+  /* CENTER */
 
-#start-button::before,
-#start-button::after {
-  width: 26px;
-}
+  #main-title .title-content {
+    width: 100%;
 
-#start-button:hover::before,
-#start-button:hover::after {
-  width: 38px;
-}
+    gap: 45px;
+  }
+
+
+  /* LOGO */
+
+  #main-title .game-logo {
+    width: 94vw;
+
+    max-width: 94vw;
+    max-height: 55vh;
+  }
+
+
+  /* START */
+
+  #main-title #start-button {
+    padding: 10px 6px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+  }
+
+
+  #main-title #start-button:hover {
+    letter-spacing: 0.5em;
+  }
+
+
+  #main-title #start-button:hover::after {
+    width: 42px;
+  }
+
+
+  /* BOTTOM */
 
   .bottom-text {
     bottom: 18px;
 
     font-size: 7px;
+
+    letter-spacing: 0.3em;
   }
 
 }
