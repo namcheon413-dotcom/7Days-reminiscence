@@ -1,5 +1,5 @@
 /* ========================================
-   BASIC ELEMENTS
+   ELEMENTS
 ======================================== */
 
 const initializeScreen =
@@ -17,8 +17,77 @@ const titleScreen =
 const lobbyScreen =
   document.getElementById("lobby-screen");
 
+const gachaBanner =
+  document.getElementById("gacha-banner");
+
+const gachaScreen =
+  document.getElementById("gacha-screen");
+
+const gachaBackButton =
+  document.getElementById("gacha-back-button");
+
+const eventGachaTab =
+  document.getElementById("event-gacha-tab");
+
+const standardGachaTab =
+  document.getElementById("standard-gacha-tab");
+
+const eventRecruitment =
+  document.getElementById("event-recruitment");
+
+const standardRecruitment =
+  document.getElementById("standard-recruitment");
+
+const recruitButtons =
+  document.querySelectorAll(".recruit-button");
+
 
 let initialized = false;
+let transitioning = false;
+
+
+/* ========================================
+   SOUND
+======================================== */
+
+function safeClickSound() {
+
+  try {
+
+    if (typeof playClickSound === "function") {
+      playClickSound();
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Click sound failed:",
+      error
+    );
+
+  }
+
+}
+
+
+function safeTitleBgm() {
+
+  try {
+
+    if (typeof playTitleBgm === "function") {
+      playTitleBgm();
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Title BGM failed:",
+      error
+    );
+
+  }
+
+}
 
 
 /* ========================================
@@ -28,43 +97,28 @@ let initialized = false;
 
 function initializeGame() {
 
-  if (initialized) {
+  if (
+    initialized ||
+    !initializeScreen ||
+    !mainTitle
+  ) {
     return;
   }
 
   initialized = true;
 
-
-  /* 오디오는 실패해도 화면 진행을 막지 않음 */
-
-  try {
-
-    if (typeof playTitleBgm === "function") {
-      playTitleBgm();
-    }
-
-    if (typeof playClickSound === "function") {
-      playClickSound();
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "Audio initialization failed:",
-      error
-    );
-
-  }
+  safeTitleBgm();
+  safeClickSound();
 
 
-  /* CLICK TO INITIALIZE 숨김 */
+  /* INITIALIZE 페이드 아웃 */
 
   initializeScreen.classList.remove(
     "active"
   );
 
 
-  /* 메인 타이틀 표시 */
+  /* MAIN TITLE 페이드 인 */
 
   setTimeout(
     function () {
@@ -80,91 +134,111 @@ function initializeGame() {
 }
 
 
-/* ========================================
-   START → LOBBY
-======================================== */
+/* 반드시 실제 클릭 이벤트 등록 */
 
-if (startButton && titleScreen && lobbyScreen) {
+if (initializeScreen) {
 
-  startButton.addEventListener("click", function () {
-
-    try {
-      if (typeof playClickSound === "function") {
-        playClickSound();
-      }
-    } catch (error) {
-      console.warn("CLICK AUDIO ERROR:", error);
-    }
-
-    /* 타이틀 전체 페이드 아웃 */
-    titleScreen.classList.add("leaving");
-
-    /* 타이틀이 빠진 다음 로비 페이드 인 */
-    setTimeout(function () {
-      lobbyScreen.classList.add("active");
-    }, 700);
-
-  });
+  initializeScreen.addEventListener(
+    "click",
+    initializeGame
+  );
 
 }
 
 
 /* ========================================
-   GACHA ELEMENTS
+   START → LOBBY
 ======================================== */
 
-const gachaBanner =
-  document.getElementById(
-    "gacha-banner"
+if (
+  startButton &&
+  titleScreen &&
+  lobbyScreen
+) {
+
+  startButton.addEventListener(
+    "click",
+    function () {
+
+      if (transitioning) {
+        return;
+      }
+
+      transitioning = true;
+
+      safeClickSound();
+
+      startButton.disabled = true;
+
+
+      /*
+        1. 메인 타이틀 UI 먼저 OUT
+      */
+
+      mainTitle.classList.remove(
+        "active"
+      );
+
+
+      /*
+        2. 타이틀 전체 화면 OUT
+      */
+
+      titleScreen.classList.add(
+        "screen-out"
+      );
+
+
+      /*
+        3. 타이틀 OUT 완료 후
+           로비 화면 준비
+      */
+
+      setTimeout(
+        function () {
+
+          lobbyScreen.style.display =
+            "block";
+
+
+          /*
+            브라우저가 opacity:0 상태를
+            먼저 렌더하도록 한 프레임 대기
+          */
+
+          requestAnimationFrame(
+            function () {
+
+              requestAnimationFrame(
+                function () {
+
+                  lobbyScreen.classList.add(
+                    "active"
+                  );
+
+                  transitioning = false;
+
+                }
+              );
+
+            }
+          );
+
+        },
+        700
+      );
+
+    }
   );
 
-const gachaScreen =
-  document.getElementById(
-    "gacha-screen"
-  );
-
-const gachaBackButton =
-  document.getElementById(
-    "gacha-back-button"
-  );
-
-const eventGachaTab =
-  document.getElementById(
-    "event-gacha-tab"
-  );
-
-const standardGachaTab =
-  document.getElementById(
-    "standard-gacha-tab"
-  );
-
-const eventRecruitment =
-  document.getElementById(
-    "event-recruitment"
-  );
-
-const standardRecruitment =
-  document.getElementById(
-    "standard-recruitment"
-  );
-
-const recruitButtons =
-  document.querySelectorAll(
-    ".recruit-button"
-  );
+}
 
 
 /* ========================================
-   GACHA SWITCH
+   GACHA CONTENT SWITCH
 ======================================== */
 
 function showRecruitment(type) {
-
-  /*
-    가챠 HTML이 아직 없거나
-    로드되지 않았더라도
-    초기 화면에는 영향을 주지 않음
-  */
 
   if (
     !eventGachaTab ||
@@ -172,9 +246,7 @@ function showRecruitment(type) {
     !eventRecruitment ||
     !standardRecruitment
   ) {
-
     return;
-
   }
 
 
@@ -205,18 +277,17 @@ function showRecruitment(type) {
       "active"
     );
 
-    return;
+  } else {
+
+    eventGachaTab.classList.add(
+      "active"
+    );
+
+    eventRecruitment.classList.add(
+      "active"
+    );
 
   }
-
-
-  eventGachaTab.classList.add(
-    "active"
-  );
-
-  eventRecruitment.classList.add(
-    "active"
-  );
 
 }
 
@@ -227,46 +298,37 @@ function showRecruitment(type) {
 
 if (
   gachaBanner &&
-  gachaScreen &&
-  lobbyScreen
+  lobbyScreen &&
+  gachaScreen
 ) {
 
   gachaBanner.addEventListener(
     "click",
     function () {
 
-      try {
-
-        if (
-          typeof playClickSound ===
-          "function"
-        ) {
-
-          playClickSound();
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Click sound failed:",
-          error
-        );
-
+      if (transitioning) {
+        return;
       }
 
+      transitioning = true;
 
-      /* 기본은 이벤트 모집 */
+      safeClickSound();
 
-      showRecruitment(
-        "event"
-      );
+      showRecruitment("event");
 
+
+      /*
+        현재 화면 OUT
+      */
 
       lobbyScreen.classList.remove(
         "active"
       );
 
+
+      /*
+        OUT 완료 후 다음 화면 IN
+      */
 
       setTimeout(
         function () {
@@ -277,12 +339,27 @@ if (
           gachaScreen.style.display =
             "block";
 
-          gachaScreen.classList.add(
-            "active"
+
+          requestAnimationFrame(
+            function () {
+
+              requestAnimationFrame(
+                function () {
+
+                  gachaScreen.classList.add(
+                    "active"
+                  );
+
+                  transitioning = false;
+
+                }
+              );
+
+            }
           );
 
         },
-        300
+        700
       );
 
     }
@@ -305,31 +382,27 @@ if (
     "click",
     function () {
 
-      try {
-
-        if (
-          typeof playClickSound ===
-          "function"
-        ) {
-
-          playClickSound();
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Click sound failed:",
-          error
-        );
-
+      if (transitioning) {
+        return;
       }
 
+      transitioning = true;
+
+      safeClickSound();
+
+
+      /*
+        GACHA OUT
+      */
 
       gachaScreen.classList.remove(
         "active"
       );
 
+
+      /*
+        LOBBY IN
+      */
 
       setTimeout(
         function () {
@@ -340,12 +413,27 @@ if (
           lobbyScreen.style.display =
             "block";
 
-          lobbyScreen.classList.add(
-            "active"
+
+          requestAnimationFrame(
+            function () {
+
+              requestAnimationFrame(
+                function () {
+
+                  lobbyScreen.classList.add(
+                    "active"
+                  );
+
+                  transitioning = false;
+
+                }
+              );
+
+            }
           );
 
         },
-        300
+        700
       );
 
     }
@@ -364,23 +452,7 @@ if (eventGachaTab) {
     "click",
     function () {
 
-      try {
-
-        if (
-          typeof playClickSound ===
-          "function"
-        ) {
-
-          playClickSound();
-
-        }
-
-      } catch (error) {
-
-        console.warn(error);
-
-      }
-
+      safeClickSound();
 
       showRecruitment(
         "event"
@@ -402,23 +474,7 @@ if (standardGachaTab) {
     "click",
     function () {
 
-      try {
-
-        if (
-          typeof playClickSound ===
-          "function"
-        ) {
-
-          playClickSound();
-
-        }
-
-      } catch (error) {
-
-        console.warn(error);
-
-      }
-
+      safeClickSound();
 
       showRecruitment(
         "standard"
@@ -441,23 +497,7 @@ recruitButtons.forEach(
       "click",
       function () {
 
-        try {
-
-          if (
-            typeof playClickSound ===
-            "function"
-          ) {
-
-            playClickSound();
-
-          }
-
-        } catch (error) {
-
-          console.warn(error);
-
-        }
-
+        safeClickSound();
 
         const recruitType =
           button.dataset.recruitType;
@@ -466,7 +506,6 @@ recruitButtons.forEach(
           Number(
             button.dataset.recruitCount
           );
-
 
         console.log(
           "RECRUIT:",
@@ -485,6 +524,4 @@ recruitButtons.forEach(
    DEFAULT GACHA
 ======================================== */
 
-showRecruitment(
-  "event"
-);
+showRecruitment("event");
