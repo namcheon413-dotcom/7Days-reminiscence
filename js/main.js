@@ -84,63 +84,29 @@ function initializeGame() {
    START → LOBBY
 ======================================== */
 
-if (
-  startButton &&
-  titleScreen &&
-  lobbyScreen
-) {
+if (startButton && titleScreen && lobbyScreen) {
 
-  startButton.addEventListener(
-    "click",
-    function () {
+  startButton.addEventListener("click", function () {
 
-      try {
-
-        if (
-          typeof playClickSound ===
-          "function"
-        ) {
-
-          playClickSound();
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Click sound failed:",
-          error
-        );
-
+    try {
+      if (typeof playClickSound === "function") {
+        playClickSound();
       }
-
-
-      startButton.disabled =
-        true;
-
-      startButton.textContent =
-        "CONNECTING...";
-
-
-      setTimeout(
-        function () {
-
-          titleScreen.style.display =
-            "none";
-
-          lobbyScreen.style.display =
-            "block";
-
-          lobbyScreen.classList.add(
-            "active"
-          );
-
-        },
-        500
-      );
-
+    } catch (error) {
+      console.warn("CLICK AUDIO ERROR:", error);
     }
-  );
+
+    /* 타이틀 페이드 아웃 */
+    titleScreen.classList.add("fade-out");
+
+    /* 로비 페이드 인 */
+    setTimeout(function () {
+
+      lobbyScreen.classList.add("active");
+
+    }, 300);
+
+  });
 
 }
 
