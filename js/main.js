@@ -108,862 +108,113 @@ const itemDetailDescription =
    INVENTORY
 ======================================== */
 
-const inventoryScreen =
-  document.getElementById(
-    "inventory-screen"
-  );
-
-const inventoryButton =
-  document.getElementById(
-    "inventory-button"
-  );
-
-const inventoryBackButton =
-  document.getElementById(
-    "inventory-back-button"
-  );
-
-const inventoryGrid =
-  document.getElementById(
-    "inventory-grid"
-  );
-
-const inventoryTabs =
-  document.querySelectorAll(
-    ".inventory-tab"
-  );
+let currentInventoryCategory = "all";
 
 
 /* ========================================
-   PLAYER REGISTRATION
+   INVENTORY CATEGORY MAP
+
+   DB category 값에 의존하지 않는다.
+   item.id 기준으로 직접 분류한다.
 ======================================== */
 
-const playerRegistrationScreen =
-  document.getElementById(
-    "player-registration-screen"
-  );
+const INVENTORY_CATEGORY_MAP = {
 
-const playerNicknameInput =
-  document.getElementById(
-    "player-nickname-input"
-  );
+  /* 육성 */
+  origin: "growth",
 
-const playerNicknameCount =
-  document.getElementById(
-    "player-nickname-count"
-  );
+  /* 해방 */
+  azure_scale_low: "liberation",
+  azure_scale_mid: "liberation",
+  azure_scale_high: "liberation",
 
-const playerRegistrationError =
-  document.getElementById(
-    "player-registration-error"
-  );
+  vermilion_feather_low: "liberation",
+  vermilion_feather_mid: "liberation",
+  vermilion_feather_high: "liberation",
 
-const playerRegistrationConfirm =
-  document.getElementById(
-    "player-registration-confirm"
-  );
+  yellow_mane_low: "liberation",
+  yellow_mane_mid: "liberation",
+  yellow_mane_high: "liberation",
+
+  white_fang_low: "liberation",
+  white_fang_mid: "liberation",
+  white_fang_high: "liberation",
+
+  black_shell_low: "liberation",
+  black_shell_mid: "liberation",
+  black_shell_high: "liberation",
+
+  chilyo_gokok: "liberation",
+  myeongmaek: "liberation",
+
+  /* 소모품 */
+  fatigue_tonic: "consumable",
+
+  /* 모집권 */
+  standard_recruit_10_ticket: "recruitment",
+  limited_recruit_10_ticket: "recruitment"
+
+};
 
 
 /* ========================================
-   GACHA
+   GET INVENTORY CATEGORY
 ======================================== */
 
-const gachaBanner =
-  document.getElementById(
-    "gacha-banner"
-  );
+function getInventoryCategory(item) {
 
-const gachaScreen =
-  document.getElementById(
-    "gacha-screen"
-  );
-
-const gachaBackButton =
-  document.getElementById(
-    "gacha-back-button"
-  );
-
-const eventGachaTab =
-  document.getElementById(
-    "event-gacha-tab"
-  );
-
-const standardGachaTab =
-  document.getElementById(
-    "standard-gacha-tab"
-  );
-
-const eventRecruitment =
-  document.getElementById(
-    "event-recruitment"
-  );
-
-const standardRecruitment =
-  document.getElementById(
-    "standard-recruitment"
-  );
-
-const recruitButtons =
-  document.querySelectorAll(
-    ".recruit-button"
-  );
-
-
-/* ========================================
-   STATE
-======================================== */
-
-let initialized = false;
-
-let transitioning = false;
-
-let playerReady = false;
-
-
-/* ========================================
-   AUDIO
-======================================== */
-
-function safeClickSound() {
-
-  try {
-
-    if (
-      typeof playClickSound ===
-      "function"
-    ) {
-
-      playClickSound();
-
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "[AUDIO] Click sound failed:",
-      error
-    );
-
+  if (!item || !item.id) {
+    return "none";
   }
 
-}
-
-
-function safeTitleBgm() {
-
-  try {
-
-    if (
-      typeof playTitleBgm ===
-      "function"
-    ) {
-
-      playTitleBgm();
-
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "[AUDIO] Title BGM failed:",
-      error
-    );
-
-  }
-
-}
-
-
-/* ========================================
-   SCREEN TRANSITION
-======================================== */
-
-function changeGameScreen(
-  fromScreen,
-  toScreen,
-  delay = 300
-) {
-
-  if (
-    transitioning ||
-    !fromScreen ||
-    !toScreen
-  ) {
-
-    return;
-
-  }
-
-
-  transitioning = true;
-
-
-  fromScreen.classList.remove(
-    "active"
-  );
-
-
-  setTimeout(
-    function () {
-
-      fromScreen.style.display =
-        "none";
-
-
-      toScreen.style.display =
-        "block";
-
-
-      toScreen.classList.remove(
-        "active"
-      );
-
-
-      requestAnimationFrame(
-        function () {
-
-          requestAnimationFrame(
-            function () {
-
-              toScreen.classList.add(
-                "active"
-              );
-
-
-              transitioning = false;
-
-            }
-          );
-
-        }
-      );
-
-    },
-    delay
+  return (
+    INVENTORY_CATEGORY_MAP[item.id] ||
+    "none"
   );
 
 }
-
-
-/* ========================================
-   TITLE → GAME SCREEN
-======================================== */
-
-function leaveTitleScreen(
-  destinationScreen
-) {
-
-  if (
-    transitioning ||
-    !titleScreen ||
-    !destinationScreen
-  ) {
-
-    return;
-
-  }
-
-
-  transitioning = true;
-
-
-  if (mainTitle) {
-
-    mainTitle.classList.remove(
-      "active"
-    );
-
-  }
-
-
-  titleScreen.classList.add(
-    "screen-out"
-  );
-
-
-  setTimeout(
-    function () {
-
-      titleScreen.style.display =
-        "none";
-
-
-      destinationScreen.style.display =
-        "block";
-
-
-      destinationScreen.classList.remove(
-        "active"
-      );
-
-
-      requestAnimationFrame(
-        function () {
-
-          requestAnimationFrame(
-            function () {
-
-              destinationScreen.classList.add(
-                "active"
-              );
-
-
-              transitioning = false;
-
-            }
-          );
-
-        }
-      );
-
-    },
-    700
-  );
-
-}
-
-
-/* ========================================
-   INITIALIZE
-======================================== */
-
-function initializeGame() {
-
-  if (initialized) {
-
-    return;
-
-  }
-
-
-  if (
-    !initializeScreen ||
-    !mainTitle
-  ) {
-
-    return;
-
-  }
-
-
-  initialized = true;
-
-
-  safeTitleBgm();
-
-  safeClickSound();
-
-
-  initializeScreen.classList.remove(
-    "active"
-  );
-
-
-  setTimeout(
-    function () {
-
-      mainTitle.classList.add(
-        "active"
-      );
-
-    },
-    350
-  );
-
-}
-
-
-/* ========================================
-   INITIALIZE CLICK
-======================================== */
-
-if (initializeScreen) {
-
-  initializeScreen.addEventListener(
-    "click",
-    initializeGame
-  );
-
-}
-
-
-/* ========================================
-   PLAYER AUTH + LOAD
-======================================== */
-
-async function preparePlayer() {
-
-  if (
-    !window.GameAuth ||
-    !window.GamePlayer
-  ) {
-
-    throw new Error(
-      "Game auth/player module not loaded."
-    );
-
-  }
-
-
-  const authResult =
-    await window.GameAuth
-      .getOrCreateUser();
-
-
-  if (
-    !authResult ||
-    !authResult.user
-  ) {
-
-    throw new Error(
-      "Player authentication failed."
-    );
-
-  }
-
-
-  const player =
-    await window.GamePlayer
-      .getCurrentPlayer();
-
-
-  if (!player) {
-
-    throw new Error(
-      "Player data could not be loaded."
-    );
-
-  }
-
-
-  try {
-
-    await window.GamePlayer
-      .updateLastLogin();
-
-  } catch (error) {
-
-    console.warn(
-      "[PLAYER] Last login update failed:",
-      error
-    );
-
-  }
-
-
-  return player;
-
-}
-
-
-/* ========================================
-   NUMBER FORMAT
-======================================== */
-
-function formatNumber(
-  value
-) {
-
-  const number =
-    Number(value);
-
-
-  if (!Number.isFinite(number)) {
-
-    return "0";
-
-  }
-
-
-  return number.toLocaleString(
-    "ko-KR"
-  );
-
-}
-
-
-/* ========================================
-   LOBBY PLAYER DATA
-======================================== */
-
-async function updateLobbyPlayerData(
-  player
-) {
-
-  if (!player) {
-
-    return;
-
-  }
-
-
-  /* PLAYER */
-
-  if (playerLevelDisplay) {
-
-    playerLevelDisplay.textContent =
-      player.level ?? 1;
-
-  }
-
-
-  if (playerNicknameDisplay) {
-
-    playerNicknameDisplay.textContent =
-      player.nickname || "—";
-
-  }
-
-
-  /* WALLET */
-
-  if (!window.GameWallet) {
-
-    throw new Error(
-      "GameWallet module not loaded."
-    );
-
-  }
-
-
-  const wallet =
-    await window.GameWallet
-      .refreshWallet();
-
-
-  if (!wallet) {
-
-    throw new Error(
-      "Player wallet could not be loaded."
-    );
-
-  }
-
-
-  if (walletMunDisplay) {
-
-    walletMunDisplay.textContent =
-      formatNumber(
-        wallet.mun
-      );
-
-  }
-
-
-  if (walletOpulseDisplay) {
-
-    walletOpulseDisplay.textContent =
-      formatNumber(
-        wallet.opulse
-      );
-
-  }
-
-
-  if (walletEnduranceDisplay) {
-
-    walletEnduranceDisplay.textContent =
-      `${formatNumber(
-        wallet.endurance
-      )} / ${formatNumber(
-        wallet.endurance_max
-      )}`;
-
-  }
-
-
-  console.log(
-    "[GAME] Lobby data updated:",
-    {
-      player,
-      wallet
-    }
-  );
-
-}
-
-
-/* ========================================
-   ITEM DETAIL
-======================================== */
-
-async function openItemDetail(
-  itemId
-) {
-
-  if (
-    !itemId ||
-    !itemDetailModal
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !window.GameItems ||
-    typeof window.GameItems.getItem !==
-      "function"
-  ) {
-
-    console.error(
-      "[ITEM] GameItems.getItem is unavailable."
-    );
-
-    return;
-
-  }
-
-
-  safeClickSound();
-
-
-  try {
-
-    const item =
-      await window.GameItems
-        .getItem(
-          itemId
-        );
-
-
-    if (!item) {
-
-      return;
-
-    }
-
-
-    /* NAME */
-
-    if (itemDetailName) {
-
-      itemDetailName.textContent =
-        item.name_ko ||
-        item.name ||
-        "—";
-
-    }
-
-
-    if (itemDetailNameEn) {
-
-      itemDetailNameEn.textContent =
-        item.name_en ||
-        "";
-
-    }
-
-
-    /* GRADE */
-
-    if (itemDetailGrade) {
-
-      itemDetailGrade.textContent =
-        item.grade
-          ? String(
-              item.grade
-            ).toUpperCase()
-          : "";
-
-    }
-
-
-    /* DESCRIPTION */
-
-    if (itemDetailDescription) {
-
-      itemDetailDescription.textContent =
-        item.description ||
-        "";
-
-    }
-
-
-    /* IMAGE */
-
-    if (
-      itemDetailImage &&
-      itemDetailPlaceholder
-    ) {
-
-      itemDetailImage.classList.remove(
-        "visible"
-      );
-
-
-      itemDetailImage.removeAttribute(
-        "src"
-      );
-
-
-      itemDetailImage.alt =
-        item.name_ko ||
-        item.name ||
-        "";
-
-
-      itemDetailPlaceholder.style.display =
-        "block";
-
-
-      if (item.image_path) {
-
-        itemDetailImage.onload =
-          function () {
-
-            itemDetailPlaceholder.style.display =
-              "none";
-
-
-            itemDetailImage.classList.add(
-              "visible"
-            );
-
-          };
-
-
-        itemDetailImage.onerror =
-          function () {
-
-            itemDetailImage.classList.remove(
-              "visible"
-            );
-
-
-            itemDetailPlaceholder.style.display =
-              "block";
-
-          };
-
-
-        itemDetailImage.src =
-          item.image_path;
-
-      }
-
-    }
-
-
-    /* OPEN */
-
-    itemDetailModal.classList.add(
-      "active"
-    );
-
-
-    itemDetailModal.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "[ITEM] Item detail failed:",
-      error
-    );
-
-  }
-
-}
-
-
-/* ========================================
-   CLOSE ITEM DETAIL
-======================================== */
-
-function closeItemDetail() {
-
-  if (!itemDetailModal) {
-
-    return;
-
-  }
-
-
-  itemDetailModal.classList.remove(
-    "active"
-  );
-
-
-  itemDetailModal.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-}
-
-
-/* ========================================
-   INVENTORY
-======================================== */
-
-let currentInventoryCategory =
-  "all";
 
 
 /* ========================================
    CREATE INVENTORY CARD
 ======================================== */
 
-function createInventoryCard(
-  item
-) {
+function createInventoryCard(item) {
 
   const card =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
-
-  card.type =
-    "button";
-
+  card.type = "button";
 
   card.className =
     "inventory-item-card";
 
 
   /*
-    DB category가 없거나
-    none이면 none으로 취급.
-
-    none 아이템은 전체 탭에서만 표시.
+    DB category가 아니라
+    위의 ID 분류표를 사용한다.
   */
 
   card.dataset.category =
-    item.category &&
-    item.category !== "none"
-      ? item.category
-      : "none";
+    getInventoryCategory(item);
 
 
   /* ========================================
-     IMAGE
+     IMAGE AREA
   ======================================== */
 
   const imageArea =
-    document.createElement(
-      "div"
-    );
-
+    document.createElement("div");
 
   imageArea.className =
     "inventory-item-image-area";
 
 
   const image =
-    document.createElement(
-      "img"
-    );
-
+    document.createElement("img");
 
   image.className =
     "inventory-item-image";
-
 
   image.alt =
     item.name_ko ||
@@ -971,9 +222,7 @@ function createInventoryCard(
     item.id ||
     "";
 
-
-  image.loading =
-    "lazy";
+  image.loading = "lazy";
 
 
   if (item.image_path) {
@@ -985,7 +234,6 @@ function createInventoryCard(
 
     image.style.display =
       "none";
-
 
     imageArea.classList.add(
       "no-image"
@@ -1000,7 +248,6 @@ function createInventoryCard(
 
       image.style.display =
         "none";
-
 
       imageArea.classList.add(
         "no-image"
@@ -1020,19 +267,13 @@ function createInventoryCard(
   ======================================== */
 
   const quantity =
-    document.createElement(
-      "span"
-    );
-
+    document.createElement("span");
 
   quantity.className =
     "inventory-item-quantity";
 
-
   quantity.textContent =
-    `× ${Number(
-      item.quantity
-    ) || 0}`;
+    `× ${Number(item.quantity) || 0}`;
 
 
   imageArea.appendChild(
@@ -1045,14 +286,10 @@ function createInventoryCard(
   ======================================== */
 
   const name =
-    document.createElement(
-      "span"
-    );
-
+    document.createElement("span");
 
   name.className =
     "inventory-item-name";
-
 
   name.textContent =
     item.name_ko ||
@@ -1068,7 +305,6 @@ function createInventoryCard(
   card.appendChild(
     imageArea
   );
-
 
   card.appendChild(
     name
@@ -1093,6 +329,73 @@ function createInventoryCard(
 
 
 /* ========================================
+   INVENTORY EMPTY MESSAGE
+======================================== */
+
+function showInventoryEmpty(
+  message = "이 분류에 보유 중인 소지품이 없습니다."
+) {
+
+  if (!inventoryGrid) {
+    return;
+  }
+
+
+  let empty =
+    inventoryGrid.querySelector(
+      ".inventory-category-empty"
+    );
+
+
+  if (!empty) {
+
+    empty =
+      document.createElement("div");
+
+    empty.className =
+      "inventory-empty inventory-category-empty";
+
+    inventoryGrid.appendChild(
+      empty
+    );
+
+  }
+
+
+  empty.innerHTML = `
+    <span>EMPTY</span>
+    <p>${message}</p>
+  `;
+
+  empty.style.display = "";
+
+}
+
+
+function hideInventoryEmpty() {
+
+  if (!inventoryGrid) {
+    return;
+  }
+
+
+  const empty =
+    inventoryGrid.querySelector(
+      ".inventory-category-empty"
+    );
+
+
+  if (empty) {
+
+    empty.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* ========================================
    INVENTORY FILTER
 ======================================== */
 
@@ -1101,9 +404,7 @@ function filterInventoryCards(
 ) {
 
   if (!inventoryGrid) {
-
     return;
-
   }
 
 
@@ -1113,59 +414,35 @@ function filterInventoryCards(
     );
 
 
-  let visibleCount =
-    0;
+  let visibleCount = 0;
 
 
   cards.forEach(
     function (card) {
 
-      const itemCategory =
+      const cardCategory =
         card.dataset.category ||
         "none";
 
 
-      let visible =
-        false;
-
-
       /*
         전체:
-        보유 중인 모든 아이템 표시.
+        모든 보유 아이템 표시.
 
-        다른 탭:
-        해당 category만 표시.
-
-        none:
-        전체에서만 표시.
+        그 외:
+        해당 카테고리만 표시.
       */
 
-      if (
-        category === "all"
-      ) {
-
-        visible =
-          true;
-
-      } else if (
-        itemCategory ===
-        category
-      ) {
-
-        visible =
-          true;
-
-      }
+      const visible =
+        category === "all" ||
+        cardCategory === category;
 
 
       if (visible) {
 
-        card.style.display =
-          "";
+        card.style.display = "";
 
-
-        visibleCount +=
-          1;
+        visibleCount += 1;
 
       } else {
 
@@ -1178,54 +455,51 @@ function filterInventoryCards(
   );
 
 
-  /* ========================================
-     CATEGORY EMPTY
-  ======================================== */
+  if (visibleCount === 0) {
 
-  let emptyMessage =
-    inventoryGrid.querySelector(
-      ".inventory-category-empty"
-    );
+    showInventoryEmpty();
 
+  } else {
 
-  if (
-    visibleCount === 0
-  ) {
+    hideInventoryEmpty();
 
-    if (!emptyMessage) {
+  }
 
-      emptyMessage =
-        document.createElement(
-          "div"
-        );
+}
 
 
-      emptyMessage.className =
-        "inventory-empty inventory-category-empty";
+/* ========================================
+   SET INVENTORY TAB
+======================================== */
+
+function setInventoryCategory(
+  category
+) {
+
+  currentInventoryCategory =
+    category;
 
 
-      emptyMessage.innerHTML = `
-        <span>EMPTY</span>
-        <p>이 분류에 보유 중인 소지품이 없습니다.</p>
-      `;
+  inventoryTabs.forEach(
+    function (tab) {
+
+      const tabCategory =
+        tab.dataset.inventoryCategory ||
+        "all";
 
 
-      inventoryGrid.appendChild(
-        emptyMessage
+      tab.classList.toggle(
+        "active",
+        tabCategory === category
       );
 
     }
+  );
 
 
-    emptyMessage.style.display =
-      "";
-
-  } else if (emptyMessage) {
-
-    emptyMessage.style.display =
-      "none";
-
-  }
+  filterInventoryCards(
+    category
+  );
 
 }
 
@@ -1237,35 +511,26 @@ function filterInventoryCards(
 async function loadInventory() {
 
   if (!inventoryGrid) {
-
     return;
-
   }
 
 
-  inventoryGrid.innerHTML =
-    "";
+  inventoryGrid.innerHTML = "";
 
 
   if (
     !window.GameItems ||
     typeof window.GameItems
-      .getPlayerInventory !==
-      "function"
+      .getPlayerInventory !== "function"
   ) {
 
     console.error(
       "[INVENTORY] getPlayerInventory is unavailable."
     );
 
-
-    inventoryGrid.innerHTML = `
-      <div class="inventory-empty">
-        <span>ERROR</span>
-        <p>소지품 데이터를 불러올 수 없습니다.</p>
-      </div>
-    `;
-
+    showInventoryEmpty(
+      "소지품 데이터를 불러올 수 없습니다."
+    );
 
     return;
 
@@ -1280,18 +545,33 @@ async function loadInventory() {
 
 
     /*
-      수량이 실제로 존재하는 아이템만
-      인벤토리에 넣는다.
+      MUN / Opulse는
+      인벤토리에 표시하지 않는다.
+
+      수량 0 이하도 표시하지 않는다.
     */
 
     const ownedItems =
       (items || []).filter(
         function (item) {
 
+          if (!item) {
+            return false;
+          }
+
+
+          if (
+            item.id === "mun" ||
+            item.id === "opulse"
+          ) {
+
+            return false;
+
+          }
+
+
           return (
-            Number(
-              item.quantity
-            ) > 0
+            Number(item.quantity) > 0
           );
 
         }
@@ -1302,13 +582,9 @@ async function loadInventory() {
       ownedItems.length === 0
     ) {
 
-      inventoryGrid.innerHTML = `
-        <div class="inventory-empty">
-          <span>EMPTY</span>
-          <p>보유 중인 소지품이 없습니다.</p>
-        </div>
-      `;
-
+      showInventoryEmpty(
+        "보유 중인 소지품이 없습니다."
+      );
 
       return;
 
@@ -1323,7 +599,6 @@ async function loadInventory() {
             item
           );
 
-
         inventoryGrid.appendChild(
           card
         );
@@ -1333,8 +608,8 @@ async function loadInventory() {
 
 
     /*
-      새로 로드한 뒤에도
-      현재 선택된 탭 유지.
+      현재 선택되어 있는 탭을
+      새 카드에 다시 적용.
     */
 
     filterInventoryCards(
@@ -1349,13 +624,9 @@ async function loadInventory() {
       error
     );
 
-
-    inventoryGrid.innerHTML = `
-      <div class="inventory-empty">
-        <span>ERROR</span>
-        <p>소지품을 불러오지 못했습니다.</p>
-      </div>
-    `;
+    showInventoryEmpty(
+      "소지품을 불러오지 못했습니다."
+    );
 
   }
 
@@ -1377,9 +648,7 @@ if (
     async function () {
 
       if (transitioning) {
-
         return;
-
       }
 
 
@@ -1387,8 +656,8 @@ if (
 
 
       /*
-        인벤토리를 새로 열 때는
-        항상 전체 탭부터 시작.
+        인벤토리를 새로 열면
+        전체 탭으로 초기화.
       */
 
       currentInventoryCategory =
@@ -1399,33 +668,17 @@ if (
         function (tab) {
 
           const category =
-            tab.dataset
-              .inventoryCategory;
+            tab.dataset.inventoryCategory ||
+            "all";
 
-
-          if (
+          tab.classList.toggle(
+            "active",
             category === "all"
-          ) {
-
-            tab.classList.add(
-              "active"
-            );
-
-          } else {
-
-            tab.classList.remove(
-              "active"
-            );
-
-          }
+          );
 
         }
       );
 
-
-      /*
-        화면 먼저 전환.
-      */
 
       changeGameScreen(
         lobbyScreen,
@@ -1434,11 +687,17 @@ if (
       );
 
 
+      await loadInventory();
+
+
       /*
-        서버에서 실제 보유품 로드.
+        로딩 완료 후
+        전체 필터 한 번 더 확정.
       */
 
-      await loadInventory();
+      setInventoryCategory(
+        "all"
+      );
 
     }
   );
@@ -1461,9 +720,7 @@ if (
     function () {
 
       if (transitioning) {
-
         return;
-
       }
 
 
@@ -1483,7 +740,7 @@ if (
 
 
 /* ========================================
-   INVENTORY TABS
+   INVENTORY TAB CLICK
 ======================================== */
 
 inventoryTabs.forEach(
@@ -1494,49 +751,19 @@ inventoryTabs.forEach(
       function () {
 
         const category =
-          tab.dataset
-            .inventoryCategory ||
-          "all";
-
-
-        if (
-          category ===
-          currentInventoryCategory
-        ) {
-
-          return;
-
-        }
+          tab.getAttribute(
+            "data-inventory-category"
+          ) || "all";
 
 
         safeClickSound();
 
 
-        currentInventoryCategory =
-          category;
+        /*
+          여기서 실제 필터링.
+      */
 
-
-        /* ACTIVE TAB */
-
-        inventoryTabs.forEach(
-          function (otherTab) {
-
-            otherTab.classList.remove(
-              "active"
-            );
-
-          }
-        );
-
-
-        tab.classList.add(
-          "active"
-        );
-
-
-        /* ACTUAL FILTER */
-
-        filterInventoryCards(
+        setInventoryCategory(
           category
         );
 
@@ -1545,7 +772,6 @@ inventoryTabs.forEach(
 
   }
 );
-
 /* ========================================
    GACHA VIEW
 ======================================== */
