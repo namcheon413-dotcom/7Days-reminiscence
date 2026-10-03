@@ -41,6 +41,19 @@ body {
   overflow: hidden;
 
   background: #000;
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+#title-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 
@@ -492,8 +505,6 @@ body {
 ======================================== */
 
 .game-screen {
-  display: none;
-
   position: fixed;
   inset: 0;
 
@@ -510,15 +521,16 @@ body {
   transition:
     opacity 0.7s ease,
     visibility 0.7s ease;
+
+  z-index: 20;
 }
 
 .game-screen.active {
-  display: block;
-
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
+
 
 /* ========================================
    LOBBY SCREEN
