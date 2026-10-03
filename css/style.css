@@ -1241,185 +1241,97 @@ body {
 
 .recruitment-screen {
   position: absolute;
-
   top: 100px;
   left: 0;
   bottom: 0;
-
   width: 100%;
-
   display: grid;
-
-  grid-template-columns:
-    clamp(230px, 25vw, 390px) 1fr;
-
+  grid-template-columns: clamp(230px, 25vw, 390px) 1fr;
   gap: 34px;
-
-  padding:
-    38px 42px 28px;
+  padding: 38px 42px 28px;
 }
 
-
-/* ========================================
-   LEFT RECRUITMENT BANNERS
-======================================== */
-
+/* LEFT BANNERS */
 .recruitment-tabs {
   display: flex;
   flex-direction: column;
-
   gap: 18px;
-
   align-items: stretch;
 }
 
-
-/* ========================================
-   RECRUITMENT TAB
-======================================== */
-
 .recruitment-tab {
   position: relative;
-
   width: 100%;
   min-height: 118px;
-
-  padding:
-    22px 26px;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.16);
-
-  background:
-    rgba(255, 255, 255, 0.025);
-
-  color:
-    rgba(255, 255, 255, 0.55);
-
+  padding: 22px 26px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.55);
   display: flex;
   flex-direction: column;
-
   align-items: flex-start;
   justify-content: center;
-
   gap: 10px;
-
   text-align: left;
-
   cursor: pointer;
-
   overflow: hidden;
-
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-
 
 .recruitment-tab:hover {
   color: #fff;
-
-  border-color:
-    rgba(255, 255, 255, 0.38);
-
-  background:
-    rgba(255, 255, 255, 0.06);
+  border-color: rgba(255,255,255,.38);
+  background: rgba(255,255,255,.06);
 }
-
 
 .recruitment-tab.active {
   color: #fff;
-
-  border-color:
-    rgba(255, 255, 255, 0.62);
-
-  background:
-    rgba(255, 255, 255, 0.1);
+  border-color: rgba(255,255,255,.62);
+  background: rgba(255,255,255,.10);
 }
-
 
 .recruitment-tab.active::before {
   content: "";
-
   position: absolute;
-
   top: 0;
   left: 0;
-
   width: 4px;
   height: 100%;
-
-  background:
-    rgba(255, 255, 255, 0.9);
+  background: rgba(255,255,255,.9);
 }
-
-
-/* ========================================
-   TAB TEXT
-======================================== */
 
 .recruitment-tab-en {
-  font-family:
-    Arial,
-    sans-serif;
-
+  font-family: Arial, sans-serif;
   font-size: 10px;
   font-weight: 700;
-
-  letter-spacing: 0.25em;
-
-  color:
-    rgba(255, 255, 255, 0.4);
+  letter-spacing: .25em;
+  color: rgba(255,255,255,.4);
 }
-
 
 .recruitment-tab-ko {
-  font-family:
-    "Noto Serif KR",
-    serif;
-
+  font-family: "Noto Serif KR", serif;
   font-size: 22px;
   font-weight: 700;
-
-  letter-spacing: 0.06em;
+  letter-spacing: .06em;
 }
 
-
-/* ========================================
-   MAIN RECRUITMENT AREA
-======================================== */
-
+/* RIGHT / SHARED CONTENT SLOT */
 .recruitment-main {
   position: relative;
-
   min-width: 0;
   min-height: 0;
 }
 
-
-/* ========================================
-   RECRUITMENT CONTENT
-======================================== */
-
 .recruitment-content {
   position: absolute;
-
   inset: 0;
-
   display: flex;
   flex-direction: column;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
-  transition:
-    opacity 220ms ease,
-    visibility 220ms ease;
+  transition: opacity 220ms ease, visibility 220ms ease;
 }
-
 
 .recruitment-content.active {
   opacity: 1;
@@ -1427,414 +1339,102 @@ body {
   pointer-events: auto;
 }
 
-
-/* ========================================
-   MAIN VISUAL
-======================================== */
-
 .recruitment-visual {
   position: relative;
-
   flex: 1;
-
   min-height: 0;
-
   overflow: hidden;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.1);
-
-  background:
-    radial-gradient(
-      circle at 60% 45%,
-      rgba(255, 255, 255, 0.08),
-      rgba(255, 255, 255, 0.015) 55%,
-      rgba(0, 0, 0, 0.12) 100%
-    );
+  border: 1px solid rgba(255,255,255,.10);
+  background: radial-gradient(circle at 60% 45%, rgba(255,255,255,.08), rgba(255,255,255,.015) 55%, rgba(0,0,0,.12) 100%);
 }
-
-
-/* ========================================
-   RECRUITMENT INFO
-======================================== */
 
 .recruitment-info {
   position: absolute;
-
   left: 38px;
   bottom: 34px;
-
   z-index: 2;
 }
 
-
 .recruitment-type {
   display: block;
-
   margin-bottom: 13px;
-
-  font-family:
-    Arial,
-    sans-serif;
-
+  font-family: Arial, sans-serif;
   font-size: 10px;
   font-weight: 700;
-
-  letter-spacing: 0.28em;
-
-  color:
-    rgba(255, 255, 255, 0.48);
+  letter-spacing: .28em;
+  color: rgba(255,255,255,.48);
 }
-
 
 .recruitment-title {
   margin: 0;
-
-  font-family:
-    "Noto Serif KR",
-    serif;
-
-  font-size:
-    clamp(36px, 4vw, 62px);
-
+  font-family: "Noto Serif KR", serif;
+  font-size: clamp(36px, 4vw, 62px);
   line-height: 1;
-
   font-weight: 700;
-
-  letter-spacing: 0.08em;
+  letter-spacing: .08em;
 }
-
 
 .recruitment-description {
-  margin:
-    15px 0 0;
-
+  margin: 15px 0 0;
   font-size: 13px;
   font-weight: 700;
-
-  color:
-    rgba(255, 255, 255, 0.5);
+  color: rgba(255,255,255,.5);
 }
 
-
-/* ========================================
-   1 / 10 RECRUIT
-======================================== */
-
+/* 1 / 10 RECRUIT */
 .recruitment-actions {
   flex-shrink: 0;
-
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
-
   padding-top: 24px;
 }
 
-
 .recruit-button {
   height: 94px;
-
-  padding:
-    14px 24px;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.22);
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
+  padding: 14px 24px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.035);
   color: #fff;
-
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
-
   gap: 8px;
-
   cursor: pointer;
-
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
-
 
 .recruit-button:hover {
-  transform:
-    translateY(-2px);
-
-  background:
-    rgba(255, 255, 255, 0.09);
-
-  border-color:
-    rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.5);
 }
 
-
-.recruit-button-multi {
-  background:
-    rgba(255, 255, 255, 0.07);
-}
-
-
-.recruit-count {
-  font-size: 19px;
-  font-weight: 700;
-
-  letter-spacing: 0.08em;
-}
-
-
-.recruit-cost {
-  font-family:
-    Arial,
-    sans-serif;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  letter-spacing: 0.15em;
-
-  color:
-    rgba(255, 255, 255, 0.42);
-}
-
-
-/* ========================================
-   RECRUITMENT MOBILE
-======================================== */
+.recruit-button-multi { background: rgba(255,255,255,.07); }
+.recruit-count { font-size: 19px; font-weight: 700; letter-spacing: .08em; }
+.recruit-cost { font-family: Arial,sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .15em; color: rgba(255,255,255,.42); }
 
 @media (max-width: 600px) {
-
   .recruitment-screen {
     top: 78px;
-
     grid-template-columns: 1fr;
-
-    grid-template-rows:
-      auto 1fr;
-
+    grid-template-rows: auto 1fr;
     gap: 14px;
-
-    padding:
-      18px 16px 16px;
+    padding: 18px 16px 16px;
   }
-
-
-  .recruitment-tabs {
-    flex-direction: row;
-
-    gap: 8px;
-  }
-
-
-  .recruitment-tab {
-    min-height: 72px;
-
-    padding:
-      12px 14px;
-  }
-
-
-  .recruitment-tab-en {
-    font-size: 7px;
-  }
-
-
-  .recruitment-tab-ko {
-    font-size: 15px;
-  }
-
-
-  .recruitment-info {
-    left: 20px;
-    bottom: 20px;
-  }
-
-
-  .recruitment-type {
-    font-size: 8px;
-  }
-
-
-  .recruitment-title {
-    font-size: 32px;
-  }
-
-
-  .recruitment-description {
-    margin-top: 10px;
-
-    font-size: 11px;
-  }
-
-
-  .recruitment-actions {
-    gap: 10px;
-
-    padding-top: 12px;
-  }
-
-
-  .recruit-button {
-    height: 72px;
-
-    padding:
-      10px 8px;
-  }
-
-
-  .recruit-count {
-    font-size: 14px;
-  }
-
-
-  .recruit-cost {
-    font-size: 8px;
-  }
-
-}
-
-
-/* ========================================
-   MOBILE
-======================================== */
-
-@media (max-width: 600px) {
-
-  .gacha-view {
-    top: 78px;
-
-    height:
-      calc(100% - 78px);
-
-    padding:
-      28px 20px;
-  }
-
-
-  .gacha-select-heading {
-    margin-bottom: 22px;
-  }
-
-
-  .gacha-select-heading h2 {
-    font-size: 32px;
-  }
-
-
-  .gacha-select-heading p {
-    font-size: 11px;
-  }
-
-
-  .gacha-banner-list {
-    height:
-      calc(100% - 105px);
-
-    grid-template-columns: 1fr;
-
-    grid-template-rows:
-      1fr 1fr;
-
-    gap: 12px;
-  }
-
-
-  .recruit-banner {
-    padding:
-      20px 22px;
-  }
-
-
-  .recruit-type {
-    font-size: 8px;
-  }
-
-
-  .recruit-title {
-    font-size: 25px;
-  }
-
-
-  .recruit-description {
-    margin-top: 7px;
-
-    font-size: 11px;
-  }
-
-
-  .recruit-enter {
-    margin-top: 14px;
-
-    font-size: 8px;
-  }
-
-
-  .gacha-select-back {
-    top: 18px;
-    left: 20px;
-
-    font-size: 10px;
-  }
-
-
-  .recruit-detail {
-    padding-top: 38px;
-  }
-
-
-  .recruit-detail-type {
-    font-size: 8px;
-  }
-
-
-  .recruit-detail-title {
-    font-size: 36px;
-  }
-
-
-  .recruit-detail-description {
-    font-size: 11px;
-  }
-
-
-  .recruit-detail-space {
-    margin-top: 20px;
-  }
-
-
-  .recruit-actions {
-    padding-top: 14px;
-
-    gap: 10px;
-  }
-
-
-  .recruit-button {
-    min-height: 70px;
-
-    padding:
-      10px 8px;
-  }
-
-
-  .recruit-count {
-    font-size: 14px;
-  }
-
-
-  .recruit-cost {
-    font-size: 8px;
-  }
-
+  .recruitment-tabs { flex-direction: row; gap: 8px; }
+  .recruitment-tab { min-height: 72px; padding: 12px 14px; }
+  .recruitment-tab-en { font-size: 7px; }
+  .recruitment-tab-ko { font-size: 15px; }
+  .recruitment-info { left: 20px; bottom: 20px; }
+  .recruitment-type { font-size: 8px; }
+  .recruitment-title { font-size: 32px; }
+  .recruitment-description { margin-top: 10px; font-size: 11px; }
+  .recruitment-actions { gap: 10px; padding-top: 12px; }
+  .recruit-button { height: 72px; padding: 10px 8px; }
+  .recruit-count { font-size: 14px; }
+  .recruit-cost { font-size: 8px; }
 }
 
 /* ========================================
