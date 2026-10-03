@@ -185,3 +185,131 @@ gachaBackButton.addEventListener(
 
   }
 );
+
+
+/* ========================================
+   GACHA INNER NAVIGATION
+======================================== */
+
+const gachaSelect =
+  document.getElementById("gacha-select");
+
+const eventGacha =
+  document.getElementById("event-gacha");
+
+const standardGacha =
+  document.getElementById("standard-gacha");
+
+const eventGachaBanner =
+  document.getElementById("event-gacha-banner");
+
+const standardGachaBanner =
+  document.getElementById("standard-gacha-banner");
+
+const gachaSelectBackButtons =
+  document.querySelectorAll(".gacha-select-back");
+
+const recruitButtons =
+  document.querySelectorAll(".recruit-button");
+
+
+/* ========================================
+   GACHA VIEW SWITCH
+======================================== */
+
+function showGachaView(view) {
+
+  gachaSelect.classList.remove("active");
+  eventGacha.classList.remove("active");
+  standardGacha.classList.remove("active");
+
+  view.classList.add("active");
+
+}
+
+
+/* ========================================
+   EVENT BANNER
+======================================== */
+
+eventGachaBanner.addEventListener(
+  "click",
+  function () {
+
+    playClickSound();
+
+    showGachaView(eventGacha);
+
+  }
+);
+
+
+/* ========================================
+   STANDARD BANNER
+======================================== */
+
+standardGachaBanner.addEventListener(
+  "click",
+  function () {
+
+    playClickSound();
+
+    showGachaView(standardGacha);
+
+  }
+);
+
+
+/* ========================================
+   DETAIL → SELECT
+======================================== */
+
+gachaSelectBackButtons.forEach(
+  function (button) {
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        playClickSound();
+
+        showGachaView(gachaSelect);
+
+      }
+    );
+
+  }
+);
+
+
+/* ========================================
+   RECRUIT BUTTON
+   현재는 테스트용
+======================================== */
+
+recruitButtons.forEach(
+  function (button) {
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        playClickSound();
+
+        const recruitType =
+          button.dataset.recruitType;
+
+        const recruitCount =
+          button.dataset.recruitCount;
+
+        console.log(
+          "RECRUIT:",
+          recruitType,
+          recruitCount
+        );
+
+      }
+    );
+
+  }
+);
