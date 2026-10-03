@@ -256,10 +256,6 @@ body {
 
 
 /* ========================================
-   START BUTTON
-======================================== */
-
-/* ========================================
    FINAL TITLE OVERRIDE
 ======================================== */
 
@@ -269,24 +265,24 @@ body {
 #main-title > .fanmade {
   position: absolute;
 
-  top: 28px;
+  top: 24px;
   left: 50%;
 
   transform: translateX(-50%);
 
-  width: 100%;
-
   margin: 0;
 
-  text-align: center;
+  white-space: nowrap;
 
   font-family: Arial, sans-serif;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 400;
 
-  letter-spacing: 0.35em;
+  letter-spacing: 0.4em;
 
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.35);
+
+  text-transform: uppercase;
 
   z-index: 10;
 }
@@ -307,8 +303,8 @@ body {
   display: flex;
   flex-direction: column;
 
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 }
@@ -319,113 +315,109 @@ body {
 #main-title .game-logo {
   display: block;
 
-  width: min(90vw, 960px) !important;
-  height: auto !important;
+  width: min(90vw, 960px);
+  height: auto;
 
-  max-width: 90vw !important;
-  max-height: 70vh !important;
+  max-width: 90vw;
+  max-height: 70vh;
 
-  margin: 0 auto !important;
+  margin: 0 auto;
 
   object-fit: contain;
 }
 
-
-/* ---------- START ---------- */
+/* ---------- START MINIMAL ---------- */
 
 #main-title #start-button {
-  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
 
   display: block;
 
+  position: relative;
+
+  width: auto;
   min-width: 0;
 
-  margin: -45px auto 0 !important;
-  padding: 12px 32px !important;
+  margin: -42px auto 0;
+  padding: 10px 4px;
 
-  border: 0 !important;
-  border-radius: 0 !important;
+  border: none;
+  outline: none;
+  border-radius: 0;
 
-  background: transparent !important;
-  box-shadow: none !important;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
 
-  color: rgba(255, 255, 255, 0.72) !important;
+  color: rgba(255, 255, 255, 0.58);
 
   font-family: Arial, sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 400;
 
-  letter-spacing: 0.55em;
-  text-indent: 0.55em;
+  letter-spacing: 0.65em;
+  text-indent: 0.65em;
 
   cursor: pointer;
 
   transition:
-    color 0.25s ease,
-    letter-spacing 0.25s ease;
+    color 220ms ease,
+    opacity 220ms ease;
 }
 
 
-/* START 좌우 선 */
+/* 아래에 아주 짧은 선 하나 */
 
-#main-title #start-button::before,
 #main-title #start-button::after {
   content: "";
 
   position: absolute;
 
-  top: 50%;
+  left: 50%;
+  bottom: 3px;
 
-  width: 45px;
+  width: 0;
   height: 1px;
 
-  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(-50%);
 
-  transition:
-    width 0.25s ease,
-    background 0.25s ease;
+  background: rgba(255, 255, 255, 0.65);
+
+  transition: width 220ms ease;
 }
 
+
+/* 기존 ::before 강제 제거 */
 
 #main-title #start-button::before {
-  right: 100%;
+  content: none;
 }
 
 
-#main-title #start-button::after {
-  left: 100%;
-}
-
-
-/* START hover */
+/* HOVER */
 
 #main-title #start-button:hover {
-  background: transparent !important;
+  background: none;
 
-  color: #fff !important;
+  color: rgba(255, 255, 255, 0.95);
 
-  letter-spacing: 0.7em;
-
-  transform: none !important;
+  transform: none;
 }
 
 
-#main-title #start-button:hover::before,
 #main-title #start-button:hover::after {
-  width: 65px;
-
-  background: rgba(255, 255, 255, 0.8);
+  width: 38px;
 }
 
 
-/* START click */
+/* CLICK */
 
 #main-title #start-button:active {
-  transform: none !important;
+  transform: none;
 
-  opacity: 0.5;
+  opacity: 0.45;
 }
-
 
 /* ========================================
    MOBILE
