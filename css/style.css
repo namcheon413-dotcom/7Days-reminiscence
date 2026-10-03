@@ -2055,3 +2055,162 @@ body {
   }
 
 }
+
+/* ========================================
+   LOBBY PLAYER WALLET
+======================================== */
+
+/* 오른쪽 전체 영역 */
+
+.lobby-header-right {
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+
+  height: 100%;
+}
+
+
+/* ========================================
+   WALLET
+======================================== */
+
+.lobby-wallet {
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+
+  height: 42px;
+
+  padding: 0 20px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.11);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+}
+
+
+/* 개별 재화 */
+
+.wallet-item {
+  display: flex;
+  align-items: baseline;
+
+  gap: 10px;
+
+  white-space: nowrap;
+}
+
+
+/* MUN / OPULSE / ENDURANCE */
+
+.wallet-label {
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+
+  color:
+    rgba(255, 255, 255, 0.38);
+}
+
+
+/* 실제 수치 */
+
+.wallet-value {
+  min-width: 44px;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  color:
+    rgba(255, 255, 255, 0.88);
+
+  text-align: right;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* 재화 사이 구분선 */
+
+.wallet-divider {
+  width: 1px;
+  height: 18px;
+
+  background:
+    rgba(255, 255, 255, 0.11);
+}
+
+
+/* 지구력은 조금 넓게 */
+
+.wallet-item-endurance
+.wallet-value {
+  min-width: 66px;
+}
+
+
+/* ========================================
+   WALLET MOBILE
+======================================== */
+
+@media (max-width: 760px) {
+
+  .lobby-header {
+    padding:
+      0 20px;
+  }
+
+
+  .lobby-header-right {
+    gap: 14px;
+  }
+
+
+  .lobby-wallet {
+    gap: 10px;
+
+    padding:
+      0 10px;
+  }
+
+
+  .wallet-label {
+    display: none;
+  }
+
+
+  .wallet-divider {
+    height: 14px;
+  }
+
+
+  .wallet-value {
+    min-width: auto;
+
+    font-size: 11px;
+  }
+
+
+  .wallet-item-endurance
+  .wallet-value {
+    min-width: auto;
+  }
+
+}
