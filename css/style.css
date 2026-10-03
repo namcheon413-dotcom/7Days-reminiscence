@@ -259,88 +259,219 @@ body {
    START BUTTON
 ======================================== */
 
-#start-button {
-  position: relative;
+/* ========================================
+   FINAL TITLE OVERRIDE
+======================================== */
 
-  margin-top: -20px;
-  padding: 12px 34px;
 
-  min-width: 170px;
+/* ---------- 상단 FANMADE ---------- */
 
-  border: none;
-  background: transparent;
+#main-title > .fanmade {
+  position: absolute;
 
-  color: rgba(245, 243, 236, 0.78);
+  top: 28px;
+  left: 50%;
 
-  font-family:
-    "Noto Serif KR",
-    serif;
+  transform: translateX(-50%);
 
-  font-size: 11px;
+  width: 100%;
+
+  margin: 0;
+
+  text-align: center;
+
+  font-family: Arial, sans-serif;
+  font-size: 9px;
   font-weight: 400;
 
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
+  letter-spacing: 0.35em;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  z-index: 10;
+}
+
+
+/* ---------- 중앙 ---------- */
+
+#main-title .title-content {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* ---------- LOGO ---------- */
+
+#main-title .game-logo {
+  display: block;
+
+  width: min(90vw, 960px) !important;
+  height: auto !important;
+
+  max-width: 90vw !important;
+  max-height: 70vh !important;
+
+  margin: 0 auto !important;
+
+  object-fit: contain;
+}
+
+
+/* ---------- START ---------- */
+
+#main-title #start-button {
+  position: relative;
+
+  display: block;
+
+  min-width: 0;
+
+  margin: -45px auto 0 !important;
+  padding: 12px 32px !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  background: transparent !important;
+  box-shadow: none !important;
+
+  color: rgba(255, 255, 255, 0.72) !important;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
 
   cursor: pointer;
 
   transition:
-    color 0.3s ease,
-    letter-spacing 0.3s ease,
-    opacity 0.3s ease;
+    color 0.25s ease,
+    letter-spacing 0.25s ease;
 }
 
 
-/* 좌우 장식선 */
+/* START 좌우 선 */
 
-#start-button::before,
-#start-button::after {
+#main-title #start-button::before,
+#main-title #start-button::after {
   content: "";
 
   position: absolute;
+
   top: 50%;
 
-  width: 42px;
+  width: 45px;
   height: 1px;
 
-  background: rgba(245, 243, 236, 0.35);
+  background: rgba(255, 255, 255, 0.35);
 
   transition:
-    width 0.3s ease,
-    background 0.3s ease;
+    width 0.25s ease,
+    background 0.25s ease;
 }
 
 
-#start-button::before {
+#main-title #start-button::before {
   right: 100%;
 }
 
-#start-button::after {
+
+#main-title #start-button::after {
   left: 100%;
 }
 
 
-/* HOVER */
+/* START hover */
 
-#start-button:hover {
-  color: #fff;
+#main-title #start-button:hover {
+  background: transparent !important;
 
-  letter-spacing: 0.65em;
+  color: #fff !important;
+
+  letter-spacing: 0.7em;
+
+  transform: none !important;
 }
 
 
-#start-button:hover::before,
-#start-button:hover::after {
-  width: 64px;
+#main-title #start-button:hover::before,
+#main-title #start-button:hover::after {
+  width: 65px;
 
   background: rgba(255, 255, 255, 0.8);
 }
 
 
-/* CLICK */
+/* START click */
 
-#start-button:active {
-  opacity: 0.45;
+#main-title #start-button:active {
+  transform: none !important;
+
+  opacity: 0.5;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+  #main-title > .fanmade {
+    top: 20px;
+
+    font-size: 7px;
+
+    letter-spacing: 0.25em;
+  }
+
+
+  #main-title .game-logo {
+    width: 94vw !important;
+    max-width: 94vw !important;
+    max-height: 60vh !important;
+  }
+
+
+  #main-title #start-button {
+    margin-top: -20px !important;
+
+    padding: 10px 24px !important;
+
+    font-size: 9px;
+
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+  }
+
+
+  #main-title #start-button::before,
+  #main-title #start-button::after {
+    width: 28px;
+  }
+
+
+  #main-title #start-button:hover::before,
+  #main-title #start-button:hover::after {
+    width: 38px;
+  }
+
 }
 
 
