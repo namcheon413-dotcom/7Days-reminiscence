@@ -410,9 +410,22 @@ body {
     letter-spacing: 0.25em;
   }
 
-  #start-button {
-    min-width: 160px;
-  }
+#start-button {
+  min-width: 140px;
+
+  font-size: 10px;
+  letter-spacing: 0.4em;
+}
+
+#start-button::before,
+#start-button::after {
+  width: 26px;
+}
+
+#start-button:hover::before,
+#start-button:hover::after {
+  width: 38px;
+}
 
   .bottom-text {
     bottom: 18px;
