@@ -784,7 +784,102 @@
   <!-- ========================================
        JAVASCRIPT
   ========================================= -->
+  
+<!-- ========================================
+     ITEM DETAIL MODAL
+========================================= -->
 
+<div
+  id="item-detail-modal"
+  class="item-detail-modal"
+  aria-hidden="true"
+>
+
+  <!-- 바깥 어두운 영역 -->
+  <button
+    id="item-detail-backdrop"
+    class="item-detail-backdrop"
+    type="button"
+    aria-label="아이템 정보 닫기"
+  ></button>
+
+
+  <!-- 팝업 본체 -->
+  <section
+    class="item-detail-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="item-detail-name"
+  >
+
+    <!-- 닫기 -->
+    <button
+      id="item-detail-close"
+      class="item-detail-close"
+      type="button"
+      aria-label="닫기"
+    >
+      ×
+    </button>
+
+
+    <!-- 이미지 -->
+    <div class="item-detail-image-frame">
+
+      <img
+        id="item-detail-image"
+        class="item-detail-image"
+        src=""
+        alt=""
+      >
+
+      <span
+        id="item-detail-placeholder"
+        class="item-detail-placeholder"
+      >
+        NO IMAGE
+      </span>
+
+    </div>
+
+
+    <!-- 정보 -->
+    <div class="item-detail-content">
+
+      <span
+        id="item-detail-grade"
+        class="item-detail-grade"
+      ></span>
+
+      <h2
+        id="item-detail-name"
+        class="item-detail-name"
+      >
+        —
+      </h2>
+
+      <span
+        id="item-detail-name-en"
+        class="item-detail-name-en"
+      >
+        —
+      </span>
+
+      <div class="item-detail-line"></div>
+
+      <p
+        id="item-detail-description"
+        class="item-detail-description"
+      >
+        —
+      </p>
+
+    </div>
+
+  </section>
+
+</div>
+  
 <!-- ========================================
      SUPABASE
 ========================================= -->
