@@ -304,14 +304,11 @@ body {
     sans-serif;
 
   /*
-    ★ START 크기
+    ★ START 
   */
-  font-size: 24px;
-
-  /*
-    ★ BOLD
-  */
-  font-weight: 700;
+  font-size: clamp(24px, 2vw, 32px);
+   font-weight: 700;
+   letter-spacing: 0.35em;
 
   line-height: 0.5em;
 
