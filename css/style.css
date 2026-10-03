@@ -1,13 +1,10 @@
-/* =========================================
-   7 DAYS : REMINISCENCE
-   TITLE SCREEN
-========================================= */
-
+/* ========================================
+   BASIC
+======================================== */
 
 * {
   box-sizing: border-box;
 }
-
 
 html,
 body {
@@ -20,10 +17,8 @@ body {
   overflow: hidden;
 }
 
-
 body {
   background: #000;
-
   color: #fff;
 
   font-family:
@@ -33,10 +28,9 @@ body {
 }
 
 
-
-/* =========================================
+/* ========================================
    TITLE SCREEN
-========================================= */
+======================================== */
 
 #title-screen {
   position: relative;
@@ -45,15 +39,13 @@ body {
   height: 100vh;
 
   overflow: hidden;
-
   background: #000;
 }
 
 
-
-/* =========================================
-   BACKGROUND VIDEO
-========================================= */
+/* ========================================
+   VIDEO
+======================================== */
 
 #title-video {
   position: absolute;
@@ -73,14 +65,12 @@ body {
 }
 
 
-
-/* =========================================
-   VIDEO OVERLAY
-========================================= */
+/* ========================================
+   OVERLAY
+======================================== */
 
 .video-overlay {
   position: absolute;
-
   inset: 0;
 
   z-index: 1;
@@ -90,25 +80,109 @@ body {
   background:
     radial-gradient(
       circle at center,
-      rgba(0, 0, 0, 0.05) 0%,
-      rgba(0, 0, 0, 0.18) 55%,
-      rgba(0, 0, 0, 0.50) 100%
+      rgba(0, 0, 0, 0.02) 0%,
+      rgba(0, 0, 0, 0.15) 55%,
+      rgba(0, 0, 0, 0.52) 100%
     );
 }
 
 
+/* ========================================
+   SHARED SCREEN
+======================================== */
 
-/* =========================================
-   CENTER CONTENT
-========================================= */
+.screen-layer {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.65s ease,
+    visibility 0.65s ease;
+}
+
+.screen-layer.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ========================================
+   INITIALIZE
+======================================== */
+
+#initialize-screen {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+
+.initialize-title {
+  margin: 0;
+
+  font-size: clamp(46px, 7vw, 96px);
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+
+  text-shadow:
+    0 2px 16px rgba(0, 0, 0, 0.6);
+}
+
+
+.initialize-text {
+  margin-top: 38px;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+
+  letter-spacing: 0.45em;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  animation:
+    initializeBlink 2s ease-in-out infinite;
+}
+
+
+@keyframes initializeBlink {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+}
+
+
+/* ========================================
+   MAIN TITLE
+======================================== */
 
 .title-content {
   position: absolute;
 
   top: 50%;
   left: 50%;
-
-  z-index: 2;
 
   width: min(90vw, 900px);
 
@@ -118,31 +192,18 @@ body {
 }
 
 
-
-/* =========================================
-   FANMADE TEXT
-========================================= */
-
 .fanmade {
   margin: 0 0 16px;
 
   font-family: Arial, sans-serif;
 
   font-size: 10px;
-  font-weight: 400;
 
   letter-spacing: 0.35em;
-
-  text-transform: uppercase;
 
   color: rgba(255, 255, 255, 0.65);
 }
 
-
-
-/* =========================================
-   MAIN TITLE
-========================================= */
 
 .game-title {
   margin: 0;
@@ -155,14 +216,9 @@ body {
   letter-spacing: 0.12em;
 
   text-shadow:
-    0 2px 15px rgba(0, 0, 0, 0.55);
+    0 2px 16px rgba(0, 0, 0, 0.6);
 }
 
-
-
-/* =========================================
-   SMALL DIVIDER
-========================================= */
 
 .title-line {
   width: 42px;
@@ -170,27 +226,28 @@ body {
 
   margin: 30px auto;
 
-  background: rgba(255, 255, 255, 0.55);
+  background:
+    rgba(255, 255, 255, 0.55);
 }
 
 
-
-/* =========================================
-   START
-========================================= */
+/* ========================================
+   START BUTTON
+======================================== */
 
 #start-button {
-  position: relative;
-
   min-width: 180px;
 
   padding: 13px 28px;
 
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border:
+    1px solid rgba(255, 255, 255, 0.45);
 
-  background: rgba(0, 0, 0, 0.16);
+  background:
+    rgba(0, 0, 0, 0.16);
 
-  color: rgba(255, 255, 255, 0.88);
+  color:
+    rgba(255, 255, 255, 0.88);
 
   font-size: 11px;
 
@@ -209,7 +266,8 @@ body {
 
 
 #start-button:hover {
-  background: rgba(255, 255, 255, 0.90);
+  background:
+    rgba(255, 255, 255, 0.9);
 
   color: #111;
 
@@ -224,18 +282,15 @@ body {
 }
 
 
-
-/* =========================================
-   BOTTOM TEXT
-========================================= */
+/* ========================================
+   BOTTOM
+======================================== */
 
 .bottom-text {
   position: absolute;
 
   bottom: 24px;
   left: 50%;
-
-  z-index: 2;
 
   transform: translateX(-50%);
 
@@ -247,23 +302,28 @@ body {
 
   letter-spacing: 0.4em;
 
-  color: rgba(255, 255, 255, 0.35);
+  color:
+    rgba(255, 255, 255, 0.35);
 }
 
 
-
-/* =========================================
+/* ========================================
    MOBILE
-========================================= */
+======================================== */
 
 @media (max-width: 600px) {
 
+  .initialize-title,
   .game-title {
-    font-size: clamp(42px, 15vw, 72px);
+    font-size:
+      clamp(42px, 15vw, 72px);
 
     letter-spacing: 0.06em;
   }
 
+  .initialize-text {
+    font-size: 8px;
+  }
 
   .fanmade {
     font-size: 8px;
@@ -271,11 +331,9 @@ body {
     letter-spacing: 0.25em;
   }
 
-
   #start-button {
     min-width: 160px;
   }
-
 
   .bottom-text {
     bottom: 18px;
