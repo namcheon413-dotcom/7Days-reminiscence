@@ -1577,6 +1577,16 @@ if (gachaScreen) {
 
 }
 
+if (inventoryScreen) {
+
+  inventoryScreen.classList.remove(
+    "active"
+  );
+
+  inventoryScreen.style.display =
+    "none";
+
+}
 
 /* ========================================
    INITIAL VALUES
