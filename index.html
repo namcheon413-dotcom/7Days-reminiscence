@@ -210,119 +210,111 @@
          LOBBY HEADER
     ========================================= -->
 
-    <header class="lobby-header">
+<header class="lobby-header">
 
 
-      <!-- 왼쪽 게임 타이틀 -->
+  <!-- ========================================
+       LEFT / GAME TITLE
+  ========================================= -->
 
-      <div class="lobby-brand">
+  <div class="lobby-brand">
 
-        <span class="lobby-brand-main">
-          七曜回顧錄
-        </span>
+    <span class="lobby-brand-main">
+      七曜回顧錄
+    </span>
 
-        <span class="lobby-brand-sub">
-          7 DAYS : REMINISCENCE
-        </span>
+    <span class="lobby-brand-sub">
+      7 DAYS : REMINISCENCE
+    </span>
 
-      </div>
-
-
-      <!-- ========================================
-           오른쪽 플레이어 정보 / 설정
-      ========================================= -->
-
-      <div class="lobby-header-right">
+  </div>
 
 
-        <!-- 플레이어 재화 -->
+  <!-- ========================================
+       CENTER / PLAYER
+  ========================================= -->
 
-        <div
-          id="lobby-wallet"
-          class="lobby-wallet"
-          aria-label="플레이어 재화"
-        >
+  <div class="lobby-player">
 
+    <div
+      id="player-level"
+      class="player-level"
+      aria-label="플레이어 레벨"
+    >
+      1
+    </div>
 
-          <!-- 문 -->
+    <span
+      id="player-nickname"
+      class="player-nickname"
+    >
+      —
+    </span>
 
-          <div class="wallet-item">
-
-            <span class="wallet-label">
-              MUN
-            </span>
-
-            <span
-              id="wallet-mun"
-              class="wallet-value"
-            >
-              —
-            </span>
-
-          </div>
+  </div>
 
 
-          <div class="wallet-divider"></div>
+  <!-- ========================================
+       RIGHT / WALLET
+  ========================================= -->
+
+  <div
+    id="lobby-wallet"
+    class="lobby-wallet"
+    aria-label="플레이어 재화"
+  >
+
+    <div class="wallet-item">
+
+      <span class="wallet-label">
+        MUN
+      </span>
+
+      <span
+        id="wallet-mun"
+        class="wallet-value"
+      >
+        —
+      </span>
+
+    </div>
 
 
-          <!-- 원맥 -->
+    <div class="wallet-item">
 
-          <div class="wallet-item">
+      <span class="wallet-label">
+        OPULSE
+      </span>
 
-            <span class="wallet-label">
-              OPULSE
-            </span>
+      <span
+        id="wallet-opulse"
+        class="wallet-value"
+      >
+        —
+      </span>
 
-            <span
-              id="wallet-opulse"
-              class="wallet-value"
-            >
-              —
-            </span>
-
-          </div>
+    </div>
 
 
-          <div class="wallet-divider"></div>
+    <div class="wallet-item">
+
+      <span class="wallet-label">
+        ENDURANCE
+      </span>
+
+      <span
+        id="wallet-endurance"
+        class="wallet-value"
+      >
+        — / —
+      </span>
+
+    </div>
+
+  </div>
 
 
-          <!-- 지구력 -->
-
-          <div class="wallet-item wallet-item-endurance">
-
-            <span class="wallet-label">
-              ENDURANCE
-            </span>
-
-            <span
-              id="wallet-endurance"
-              class="wallet-value"
-            >
-              — / —
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <!-- 설정 -->
-
-        <button
-          id="settings-button"
-          class="header-button"
-          type="button"
-          aria-label="설정"
-        >
-          SETTINGS
-        </button>
-
-
-      </div>
-
-
-    </header>
-
+</header>
 
 
     <!-- ========================================
@@ -391,6 +383,21 @@
         </div>
 
       </div>
+
+
+      <!-- ========================================
+           SETTINGS
+      ========================================= -->
+
+      <button
+        id="settings-button"
+        class="lobby-settings-button"
+        type="button"
+        aria-label="설정"
+        title="설정"
+      >
+        <span aria-hidden="true">⚙</span>
+      </button>
 
 
     </section>
