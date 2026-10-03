@@ -162,6 +162,74 @@ const playerRegistrationConfirm =
 
 
 /* ========================================
+   LOBBY → INVENTORY
+======================================== */
+
+if (
+  inventoryButton &&
+  lobbyScreen &&
+  inventoryScreen
+) {
+
+  inventoryButton.addEventListener(
+    "click",
+    function () {
+
+      if (transitioning) {
+        return;
+      }
+
+
+      safeClickSound();
+
+
+      changeGameScreen(
+        lobbyScreen,
+        inventoryScreen,
+        300
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   INVENTORY → LOBBY
+======================================== */
+
+if (
+  inventoryBackButton &&
+  inventoryScreen &&
+  lobbyScreen
+) {
+
+  inventoryBackButton.addEventListener(
+    "click",
+    function () {
+
+      if (transitioning) {
+        return;
+      }
+
+
+      safeClickSound();
+
+
+      changeGameScreen(
+        inventoryScreen,
+        lobbyScreen,
+        300
+      );
+
+    }
+  );
+
+}
+
+
+/* ========================================
    GACHA
 ======================================== */
 
