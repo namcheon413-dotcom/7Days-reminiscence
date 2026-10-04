@@ -322,12 +322,29 @@ function changeGameScreen(
   setTimeout(
     function () {
 
+      /*
+        현재 화면 숨김
+      */
+
       fromScreen.style.display =
         "none";
 
 
-      toScreen.style.display =
-        "block";
+      /*
+        중요:
+        display: block을 강제로 넣지 않는다.
+
+        기존에 JS가 block을 인라인으로 넣어서
+        모바일 CSS의 display:grid 등이
+        적용되지 않는 문제가 있었음.
+
+        인라인 display 값을 제거하면
+        각 화면의 CSS display 규칙을 그대로 따른다.
+      */
+
+      toScreen.style.removeProperty(
+        "display"
+      );
 
 
       toScreen.classList.remove(
@@ -400,12 +417,25 @@ function leaveTitleScreen(
   setTimeout(
     function () {
 
+      /*
+        타이틀 화면 숨김
+      */
+
       titleScreen.style.display =
         "none";
 
 
-      destinationScreen.style.display =
-        "block";
+      /*
+        목적지 화면에 display:block을
+        강제로 지정하지 않는다.
+
+        CSS에서 정의한 원래 display 값을
+        다시 사용하도록 인라인 속성 제거.
+      */
+
+      destinationScreen.style.removeProperty(
+        "display"
+      );
 
 
       destinationScreen.classList.remove(
@@ -437,7 +467,6 @@ function leaveTitleScreen(
   );
 
 }
-
 
 /* ========================================
    INITIALIZE
